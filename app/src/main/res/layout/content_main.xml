@@ -12,8 +12,76 @@
     tools:context="project0.nanodegree.anoop.com.nanodegree_project_0_my_app_portfolio.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:padding="@dimen/layout_pading">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/my_nanodegree_apps"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/margin_bottom"/>
+
+        <Button
+            android:id="@+id/spotifyStreamer"
+            android:background="@color/orangeButton"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="wrap_content"
+            android:text="@string/spotify_streamer"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/button_margin" />
+
+        <Button
+            android:id="@+id/scoresApp"
+            android:background="@color/orangeButton"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="wrap_content"
+            android:text="@string/scores_app"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/button_margin" />
+
+        <Button
+            android:id="@+id/libraryApp"
+            android:background="@color/orangeButton"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="wrap_content"
+            android:text="@string/library_app"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/button_margin" />
+
+        <Button
+            android:id="@+id/buildItBigger"
+            android:background="@color/orangeButton"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="wrap_content"
+            android:text="@string/build_it_bigger"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/button_margin" />
+
+        <Button
+            android:id="@+id/xYZReader"
+            android:background="@color/orangeButton"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="wrap_content"
+            android:text="@string/xyz_reader"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/button_margin" />
+
+        <Button
+            android:id="@+id/capstone"
+            android:background="@color/pinkButton"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="wrap_content"
+            android:text="@string/capstone_my_own_app"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/button_margin" />
+    </LinearLayout>
 </RelativeLayout>
