@@ -1,5 +1,8 @@
 package com.anoop.android.udacitypopularmovies;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -12,7 +15,7 @@ import java.util.List;
 /**
  * Created by anoop on 12/3/16.
  */
-public class Movie {
+public class Movie  implements Parcelable{
 
     private Boolean isAdult;
     private List<Integer> genreIds = new ArrayList<Integer>();
@@ -105,7 +108,7 @@ public class Movie {
     }
 
     public String getPosterLink() {
-        return posterLink;
+        return "http://image.tmdb.org/t/p/w185"+posterLink;
     }
 
     public void setPosterLink(String posterLink) {
@@ -150,6 +153,50 @@ public class Movie {
 
     public void setVoteCount(Integer voteCount) {
         this.voteCount = voteCount;
+    }
+
+
+    private Movie(Parcel source)
+    {
+        isAdult = source.readByte() == 1;
+        id = source.readString();
+        overview = source.readString();
+        releaseDate = (Date) source.readSerializable();
+        posterLink = source.readString();
+        popularity = source.readDouble();
+        title = source.readString();
+        voteAverage = source.readDouble();
+        voteCount = source.readInt();
+    }
+
+    public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>()
+    {
+        @Override
+        public Movie[] newArray(int size) {
+            return new Movie[0];
+        }
+
+        @Override
+        public Movie createFromParcel(Parcel source) {
+            return new Movie(source);
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeByte((byte) (isAdult ? 1:0));
+        dest.writeString(id);
+        dest.writeString(overview);
+        dest.writeSerializable(releaseDate);
+        dest.writeString(posterLink);
+        dest.writeDouble(popularity);
+        dest.writeString(title);
+        dest.writeDouble(voteAverage);
+        dest.writeInt(voteCount);
     }
 }
 

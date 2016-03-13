@@ -55,8 +55,6 @@ public class MoviesAdapter extends BaseAdapter {
         {
             movieThumb = (ImageView) convertView;
         }
-
-        //Picasso.with(parent.getContext()).load(artist.images.get(0).url).into(artistImage);
         Picasso.with(mContext).load(mMovies.get(position).getPosterLink()).into(movieThumb);
         return movieThumb;
     }
