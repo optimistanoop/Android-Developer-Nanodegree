@@ -39,10 +39,22 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-
+        switch (item.getItemId()) {
+            case R.id.sort_popularity:
+                item.setChecked(!item.isChecked());
+                onSortChanged("");
+                break;
+            case R.id.sort_rating:
+                item.setChecked(!item.isChecked());
+                onSortChanged("");
+                break;
+        }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void onSortChanged(String sort) {
+      // to impl for sort
+        // refresh or reload
     }
 
 }
