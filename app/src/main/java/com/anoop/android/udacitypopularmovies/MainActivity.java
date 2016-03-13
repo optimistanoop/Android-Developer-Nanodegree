@@ -13,11 +13,28 @@ public class MainActivity extends AppCompatActivity implements MovieGridFragment
     * cross check requirement
     * test it thoroughly
     * use comments and logs
+    *
+    * TODO steps required to implement page one for grid view
+    * call api
+    * adapter to the grid view
+    * make sure sorting of movies works
+    *
+    * TODO for second detail page
+    * call api
+    * define a view for detail page
+    * set values for every elem
     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if(savedInstanceState == null)
+        {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.moviesGrid, new MovieGridFragment())
+                    .commit();
+        }
+
     }
 
     @Override
