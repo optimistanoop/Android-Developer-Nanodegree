@@ -1,6 +1,12 @@
 package com.anoop.android.udacitypopularmovies;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -8,34 +14,50 @@ import java.util.List;
  */
 public class Movie {
 
-    private Boolean adult;
-    private String backdropPath;
+    private Boolean isAdult;
     private List<Integer> genreIds = new ArrayList<Integer>();
-    private Integer id;
+    private String id;
     private String language;
     private String overview;
-    private String releaseDate;
+    private Date releaseDate;
     private String posterLink;
     private Double popularity;
     private String title;
     private Boolean video;
     private Double voteAverage;
-    private Integer voteCount;
+    private int voteCount;
 
-    public Boolean getAdult() {
-        return adult;
+    public Movie(JSONObject movie)
+            throws JSONException {
+        setData(movie);
     }
 
-    public void setAdult(Boolean adult) {
-        this.adult = adult;
+    private void setData(JSONObject movieJSON)
+            throws JSONException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.DATE_FORMAT);
+        try {
+            releaseDate = dateFormat.parse(movieJSON.getString(Constants.RELEASE_DATE));
+        } catch (ParseException e) {
+            releaseDate = null;
+        }
+
+        overview = movieJSON.getString(Constants.OVERVIEW);
+        id = movieJSON.getString(Constants.ID);
+        posterLink = movieJSON.getString(Constants.POSTER_LINK);
+        popularity = movieJSON.getDouble(Constants.POPULARITY);
+        title = movieJSON.getString(Constants.TITLE);
+        voteAverage = movieJSON.getDouble(Constants.VOTE_AVERAGE);
+        voteCount = movieJSON.getInt(Constants.VOTE_COUNT);
+        isAdult = movieJSON.getBoolean(Constants.ADULT);
+
     }
 
-    public String getBackdropPath() {
-        return backdropPath;
+    public Boolean getIsAdult() {
+        return isAdult;
     }
 
-    public void setBackdropPath(String backdropPath) {
-        this.backdropPath = backdropPath;
+    public void setIsAdult(Boolean isAdult) {
+        this.isAdult = isAdult;
     }
 
     public List<Integer> getGenreIds() {
@@ -46,11 +68,11 @@ public class Movie {
         this.genreIds = genreIds;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -70,12 +92,16 @@ public class Movie {
         this.overview = overview;
     }
 
-    public String getReleaseDate() {
+    public Date getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(String releaseDate) {
+    public void setReleaseDate(Date releaseDate) {
         this.releaseDate = releaseDate;
+    }
+
+    public void setVoteCount(int voteCount) {
+        this.voteCount = voteCount;
     }
 
     public String getPosterLink() {
