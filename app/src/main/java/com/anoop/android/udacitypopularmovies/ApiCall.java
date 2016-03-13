@@ -45,7 +45,7 @@ public class ApiCall extends AsyncTask<String, Void, ArrayList<Movie>> {
 
         try {
             Uri.Builder builder = Uri.parse("http://api.themoviedb.org/3/discover/movie").buildUpon();
-            builder.appendQueryParameter(Constants.API_KEY, Constants.API_KEY);
+            builder.appendQueryParameter(Constants.API_PARAM, Constants.API_KEY);
             String urlStr = builder.build().toString();
             URL url = new URL(urlStr);
             httpURLConnection = (HttpURLConnection) url.openConnection();
