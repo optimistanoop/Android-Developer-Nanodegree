@@ -1,13 +1,12 @@
 package com.anoop.android.udacitypopularmovies;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class MainActivity extends AppCompatActivity implements MovieGridFragment.OnFragmentInteractionListener{
+public class MainActivity extends AppCompatActivity {
 
     /*TODO develop for tabs
     * cross check requirement
@@ -28,12 +27,6 @@ public class MainActivity extends AppCompatActivity implements MovieGridFragment
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if(savedInstanceState == null)
-        {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.moviesGrid, new MovieGridFragment())
-                    .commit();
-        }
 
     }
 
@@ -51,8 +44,5 @@ public class MainActivity extends AppCompatActivity implements MovieGridFragment
 
         return super.onOptionsItemSelected(item);
     }
-    @Override
-    public void onFragmentInteraction(Uri uri) {
 
-    }
 }

@@ -17,14 +17,6 @@
             android:layout_height="260dp"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter" />
-
-        <TextView
-            android:id="@+id/movieTittle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
     </RelativeLayout>
 
 </LinearLayout>
