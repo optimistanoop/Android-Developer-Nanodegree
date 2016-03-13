@@ -3,11 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/menu_popularity"
-        android:title="@string/menu_popularity" />
+        android:id="@+id/menu_sort"
+        android:icon="@drawable/sort"
+        android:title="@string/action_settings"
+        app:showAsAction="always">
 
-    <item
-        android:id="@+id/menu_rated"
-        android:title="@string/menu_ratedcount" />
+        <menu>
+            <group
+                android:id="@+id/menu_sort_group"
+                android:checkableBehavior="single">
+
+                <item
+                    android:id="@+id/sort_popularity"
+                    android:title="@string/menu_popularity" />
+
+                <item
+                    android:id="@+id/sort_rating"
+                    android:title="@string/menu_ratedcount" />
+            </group>
+        </menu>
+    </item>
 
 </menu>
