@@ -19,22 +19,22 @@ import java.util.ArrayList;
 public class ApiCall extends AsyncTask<String, Void, ArrayList<Movie>> {
 
 
-    private MoviesApiCallResults MoviesApiCallResultsCallback;
+    private MoviesApiCallResults moviesApiCallResults;
 
     public ApiCall(MoviesApiCallResults callback) {
-        MoviesApiCallResultsCallback = callback;
+        moviesApiCallResults = callback;
     }
 
     @Override
     protected void onPostExecute(ArrayList<Movie> movies) {
         super.onPostExecute(movies);
-        if (MoviesApiCallResultsCallback != null) {
-            MoviesApiCallResultsCallback.moviesApiCallResultsCallback(movies);
+        if (moviesApiCallResults != null) {
+            moviesApiCallResults.moviesApiCallResultsCallback(movies);
         }
     }
 
     protected ArrayList<Movie> doInBackground(String... params) {
-        if (MoviesApiCallResultsCallback == null) {
+        if (moviesApiCallResults == null) {
             return null;
         }
 

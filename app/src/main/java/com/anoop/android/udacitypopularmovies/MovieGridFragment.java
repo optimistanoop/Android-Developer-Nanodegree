@@ -10,7 +10,7 @@ import android.widget.GridView;
 
 import java.util.ArrayList;
 
-public class MovieGridFragment extends Fragment implements ApiCall.MovieDiscoverTaskResults{
+public class MovieGridFragment extends Fragment implements ApiCall.MoviesApiCallResults{
 
     private GridView moviesGrid;
     private static final String MOVIE_LIST = "movies.list";
@@ -21,7 +21,7 @@ public class MovieGridFragment extends Fragment implements ApiCall.MovieDiscover
     }
 
     @Override
-    public void handleMovieDiscoverResults(ArrayList<Movie> movies) {
+    public void moviesApiCallResultsCallback(ArrayList<Movie> movies) {
         for(Movie movie:movies)
         Log.d("anoop movies", movie.getTitle());
     }
