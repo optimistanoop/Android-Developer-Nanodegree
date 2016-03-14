@@ -34,10 +34,15 @@ public class ApiCall extends AsyncTask<String, Void, ArrayList<Movie>> {
     }
 
     protected ArrayList<Movie> doInBackground(String... params) {
+
+        String sort = "";
+        if(params.length>0)
+        {
+            sort = params[0];
+        }
         if (moviesApiCallResults == null) {
             return null;
         }
-
         HttpURLConnection httpURLConnection = null;
         BufferedReader bufferedReader = null;
 
@@ -46,6 +51,10 @@ public class ApiCall extends AsyncTask<String, Void, ArrayList<Movie>> {
         try {
             Uri.Builder builder = Uri.parse("http://api.themoviedb.org/3/discover/movie").buildUpon();
             builder.appendQueryParameter(Constants.API_PARAM, Constants.API_KEY);
+            if(!sort.isEmpty())
+            {
+                builder.appendQueryParameter(Constants.SORT_KEY, sort);
+            }
             String urlStr = builder.build().toString();
             URL url = new URL(urlStr);
             httpURLConnection = (HttpURLConnection) url.openConnection();
