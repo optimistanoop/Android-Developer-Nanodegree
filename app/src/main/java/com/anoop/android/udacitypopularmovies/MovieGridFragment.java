@@ -1,5 +1,6 @@
 package com.anoop.android.udacitypopularmovies;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,31 +12,11 @@ import android.widget.GridView;
 import java.util.ArrayList;
 
 public class MovieGridFragment extends Fragment implements ApiCall.MoviesApiCallResults{
-    private static final String MOVIE_LIST = "movies.list";
-    private static final String MOVIE_SORT = "movies.sort";
+
     private GridView movieGrid;
     private String sort;
 
-    @Override
-    public void moviesApiCallResultsCallback(ArrayList<Movie> movies) {
-        movieGrid.setAdapter(new MoviesAdapter(getActivity(), movies));
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString(MOVIE_SORT, sort);
-        MoviesAdapter adapter = (MoviesAdapter) movieGrid.getAdapter();
-        outState.putParcelableArrayList(MOVIE_LIST, adapter.getMovies());
-    }
-
     public MovieGridFragment() {
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        refreshGrid();
     }
 
     @Override
@@ -49,29 +30,53 @@ public class MovieGridFragment extends Fragment implements ApiCall.MoviesApiCall
         if(savedInstanceState != null)
         {
 
-            ArrayList<Movie> movies =  savedInstanceState.getParcelableArrayList(MOVIE_LIST);
+            ArrayList<Movie> movies =  savedInstanceState.getParcelableArrayList(Constants.MOVIE_LIST);
             MoviesAdapter adapter = new MoviesAdapter(getActivity(), movies);
             movieGrid.setAdapter(adapter);
-            sort = savedInstanceState.getString(MOVIE_SORT);
+            sort = savedInstanceState.getString(Constants.MOVIE_SORT);
         }
         else
         {
-            refreshGrid();
+            reLoadGrid();
         }
 
         movieGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+            //TODO click listner for movie click
             }
         });
 
         return rootView;
     }
 
-    private void refreshGrid()
+    @Override
+    public void moviesApiCallResultsCallback(ArrayList<Movie> movies) {
+        movieGrid.setAdapter(new MoviesAdapter(getActivity(), movies));
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(Constants.MOVIE_SORT, sort);
+        MoviesAdapter adapter = (MoviesAdapter) movieGrid.getAdapter();
+        outState.putParcelableArrayList(Constants.MOVIE_LIST, adapter.getMovies());
+    }
+
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        reLoadGrid();
+    }
+
+    public void reLoadGrid()
     {
-        // to reload or refresh according to sort
+        SharedPreferences settings = getActivity().getSharedPreferences(Constants.PREFS_NAME, getActivity().MODE_PRIVATE);
+        String value = settings.getString("key", Constants.POPULARITY_DESC);
+        ApiCall popularTask = new ApiCall(this);
+        popularTask.execute(value);
     }
 
 

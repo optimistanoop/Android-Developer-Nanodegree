@@ -1,5 +1,6 @@
 package com.anoop.android.udacitypopularmovies;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -23,11 +24,12 @@ public class MainActivity extends AppCompatActivity {
     * define a view for detail page
     * set values for every elem
     */
+    private MovieGridFragment movieGridFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        movieGridFragment = (MovieGridFragment) getSupportFragmentManager().findFragmentById(R.id.movieGridFragment);
     }
 
     @Override
@@ -42,19 +44,24 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.sort_popularity:
                 item.setChecked(!item.isChecked());
-                onSortChanged("");
+                onSortChanged(Constants.POPULARITY_DESC);
                 break;
             case R.id.sort_rating:
                 item.setChecked(!item.isChecked());
-                onSortChanged("");
+                onSortChanged(Constants.VOTE_AVERAGE_DESC);
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
     private void onSortChanged(String sort) {
-      // to impl for sort
-        // refresh or reload
+        SharedPreferences settings = getSharedPreferences(Constants.PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString("key", sort);
+        editor.commit();
+        movieGridFragment.reLoadGrid();
+        //String value = settings.getString("key", "");
+
     }
 
 }
