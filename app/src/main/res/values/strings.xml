@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Popular Movies</string>
+    <string name="action_settings">Settings</string>
+    <string name="menu_popularity">Most popular</string>
+    <string name="menu_ratedcount">Top rated</string>
+    <string name="title_activity_movie_detail">MovieDetail</string>
+    <string name="movie_detail_rating">Rating: %1$s</string>
 </resources>
