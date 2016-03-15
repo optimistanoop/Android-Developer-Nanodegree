@@ -1,5 +1,6 @@
 package com.anoop.android.udacitypopularmovies;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -43,7 +44,10 @@ public class MovieGridFragment extends Fragment implements ApiCall.MoviesApiCall
         movieGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            //TODO click listner for movie click
+                Movie movie = (Movie) movieGrid.getItemAtPosition(position);
+                Intent details = new Intent(getActivity(), MovieDetailActivity.class);
+                details.putExtra(Constants.MOVIE, movie);
+                startActivity(details);
             }
         });
 
