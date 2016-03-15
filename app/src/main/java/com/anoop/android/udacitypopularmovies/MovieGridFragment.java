@@ -12,7 +12,7 @@ import android.widget.GridView;
 
 import java.util.ArrayList;
 
-public class MovieGridFragment extends Fragment implements ApiCall.MoviesApiCallResults{
+public class MovieGridFragment extends Fragment implements ApiCall.MoviesApiCallResults {
 
     private GridView movieGrid;
     private String sort;
@@ -24,20 +24,15 @@ public class MovieGridFragment extends Fragment implements ApiCall.MoviesApiCall
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
         View rootView = inflater.inflate(R.layout.fragment_movie_grid, container, false);
         movieGrid = (GridView) rootView.findViewById(R.id.moviesGrid);
 
-        if(savedInstanceState != null)
-        {
-
-            ArrayList<Movie> movies =  savedInstanceState.getParcelableArrayList(Constants.MOVIE_LIST);
+        if (savedInstanceState != null) {
+            ArrayList<Movie> movies = savedInstanceState.getParcelableArrayList(Constants.MOVIE_LIST);
             MoviesAdapter adapter = new MoviesAdapter(getActivity(), movies);
             movieGrid.setAdapter(adapter);
             sort = savedInstanceState.getString(Constants.MOVIE_SORT);
-        }
-        else
-        {
+        } else {
             reLoadGrid();
         }
 
@@ -67,22 +62,18 @@ public class MovieGridFragment extends Fragment implements ApiCall.MoviesApiCall
         outState.putParcelableArrayList(Constants.MOVIE_LIST, adapter.getMovies());
     }
 
-
-
     @Override
     public void onStart() {
         super.onStart();
         reLoadGrid();
     }
 
-    public void reLoadGrid()
-    {
+    public void reLoadGrid() {
         SharedPreferences settings = getActivity().getSharedPreferences(Constants.PREFS_NAME, getActivity().MODE_PRIVATE);
         String value = settings.getString("key", Constants.POPULARITY_DESC);
         ApiCall popularTask = new ApiCall(this);
         popularTask.execute(value);
     }
-
 
 
 }

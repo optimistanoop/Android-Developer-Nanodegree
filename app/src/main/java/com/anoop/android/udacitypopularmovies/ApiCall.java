@@ -49,8 +49,7 @@ public class ApiCall extends AsyncTask<String, Void, ArrayList<Movie>> {
         String jsonResults;
 
         try {
-            /*http://api.themoviedb.org/3/discover/movie?api_key=efc1a109f3955149f56aa7c5471bc287&sort_by=popularity.asc
-http://api.themoviedb.org/3/discover/movie?api_key=efc1a109f3955149f56aa7c5471bc287&sort_by=vote_average.asc*/
+
             Uri.Builder builder = Uri.parse("http://api.themoviedb.org/3/discover/movie").buildUpon();
             builder.appendQueryParameter(Constants.API_PARAM, Constants.API_KEY);
             if(!sort.isEmpty())

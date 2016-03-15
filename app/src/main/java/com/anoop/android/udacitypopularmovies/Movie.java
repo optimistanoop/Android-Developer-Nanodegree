@@ -155,7 +155,6 @@ public class Movie  implements Parcelable{
         this.voteCount = voteCount;
     }
 
-
     private Movie(Parcel source)
     {
         isAdult = source.readByte() == 1;

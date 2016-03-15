@@ -60,8 +60,5 @@ public class MainActivity extends AppCompatActivity {
         editor.putString("key", sort);
         editor.commit();
         movieGridFragment.reLoadGrid();
-        //String value = settings.getString("key", "");
-
     }
-
 }

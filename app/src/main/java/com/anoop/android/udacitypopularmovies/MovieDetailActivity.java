@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import java.security.InvalidParameterException;
+
 public class MovieDetailActivity extends AppCompatActivity {
 
     @Override
@@ -21,17 +22,14 @@ public class MovieDetailActivity extends AppCompatActivity {
             actionBar.setTitle("MovieDetail");
         }
 
-        final Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
             ViewCompat.setElevation(toolbar, 0);
         }
 
-
-        if(savedInstanceState == null)
-        {
+        if (savedInstanceState == null) {
             Movie movie = getIntent().getExtras().getParcelable(Constants.MOVIE);
-            if(movie == null)
-            {
+            if (movie == null) {
                 throw new InvalidParameterException("Invalid parameter for movie detail.");
             }
             getSupportFragmentManager().beginTransaction()
@@ -40,5 +38,4 @@ public class MovieDetailActivity extends AppCompatActivity {
         }
 
     }
-
 }

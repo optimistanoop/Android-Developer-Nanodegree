@@ -15,13 +15,13 @@ import com.bumptech.glide.Glide;
  */
 public class MovieDetailFragment extends Fragment {
 
-
     ImageView poster;
     TextView overview;
     TextView rating;
     TextView releaseYear;
     TextView title;
     Movie movie;
+
     public MovieDetailFragment() {
     }
 
@@ -30,40 +30,40 @@ public class MovieDetailFragment extends Fragment {
         View rootview = inflater.inflate(R.layout.movie_detail_frag, container, false);
         Bundle bundle = getArguments();
         movie = bundle.getParcelable(Constants.MOVIE);
-        return  rootview;
+        return rootview;
 
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        poster = (ImageView)getActivity().findViewById(R.id.poster);
-        overview = (TextView)getActivity().findViewById(R.id.overview);
-        rating = (TextView)getActivity().findViewById(R.id.average_rating);
-        releaseYear = (TextView)getActivity().findViewById(R.id.release_year);
-        title = (TextView)getActivity().findViewById(R.id.title);
-        if(movie !=null){
+        poster = (ImageView) getActivity().findViewById(R.id.poster);
+        overview = (TextView) getActivity().findViewById(R.id.overview);
+        rating = (TextView) getActivity().findViewById(R.id.average_rating);
+        releaseYear = (TextView) getActivity().findViewById(R.id.release_year);
+        title = (TextView) getActivity().findViewById(R.id.title);
+        if (movie != null) {
             setMovieDetail(movie);
         }
-
     }
 
-    public static MovieDetailFragment newInstance(Movie movie)
-    {
+    public static MovieDetailFragment newInstance(Movie movie) {
         MovieDetailFragment fragment = new MovieDetailFragment();
         Bundle args = new Bundle();
         args.putParcelable(Constants.MOVIE, movie);
         fragment.setArguments(args);
         return fragment;
     }
+
     public void setMovieDetail(Movie movie) {
         overview.setText(movie.getOverview());
         rating.setText(getString(R.string.movie_detail_rating, movie.getVoteAverage()));
-        releaseYear.setText(""+movie.getReleaseDate().getYear());
+        releaseYear.setText("" + movie.getReleaseDate().getYear());
         title.setText(movie.getTitle());
-
-        Glide.with(getActivity())
-                .load(movie.getPosterLink())
-                .into(poster);
+        if (!movie.getPosterLink().isEmpty()) {
+            Glide.with(getActivity())
+                    .load(movie.getPosterLink())
+                    .into(poster);
+        }
     }
 }
