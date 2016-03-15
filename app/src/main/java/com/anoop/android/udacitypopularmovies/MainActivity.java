@@ -8,22 +8,7 @@ import android.view.MenuItem;
 
 
 public class MainActivity extends AppCompatActivity {
-
-    /*TODO develop for tabs
-    * cross check requirement
-    * test it thoroughly
-    * use comments and logs
-    *
-    * TODO steps required to implement page one for grid view
-    * call api
-    * adapter to the grid view
-    * make sure sorting of movies works
-    *
-    * TODO for second detail page
-    * call api
-    * define a view for detail page
-    * set values for every elem
-    */
+    
     private MovieGridFragment movieGridFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
