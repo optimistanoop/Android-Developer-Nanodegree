@@ -1,4 +1,4 @@
-package com.anoop.android.udacitypopularmovies;
+package com.anoop.android.udacitypopularmovies.detailScreen;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.anoop.android.udacitypopularmovies.util.Constants;
+import com.anoop.android.udacitypopularmovies.util.Movie;
+import com.anoop.android.udacitypopularmovies.R;
 import com.bumptech.glide.Glide;
 
 import java.text.SimpleDateFormat;

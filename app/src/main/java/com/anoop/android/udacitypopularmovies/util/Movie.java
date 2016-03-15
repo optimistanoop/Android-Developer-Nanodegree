@@ -1,4 +1,4 @@
-package com.anoop.android.udacitypopularmovies;
+package com.anoop.android.udacitypopularmovies.util;
 
 import android.os.Parcel;
 import android.os.Parcelable;

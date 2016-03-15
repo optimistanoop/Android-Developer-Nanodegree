@@ -1,4 +1,4 @@
-package com.anoop.android.udacitypopularmovies;
+package com.anoop.android.udacitypopularmovies.landingScreen;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -10,6 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+
+import com.anoop.android.udacitypopularmovies.util.ApiCall;
+import com.anoop.android.udacitypopularmovies.util.Constants;
+import com.anoop.android.udacitypopularmovies.util.Movie;
+import com.anoop.android.udacitypopularmovies.R;
+import com.anoop.android.udacitypopularmovies.detailScreen.MovieDetailActivity;
 
 import java.util.ArrayList;
 
@@ -30,6 +36,7 @@ public class MovieGridFragment extends Fragment implements ApiCall.MoviesApiCall
         movieGrid = (GridView) rootView.findViewById(R.id.moviesGrid);
 
         progressBar = new ProgressDialog(getActivity());
+        progressBar.setMessage(Constants.LOADING_MSG);
         progressBar.setCancelable(true);
         progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         if (savedInstanceState != null) {

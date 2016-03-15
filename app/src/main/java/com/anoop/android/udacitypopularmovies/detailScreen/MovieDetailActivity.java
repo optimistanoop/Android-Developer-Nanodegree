@@ -1,10 +1,14 @@
-package com.anoop.android.udacitypopularmovies;
+package com.anoop.android.udacitypopularmovies.detailScreen;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+
+import com.anoop.android.udacitypopularmovies.util.Constants;
+import com.anoop.android.udacitypopularmovies.util.Movie;
+import com.anoop.android.udacitypopularmovies.R;
 
 import java.security.InvalidParameterException;
 

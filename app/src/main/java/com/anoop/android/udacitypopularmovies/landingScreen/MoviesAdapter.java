@@ -1,4 +1,4 @@
-package com.anoop.android.udacitypopularmovies;
+package com.anoop.android.udacitypopularmovies.landingScreen;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import com.anoop.android.udacitypopularmovies.util.Movie;
+import com.anoop.android.udacitypopularmovies.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

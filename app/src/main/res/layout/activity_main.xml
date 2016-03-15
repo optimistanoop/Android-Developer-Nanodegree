@@ -21,7 +21,7 @@
         android:id="@+id/movieGridFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="com.anoop.android.udacitypopularmovies.MovieGridFragment"
-        tools:context="com.anoop.android.udacitypopularmovies.MovieGridFragment"
+        android:name="com.anoop.android.udacitypopularmovies.landingScreen.MovieGridFragment"
+        tools:context=".landingScreen.MovieGridFragment"
         tools:layout="@layout/fragment_movie_grid" />
 </LinearLayout>

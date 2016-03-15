@@ -1,4 +1,4 @@
-package com.anoop.android.udacitypopularmovies;
+package com.anoop.android.udacitypopularmovies.util;
 
 import android.net.Uri;
 import android.os.AsyncTask;

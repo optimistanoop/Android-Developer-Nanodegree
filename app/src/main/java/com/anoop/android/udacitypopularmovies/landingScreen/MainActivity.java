@@ -1,10 +1,13 @@
-package com.anoop.android.udacitypopularmovies;
+package com.anoop.android.udacitypopularmovies.landingScreen;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.anoop.android.udacitypopularmovies.util.Constants;
+import com.anoop.android.udacitypopularmovies.R;
 
 
 public class MainActivity extends AppCompatActivity {
