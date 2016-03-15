@@ -1,5 +1,6 @@
 package com.anoop.android.udacitypopularmovies;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ public class MovieGridFragment extends Fragment implements ApiCall.MoviesApiCall
 
     private GridView movieGrid;
     private String sort;
+    ProgressDialog progressBar;
 
     public MovieGridFragment() {
     }
@@ -27,6 +29,9 @@ public class MovieGridFragment extends Fragment implements ApiCall.MoviesApiCall
         View rootView = inflater.inflate(R.layout.fragment_movie_grid, container, false);
         movieGrid = (GridView) rootView.findViewById(R.id.moviesGrid);
 
+        progressBar = new ProgressDialog(getActivity());
+        progressBar.setCancelable(true);
+        progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         if (savedInstanceState != null) {
             ArrayList<Movie> movies = savedInstanceState.getParcelableArrayList(Constants.MOVIE_LIST);
             MoviesAdapter adapter = new MoviesAdapter(getActivity(), movies);
@@ -52,6 +57,7 @@ public class MovieGridFragment extends Fragment implements ApiCall.MoviesApiCall
     @Override
     public void moviesApiCallResultsCallback(ArrayList<Movie> movies) {
         movieGrid.setAdapter(new MoviesAdapter(getActivity(), movies));
+        progressBar.dismiss();
     }
 
     @Override
@@ -73,6 +79,7 @@ public class MovieGridFragment extends Fragment implements ApiCall.MoviesApiCall
         String value = settings.getString(Constants.SORT, Constants.POPULARITY_DESC);
         ApiCall popularTask = new ApiCall(this);
         popularTask.execute(value);
+        progressBar.show();
     }
 
 

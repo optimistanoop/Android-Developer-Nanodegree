@@ -2,9 +2,11 @@ package com.anoop.android.udacitypopularmovies;
 
 import android.net.Uri;
 import android.os.AsyncTask;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,6 +30,7 @@ public class ApiCall extends AsyncTask<String, Void, ArrayList<Movie>> {
     @Override
     protected void onPostExecute(ArrayList<Movie> movies) {
         super.onPostExecute(movies);
+
         if (moviesApiCallResults != null) {
             moviesApiCallResults.moviesApiCallResultsCallback(movies);
         }

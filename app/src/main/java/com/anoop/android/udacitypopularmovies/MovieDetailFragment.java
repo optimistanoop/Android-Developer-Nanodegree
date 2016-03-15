@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.text.SimpleDateFormat;
+
 /**
  * Created by anoop on 14/3/16.
  */
@@ -58,7 +60,7 @@ public class MovieDetailFragment extends Fragment {
     public void setMovieDetail(Movie movie) {
         overview.setText(movie.getOverview());
         rating.setText(getString(R.string.movie_detail_rating, movie.getVoteAverage()));
-        releaseYear.setText("" + movie.getReleaseDate().getYear());
+        releaseYear.setText(SimpleDateFormat.getDateInstance().format(movie.getReleaseDate()));
         title.setText(movie.getTitle());
         if (!movie.getPosterLink().isEmpty()) {
             Glide.with(getActivity())
