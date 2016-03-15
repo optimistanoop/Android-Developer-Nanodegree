@@ -22,5 +22,6 @@ public class Constants {
     public static final String POPULARITY_DESC = "popularity.desc";
     public static final String VOTE_AVERAGE_DESC = "vote_average.desc";
     public static final String SORT_KEY = "sort_by";
+    public static final String MOVIE = "movie";
     public static final String API_KEY = BuildConfig.MOVIE_DB_API_KEY;
 }
