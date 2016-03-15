@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     private void onSortChanged(String sort) {
         SharedPreferences settings = getSharedPreferences(Constants.PREFS_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putString("key", sort);
+        editor.putString(Constants.SORT, sort);
         editor.commit();
         movieGridFragment.reLoadGrid();
     }

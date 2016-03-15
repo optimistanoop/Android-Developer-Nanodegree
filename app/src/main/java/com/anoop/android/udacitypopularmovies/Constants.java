@@ -9,6 +9,7 @@ public class Constants {
     public static final String OVERVIEW = "overview";
     public static final String RELEASE_DATE = "release_date";
     public static final String POSTER_LINK = "poster_path";
+    public static final String POSTER_BASE_LINK = "http://image.tmdb.org/t/p/w185";
     public static final String POPULARITY= "popularity";
     public static final String TITLE = "title";
     public static final String VOTE_AVERAGE = "vote_average";
@@ -22,6 +23,11 @@ public class Constants {
     public static final String POPULARITY_DESC = "popularity.desc";
     public static final String VOTE_AVERAGE_DESC = "vote_average.desc";
     public static final String SORT_KEY = "sort_by";
+    public static final String SORT = "sort_data";
     public static final String MOVIE = "movie";
+    public static final String ACTION_BAR_TITLE = "MovieDetail";
+    public static final String INVALID_PARAM_EXCEP_MSG = "Invalid parameter for movie detail.";
+    public static final String API_METHOD = "GET";
+    public static final String API_PATH = "http://api.themoviedb.org/3/discover/movie";
     public static final String API_KEY = BuildConfig.MOVIE_DB_API_KEY;
 }

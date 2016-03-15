@@ -70,7 +70,7 @@ public class MovieGridFragment extends Fragment implements ApiCall.MoviesApiCall
 
     public void reLoadGrid() {
         SharedPreferences settings = getActivity().getSharedPreferences(Constants.PREFS_NAME, getActivity().MODE_PRIVATE);
-        String value = settings.getString("key", Constants.POPULARITY_DESC);
+        String value = settings.getString(Constants.SORT, Constants.POPULARITY_DESC);
         ApiCall popularTask = new ApiCall(this);
         popularTask.execute(value);
     }

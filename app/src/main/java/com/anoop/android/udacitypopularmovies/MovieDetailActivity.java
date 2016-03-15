@@ -19,7 +19,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowHomeEnabled(true);
-            actionBar.setTitle("MovieDetail");
+            actionBar.setTitle(Constants.ACTION_BAR_TITLE);
         }
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -30,7 +30,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             Movie movie = getIntent().getExtras().getParcelable(Constants.MOVIE);
             if (movie == null) {
-                throw new InvalidParameterException("Invalid parameter for movie detail.");
+                throw new InvalidParameterException(Constants.INVALID_PARAM_EXCEP_MSG);
             }
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.movieFrame, MovieDetailFragment.newInstance(movie))

@@ -108,7 +108,7 @@ public class Movie  implements Parcelable{
     }
 
     public String getPosterLink() {
-        return "http://image.tmdb.org/t/p/w185"+posterLink;
+        return Constants.POSTER_BASE_LINK+posterLink;
     }
 
     public void setPosterLink(String posterLink) {

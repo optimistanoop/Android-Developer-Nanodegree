@@ -50,7 +50,7 @@ public class ApiCall extends AsyncTask<String, Void, ArrayList<Movie>> {
 
         try {
 
-            Uri.Builder builder = Uri.parse("http://api.themoviedb.org/3/discover/movie").buildUpon();
+            Uri.Builder builder = Uri.parse(Constants.API_PATH).buildUpon();
             builder.appendQueryParameter(Constants.API_PARAM, Constants.API_KEY);
             if(!sort.isEmpty())
             {
@@ -59,7 +59,7 @@ public class ApiCall extends AsyncTask<String, Void, ArrayList<Movie>> {
             String urlStr = builder.build().toString();
             URL url = new URL(urlStr);
             httpURLConnection = (HttpURLConnection) url.openConnection();
-            httpURLConnection.setRequestMethod("GET");
+            httpURLConnection.setRequestMethod(Constants.API_METHOD);
             httpURLConnection.connect();
 
             InputStream inputStream = httpURLConnection.getInputStream();
