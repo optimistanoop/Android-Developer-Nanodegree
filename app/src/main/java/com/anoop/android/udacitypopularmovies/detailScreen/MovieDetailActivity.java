@@ -11,7 +11,7 @@ import com.anoop.android.udacitypopularmovies.util.Movie;
 import com.anoop.android.udacitypopularmovies.R;
 
 import java.security.InvalidParameterException;
-
+/*for movie detail screen*/
 public class MovieDetailActivity extends AppCompatActivity {
 
     @Override

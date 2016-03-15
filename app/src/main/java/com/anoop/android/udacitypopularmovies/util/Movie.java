@@ -15,6 +15,7 @@ import java.util.List;
 /**
  * Created by anoop on 12/3/16.
  */
+/*movie modal*/
 public class Movie  implements Parcelable{
 
     private Boolean isAdult;

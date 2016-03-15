@@ -9,7 +9,7 @@ import android.view.MenuItem;
 import com.anoop.android.udacitypopularmovies.util.Constants;
 import com.anoop.android.udacitypopularmovies.R;
 
-
+/*main activity of landing page for movies grid */
 public class MainActivity extends AppCompatActivity {
     
     private MovieGridFragment movieGridFragment;

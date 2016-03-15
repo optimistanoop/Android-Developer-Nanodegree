@@ -16,6 +16,8 @@ import java.util.ArrayList;
 /**
  * Created by anoop on 13/3/16.
  */
+
+/*movies adapter for landing page*/
 public class MoviesAdapter extends BaseAdapter {
     private Context mContext;
     private ArrayList<Movie> mMovies;

@@ -18,6 +18,8 @@ import java.util.ArrayList;
 /**
  * Created by anoop on 13/3/16.
  */
+
+/*async task handler for api call*/
 public class ApiCall extends AsyncTask<String, Void, ArrayList<Movie>> {
 
 
