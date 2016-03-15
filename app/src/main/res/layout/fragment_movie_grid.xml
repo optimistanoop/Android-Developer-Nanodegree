@@ -8,11 +8,11 @@
         android:id="@+id/moviesGrid"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:columnWidth="170dp"
+        android:columnWidth="@dimen/columnWidth"
         android:gravity="center"
-        android:horizontalSpacing="4dp"
+        android:horizontalSpacing="@dimen/horizontalSpacing"
         android:numColumns="auto_fit"
         android:stretchMode="columnWidth"
-        android:verticalSpacing="4dp" />
+        android:verticalSpacing="@dimen/virticalSpacing" />
 
 </RelativeLayout>

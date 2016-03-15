@@ -7,7 +7,7 @@
     android:clipChildren="false"
     android:clipToPadding="false"
     android:orientation="vertical"
-    android:paddingBottom="16dp"
+    android:paddingBottom="@dimen/default_padding"
     tools:showIn="@layout/activity_movie_detail">
 
     <include layout="@layout/toolbar" />
@@ -17,29 +17,29 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
-        android:layout_marginEnd="16dp"
-        android:layout_marginLeft="72dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginStart="72dp"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:layout_marginLeft="@dimen/large_margin"
+        android:layout_marginRight="@dimen/default_margin"
+        android:layout_marginStart="@dimen/large_margin"
         android:ellipsize="end"
         android:lineSpacingMultiplier="1.1"
         android:maxLines="2"
-        android:textColor="#8affffff"
-        android:textSize="20sp"
+        android:textColor="@color/text_color"
+        android:textSize="@dimen/text_size_extra_large"
         android:textStyle="normal"
-        tools:text="tittle" />
+        tools:text="Tittle.." />
 
     <TextView
         android:id="@+id/release_year"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="@dimen/default_margin"
         android:layout_marginLeft="72dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginRight="@dimen/default_margin"
         android:layout_marginStart="72dp"
-        android:textColor="#8affffff"
-        android:textSize="18sp"
+        android:textColor="@color/text_color"
+        android:textSize="@dimen/text_size_large"
         tools:text="2015" />
 
 </LinearLayout>
