@@ -1,6 +1,6 @@
 # UdacityPopularMovies
 
-The core experience of this app are --
+The core experiences of this app are --
 
 - Upon launch, presents the user with an grid arrangement of movie posters.
 - Allows user to change sort order via a setting.
@@ -11,3 +11,6 @@ The core experience of this app are --
    -A plot synopsis (called overview in the api)
    -user rating (called vote_average in the api)
    -release date
+
+API key---
+- Add them to the app/build.gradle (variable defined there).
