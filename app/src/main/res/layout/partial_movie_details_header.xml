@@ -7,39 +7,39 @@
     android:clipChildren="false"
     android:clipToPadding="false"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/keyline_1"
-    tools:showIn="@layout/activity_movie_details">
+    android:paddingBottom="16dp"
+    tools:showIn="@layout/activity_movie_detail">
 
     <include layout="@layout/toolbar" />
 
     <TextView
-        android:id="@+id/movie_title"
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
-        android:layout_marginEnd="@dimen/keyline_1"
-        android:layout_marginLeft="@dimen/keyline_2"
-        android:layout_marginRight="@dimen/keyline_1"
-        android:layout_marginStart="@dimen/keyline_2"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="72dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="72dp"
         android:ellipsize="end"
         android:lineSpacingMultiplier="1.1"
         android:maxLines="2"
-        android:textColor="@color/body_text_1_inverse"
-        android:textSize="@dimen/text_size_xlarge"
+        android:textColor="#8affffff"
+        android:textSize="20sp"
         android:textStyle="normal"
-        tools:text="@string/placeholder_movie_title" />
+        tools:text="tittle" />
 
     <TextView
-        android:id="@+id/movie_release_year"
+        android:id="@+id/release_year"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
-        android:layout_marginEnd="@dimen/keyline_1"
-        android:layout_marginLeft="@dimen/keyline_2"
-        android:layout_marginRight="@dimen/keyline_1"
-        android:layout_marginStart="@dimen/keyline_2"
-        android:textColor="@color/body_text_2_inverse"
-        android:textSize="@dimen/text_size_large"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="72dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="72dp"
+        android:textColor="#8affffff"
+        android:textSize="18sp"
         tools:text="2015" />
 
 </LinearLayout>
