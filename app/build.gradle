@@ -24,7 +24,7 @@ android {
     }
     buildTypes {
         all {
-            buildConfigField 'String', 'THE_MOVIE_DB_API_KEY', "\"a3110e3d2865cd0ba085b2b3de3b47f8\""
+            buildConfigField 'String', 'THE_MOVIE_DB_API_KEY', "\"MY_API_KEY\""
         }
         release {
             minifyEnabled false
