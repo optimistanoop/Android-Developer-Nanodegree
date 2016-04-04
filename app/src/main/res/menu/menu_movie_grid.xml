@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_sort"
+        android:icon="@drawable/sort"
+        android:title="@string/action_settings"
+        app:showAsAction="always">
+
+        <menu>
+            <group
+                android:id="@+id/menu_sort_group"
+                android:checkableBehavior="single">
+
+                <item
+                    android:id="@+id/sort_popularity"
+                    android:title="@string/menu_popularity" />
+
+                <item
+                    android:id="@+id/sort_favorites"
+                    android:title="@string/favorites" />
+                <item
+                    android:id="@+id/sort_rating"
+                    android:title="@string/menu_ratedcount" />
+            </group>
+        </menu>
+    </item>
+
+</menu>

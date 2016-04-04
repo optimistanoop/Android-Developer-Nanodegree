@@ -1,0 +1,44 @@
+<resources>
+    <string name="app_name">Popular Movies</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="pref_sort_key" translatable="false">movie.sort</string>
+    <string name="pref_sort_default" translatable="false">@string/pref_sort_key_pop</string>
+
+    <string name="pref_sort_key_pop" translatable="false">popularity.desc</string>
+    <string name="pref_sort_key_highest_rated" translatable="false">vote_average.desc</string>
+    <string name="pref_sort_key_favorites" translatable="false">favorite.desc</string>
+
+    <string name="pref_sort_title">Sort by</string>
+
+    <string name="pref_sort_sec_title">Movie Order</string>
+
+    <string-array name="pref_sort_keys">
+        <item>@string/pref_sort_key_pop</item>
+        <item>@string/pref_sort_key_highest_rated</item>
+        <item>@string/pref_sort_key_favorites</item>
+    </string-array>
+
+    <string-array name="pref_sort_text">
+        <item>Most Popular</item>
+        <item>Highest Rated</item>
+        <item>Favorites</item>
+    </string-array>
+
+    <string name="title_activity_movie_detail">Movie Details</string>
+    <string name="released_title">Released</string>
+    <string name="rating_title">Rating</string>
+
+    <string name="content_authority" translatable="false">com.anoop.android.udacitypopularmovies</string>
+    <string name="sync_account_type" translatable="false">@string/content_authority</string>
+
+    <string name="unfavorited">Movie is no longer a favorite. You might have hurt it\'s feelings.</string>
+    <string name="favorited">Movie has been promoted to a favorite.</string>
+
+    <string name="action_share">Share</string>
+    <string name="sharing">%1$s trailer: %2$s</string>
+    <string name="menu_popularity">Most popular</string>
+    <string name="menu_ratedcount">Highest Rated</string>
+    <string name="favorites">Favorites</string>
+</resources>
