@@ -123,7 +123,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
                         break;
                     }
                 }
-                if(mShareUrl != null && mShareActionProvider != null)
+                if(mShareUrl != null && mShareActionProvider != null && mMovie !=null)
                 {
                     mShareActionProvider.setShareIntent(createShareVideoIntent());
                 }
@@ -175,7 +175,7 @@ public class MovieDetailFragment extends Fragment implements LoaderManager.Loade
         mShareActionProvider =
                 (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
 
-        if(mShareUrl != null && mShareActionProvider != null)
+        if(mShareUrl != null && mShareActionProvider != null && mMovie !=null)
         {
             mShareActionProvider.setShareIntent(createShareVideoIntent());
         }
