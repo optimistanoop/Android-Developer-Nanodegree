@@ -3,7 +3,11 @@ package com.sam_chordas.android.stockhawk.service;
 import android.app.IntentService;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
+import android.widget.Toast;
+
 import com.google.android.gms.gcm.TaskParams;
 
 /**
@@ -28,6 +32,16 @@ public class StockIntentService extends IntentService {
     }
     // We can call OnRunTask from the intent service to force it to run immediately instead of
     // scheduling a task.
-    stockTaskService.onRunTask(new TaskParams(intent.getStringExtra("tag"), args));
+    try {
+      stockTaskService.onRunTask(new TaskParams(intent.getStringExtra("tag"), args));
+    }catch (Exception e){
+      //TODO
+      new Handler(Looper.getMainLooper()).post(new Runnable() {
+        @Override
+        public void run() {
+          Toast.makeText(getApplicationContext(), "Stock symbol invalid", Toast.LENGTH_SHORT).show();
+        }
+      });
+    }
   }
 }
