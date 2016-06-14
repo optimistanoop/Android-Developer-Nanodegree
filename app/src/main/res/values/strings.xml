@@ -9,5 +9,6 @@
   <string name="content_test">Search for a Stock Symbol</string>
   <string name="input_hint">FB</string>
   <string name="input_prefill"></string>
+  <string name="plz_select">Please add a stock by + button</string>
   <string name="network_toast">Uh-oh! This app requires an internet connection</string>
 </resources>

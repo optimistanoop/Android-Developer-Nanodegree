@@ -19,6 +19,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.sam_chordas.android.stockhawk.R;
@@ -52,6 +53,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
   private Context mContext;
   private Cursor mCursor;
   boolean isConnected;
+  TextView noInternet;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +66,8 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
     isConnected = activeNetwork != null &&
         activeNetwork.isConnectedOrConnecting();
     setContentView(R.layout.activity_my_stocks);
+
+    noInternet = (TextView) findViewById(R.id.noInternet);
     // The intent service is for executing immediate pulls from the Yahoo API
     // GCMTaskService can only schedule tasks, they cannot execute immediately
     mServiceIntent = new Intent(this, StockIntentService.class);
@@ -81,6 +85,13 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
     getLoaderManager().initLoader(CURSOR_LOADER_ID, null, this);
 
     mCursorAdapter = new QuoteCursorAdapter(this, null);
+    mCursorAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+      @Override
+      public void onChanged() {
+        super.onChanged();
+        refresh();
+      }
+    });
     recyclerView.addOnItemTouchListener(new RecyclerViewItemClickListener(this,
             new RecyclerViewItemClickListener.OnItemClickListener() {
               @Override public void onItemClick(View v, int position) {
@@ -166,6 +177,24 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
     Toast.makeText(mContext, getString(R.string.network_toast), Toast.LENGTH_SHORT).show();
   }
 
+  public void refresh() {
+    if (isConnected) {
+      if (mCursorAdapter.getItemCount() == 0) {
+        noInternet.setText(R.string.plz_select);
+        noInternet.setVisibility(View.VISIBLE);
+      } else {
+        noInternet.setVisibility(View.GONE);
+      }
+    } else {
+      if (mCursorAdapter.getItemCount() == 0) {
+        noInternet.setText(R.string.network_toast);
+        noInternet.setVisibility(View.VISIBLE);
+      } else {
+        noInternet.setVisibility(View.GONE);
+        Toast.makeText(this, R.string.network_toast, Toast.LENGTH_SHORT).show();
+      }
+    }
+  }
   public void restoreActionBar() {
     ActionBar actionBar = getSupportActionBar();
     actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
