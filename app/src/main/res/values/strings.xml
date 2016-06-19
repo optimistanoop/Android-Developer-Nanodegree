@@ -10,4 +10,5 @@
   <string name="network_toast">Uh-oh! This app requires an internet connection</string>
   <string name="error">Error</string>
   <string name="widget_name">Stock Hawk</string>
+  <string name="saved_stock">This stock is already saved!</string>
 </resources>
