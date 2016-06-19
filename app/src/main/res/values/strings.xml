@@ -9,4 +9,5 @@
   <string name="plz_select">Please add a stock by + button</string>
   <string name="network_toast">Uh-oh! This app requires an internet connection</string>
   <string name="error">Error</string>
+  <string name="widget_name">Stock Hawk</string>
 </resources>

@@ -19,6 +19,7 @@
       android:layout_marginStart="@dimen/default_left_margin"
       android:layout_marginRight="@dimen/default_right_margin"
       android:layout_marginEnd="@dimen/default_right_margin"
+      android:layout_gravity="center"
       android:gravity="center"
       android:visibility="gone"
       android:textSize="@dimen/default_text_size"/>

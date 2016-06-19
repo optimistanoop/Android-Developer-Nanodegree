@@ -81,7 +81,6 @@ public class WidgetProvider  extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        // Update each of the widgets with the remote adapter
         for (int i = 0; i < appWidgetIds.length; ++i) {
             RemoteViews layout = buildLayout(context, appWidgetIds[i]);
             appWidgetManager.updateAppWidget(appWidgetIds[i], layout);
@@ -101,9 +100,6 @@ class QuoteDataProviderObserver extends ContentObserver {
     }
     @Override
     public void onChange(boolean selfChange) {
-        // The data has changed, so notify the widget that the collection view needs to be updated.
-        // In response, the factory's onDataSetChanged() will be called which will requery the
-        // cursor for the new data.
         mAppWidgetManager.notifyAppWidgetViewDataChanged(
                 mAppWidgetManager.getAppWidgetIds(mComponentName), R.id.widget_list);
     }

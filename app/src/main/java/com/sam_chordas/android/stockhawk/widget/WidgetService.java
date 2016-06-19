@@ -34,8 +34,6 @@ class ListViewFactory implements RemoteViewsService.RemoteViewsFactory {
     }
 
     public void onCreate() {
-        // Since we reload the cursor in onDataSetChanged() which gets called immediately after
-        // onCreate(), we do nothing here.
     }
 
     public void onDestroy() {
@@ -49,7 +47,6 @@ class ListViewFactory implements RemoteViewsService.RemoteViewsFactory {
     }
 
     public RemoteViews getViewAt(int position) {
-        // Get the data for this position from the content provider
         String symbol = "";
         String bidPrice = "";
         String change = "";
@@ -65,7 +62,6 @@ class ListViewFactory implements RemoteViewsService.RemoteViewsFactory {
             isUp = mCursor.getInt(isUpIndex);
         }
 
-        // Fill data in UI
         final int itemId = R.layout.widget_item;
         RemoteViews rv = new RemoteViews(mContext.getPackageName(), itemId);
         rv.setTextViewText(R.id.stock_symbol, symbol);
@@ -77,7 +73,6 @@ class ListViewFactory implements RemoteViewsService.RemoteViewsFactory {
             rv.setInt(R.id.change, "setBackgroundResource", R.drawable.percent_change_pill_red);
         }
 
-        // Set the click intent
         final Intent fillInIntent = new Intent();
         final Bundle extras = new Bundle();
         extras.putString("symbol", symbol);
@@ -104,7 +99,6 @@ class ListViewFactory implements RemoteViewsService.RemoteViewsFactory {
     }
 
     public void onDataSetChanged() {
-        // Refresh the cursor
         if (mCursor != null) {
             mCursor.close();
         }
