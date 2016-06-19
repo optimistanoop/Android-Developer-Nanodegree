@@ -7,8 +7,4 @@
       android:icon="@drawable/ic_attach_money_white_24dp"
       android:orderInCategory="99"
       app:showAsAction="always"/>
-  <item android:id="@+id/action_settings"
-      android:title="@string/action_settings"
-      android:orderInCategory="100"
-      app:showAsAction="never" />
 </menu>

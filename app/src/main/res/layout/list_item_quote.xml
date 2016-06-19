@@ -6,7 +6,9 @@
     android:gravity="center_vertical"
     android:orientation="horizontal"
     android:paddingLeft="16dp"
+    android:paddingStart="@dimen/default_left_margin"
     android:paddingRight="16dp"
+    android:paddingEnd="@dimen/default_right_margin"
     >
   <TextView
       android:id="@+id/stock_symbol"
@@ -28,6 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingRight="10sp"
+        android:paddingEnd="10sp"
         tools:text="1000.00"
         />
     <TextView
@@ -37,7 +40,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="3dp"
+        android:paddingStart="3dp"
         android:paddingRight="3dp"
+        android:paddingEnd="3dp"
         tools:text="100%"
         />
   </LinearLayout>

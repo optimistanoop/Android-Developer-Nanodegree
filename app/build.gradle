@@ -25,7 +25,9 @@ repositories {
 }
 
 dependencies {
-
+  compile 'com.lsjwzh:materialloadingprogressbar:0.5.6-RELEASE'
+  compile 'com.github.blackfizz:eazegraph:1.2.2@aar'
+  compile 'com.nineoldandroids:library:2.4.0'
   compile 'com.google.android.gms:play-services-gcm:8.4.0'
   compile 'com.squareup.okhttp:okhttp:2.5.0'
   apt 'net.simonvt.schematic:schematic-compiler:0.6.3'
