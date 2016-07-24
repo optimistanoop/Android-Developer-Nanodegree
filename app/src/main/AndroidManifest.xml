@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.udacity.gradle.builditbigger" >
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.udacity.gradle.builditbigger">
 
     <!-- Include required permissions for Google Mobile Ads to run-->
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -10,6 +11,8 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:name="android.support.multidex.MultiDexApplication"
+        tools:ignore="GoogleAppIndexingWarning"
         android:theme="@style/AppTheme" >
         <!--This meta-data tag is required to use Google Play Services.-->
         <meta-data android:name="com.google.android.gms.version"
