@@ -87,32 +87,6 @@ string. For a refresher on setting up Android tests, check out demo 4.09.
 Add free and paid product flavors to your app. Remove the ad (and any
 dependencies you can) from the paid flavor.
 
-## Optional Tasks
-
-For extra practice to make your project stand out, complete the following tasks.
-
-### Add Interstitial Ad
-
-Follow these instructions to add an interstitial ad to the free version.
-Display the add after the user hits the button, but before the joke is shown.
-
-https://developers.google.com/mobile-ads-sdk/docs/admob/android/interstitial
-
-### Add Loading Indicator
-
-Add a loading indicator that is shown while the joke is being retrieved and
-disappears when the joke is ready. The following tutorial is a good place to
-start:
-
-http://www.tutorialspoint.com/android/android_loading_spinner.htm
-
-### Configure Test Task
-
-To tie it all together, create a Gradle task that:
-
-1. Launches the GCE local development server
-2. Runs all tests
-3. Shuts the server down again
 
 # Rubric
 
@@ -128,10 +102,3 @@ To tie it all together, create a Gradle task that:
 
 * App retrieves jokes from Google Cloud Endpoints module and displays them via an Activity from the Android Library.
 
-### Optional Components
-
-Once you have a functioning project, consider adding more features to test your Gradle and Android skills. Here are a few suggestions:
-
-* Make the free app variant display interstitial ads between the main activity and the joke-displaying activity.
-* Have the app display a loading indicator while the joke is being fetched from the server.
-* Write a Gradle task that starts the GCE dev server, runs all the Android tests, and shuts down the dev server.
