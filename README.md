@@ -19,9 +19,9 @@ BumpTech Glide 3.5.2
 ## Project Specification
 
 * Works well in every wear.
-* Designed similer to Design Mocks given in requirement.
+* Designed similar to Design Mocks given in requirement.
 * Displays the current time.
-* Displays temprature according to prefrences.
+* Displays temperature according to preferences.
 * Uses icons for different day type.
 
 Getting Started
