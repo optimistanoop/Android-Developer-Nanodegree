@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="time_text">40dp</dimen>
+    <dimen name="temp_text">30dp</dimen>
+    <dimen name="date_text">12dp</dimen>
+    <dimen name="y_time">80dp</dimen>
+    <dimen name="y_date">100dp</dimen>
+    <dimen name="y_divider">115dp</dimen>
+    <dimen name="y_weather">150dp</dimen>
+</resources>

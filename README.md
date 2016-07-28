@@ -1,4 +1,4 @@
-Advanced Android Sample App
+# Go Ubiquitous
 ===================================
 
 Synchronizes weather information from OpenWeatherMap on Android Phones and Tablets. Used in the Udacity Advanced Android course.
@@ -16,11 +16,19 @@ Android Support RecyclerView 22.2.0
 Google Play Services GCM 7.0.0
 BumpTech Glide 3.5.2
 
+## Project Specification
+
+* Works well in every wear.
+* Designed similer to Design Mocks given in requirement.
+* Displays the current time.
+* Displays temprature according to prefrences.
+* Uses icons for different day type.
 
 Getting Started
 ---------------
 This sample uses the Gradle build system.  To build this project, use the
 "gradlew build" command or use "Import Project" in Android Studio.
+Put your api key in gradle file (generated from openweathermap.org) 
 
 Support
 -------
