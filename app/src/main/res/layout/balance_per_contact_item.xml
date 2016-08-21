@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ivContactProfilePic"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:minHeight="30dp"
+        android:minWidth="30dp"
+        android:src="@drawable/ic_shopping_cart"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp"
+        android:padding="5dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/tvContactName"
+        android:paddingTop="14dp"
+        android:textSize="18sp"
+        android:textColor="@color/bt_black"
+        android:layout_toRightOf="@+id/ivContactProfilePic"
+        android:layout_toEndOf="@+id/ivContactProfilePic" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/tvBalanceText"
+        android:padding="5dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/tvTotalBalance"
+        android:padding="5dp"
+        android:textSize="18sp"
+        android:layout_below="@+id/tvBalanceText"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+</RelativeLayout>
