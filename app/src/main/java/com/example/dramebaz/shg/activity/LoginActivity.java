@@ -36,7 +36,7 @@ public class LoginActivity extends OAuthLoginActionBarActivity<SplitwiseRestClie
     // i.e Display application "homepage"
     @Override
     public void onLoginSuccess() {
-        getFriendsList();
+        getCurrentUser();
         Intent i = new Intent(this, DashBoardActivity.class);
         startActivity(i);
     }
@@ -55,7 +55,7 @@ public class LoginActivity extends OAuthLoginActionBarActivity<SplitwiseRestClie
         getClient().connect();
     }
 
-    private void getFriendsList(){
+    private void getCurrentUser(){
         SplitwiseRestClient client = RestApplication.getSplitwiseRestClient();
         client.getCurrentUser(new JsonHttpResponseHandler() {
             @Override
