@@ -24,7 +24,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TotalBalance extends Fragment {
+public class FriendsFragment extends Fragment {
     public static final String ARG_PAGE = "ARG_PAGE";
     private ArrayAdapter<GroupMember> friendAdapter;
     private List<GroupMember> friends;
@@ -33,14 +33,14 @@ public class TotalBalance extends Fragment {
     private ListView lvFriends;
     private SwipeRefreshLayout swipeContainer;
 
-    public TotalBalance() {
+    public FriendsFragment() {
         // Required empty public constructor
     }
 
     private String title;
 
-    public static TotalBalance newInstance(int page) {
-        TotalBalance fragment = new TotalBalance();
+    public static FriendsFragment newInstance(int page) {
+        FriendsFragment fragment = new FriendsFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_PAGE, page);
         fragment.setArguments(args);
@@ -110,7 +110,7 @@ public class TotalBalance extends Fragment {
                     friendAdapter.notifyDataSetChanged();
 
                 } catch (JSONException e) {
-                    Log.e("FAILED get_expenses", "json_parsing", e);
+                    Log.e("FAILED get_friends", "json_parsing", e);
                 }
             }
 

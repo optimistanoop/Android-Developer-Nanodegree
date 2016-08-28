@@ -4,6 +4,7 @@ package com.example.dramebaz.shg.fragment;
  * Created by dramebaz on 20/8/16.
  */
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -11,12 +12,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.example.dramebaz.shg.GroupAdapter;
 import com.example.dramebaz.shg.R;
 import com.example.dramebaz.shg.RestApplication;
+import com.example.dramebaz.shg.activity.DashBoardActivity;
+import com.example.dramebaz.shg.activity.ExpensesActivity;
 import com.example.dramebaz.shg.client.SplitwiseRestClient;
 import com.example.dramebaz.shg.splitwise.Group;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -34,7 +38,7 @@ public class GroupsFragment extends Fragment {
     private List<Group> groups;
     private int mPage;
     private SplitwiseRestClient client;
-    private ListView lvFriends;
+    private ListView lvGroups;
     private SwipeRefreshLayout swipeContainer;
 
     public GroupsFragment() {
@@ -68,10 +72,24 @@ public class GroupsFragment extends Fragment {
         client = RestApplication.getSplitwiseRestClient();
         groups = new ArrayList<>();
         groupAdapter = new GroupAdapter(getContext(), groups);
-        lvFriends = (ListView) view.findViewById(R.id.lvBalanceAll);
-        lvFriends.setAdapter(groupAdapter);
+        lvGroups = (ListView) view.findViewById(R.id.lvBalanceAll);
+        lvGroups.setAdapter(groupAdapter);
         getGroupList();
 
+        lvGroups.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("item selected",position+" "+id);
+                int groupId = groups.get(position).id;
+                String groupName = groups.get(position).name;
+
+                Intent i = new Intent(getContext(), ExpensesActivity.class);
+                i.putExtra("type","group");
+                i.putExtra("id", groupId);
+                i.putExtra("name", groupName);
+                startActivity(i);
+            }
+        });
         swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
