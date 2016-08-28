@@ -29,14 +29,10 @@ public class ExpensesActivity extends AppCompatActivity {
 
     private ListView lvGroupList;
     private LinearLayout llLeftDrawer;
-    private GroupsSideBarAdapter mAdapter;
-    private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private CharSequence mActivityTitle;
     private CharSequence mTitle;
     private SplitwiseRestClient client;
-    private final List<Group> groups = new ArrayList<>();
-    private final List<Friend> friends = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,18 +51,14 @@ public class ExpensesActivity extends AppCompatActivity {
         String type = i.getStringExtra("type");
         String name = i.getStringExtra("name");
         int id = i.getIntExtra("id",0);
-        if(type.equals("groups")){
-            loadExpense(id, type,name);
-        }else{
-            loadExpense(id, type,name);
-        }
+        loadExpense(id, type,name);
 
     }
 
     // Inflate the menu; this adds items to the action bar if it is present.
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.expenses, menu);
+        getMenuInflater().inflate(R.menu.expensemenu, menu);
         return true;
     }
 
@@ -98,23 +90,15 @@ public class ExpensesActivity extends AppCompatActivity {
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        // Sync the toggle state after onRestoreInstanceState has occurred.
-        //mDrawerToggle.syncState();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-        // Activate the navigation drawer toggle
-       // if (mDrawerToggle.onOptionsItemSelected(item)) {
-       //     return true;
-       // }
 
         return super.onOptionsItemSelected(item);
     }

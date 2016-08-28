@@ -26,11 +26,7 @@ public class DashBoardActivity extends AppCompatActivity {
         viewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
 
         final ActionBar ab = getSupportActionBar();
-        ab.setHomeAsUpIndicator(R.drawable.ic_menu);
-        ab.setDisplayHomeAsUpEnabled(true);
-        // Give the TabLayout the ViewPager
-//        TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
-//        tabLayout.setupWithViewPager(viewPager);
+
         PagerSlidingTabStrip tabStrip = (PagerSlidingTabStrip) findViewById(R.id.sliding_tabs);
         tabStrip.setViewPager(viewPager);
 
@@ -38,7 +34,7 @@ public class DashBoardActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.expenses, menu);
+        getMenuInflater().inflate(R.menu.mainmenu, menu);
         return true;
     }
 
@@ -64,11 +60,6 @@ public class DashBoardActivity extends AppCompatActivity {
             }else {
                 return GroupsFragment.newInstance(1);
             }
-            /*else if(position == 2){
-                return FriendsFragment.newInstance(1);
-            }  else {
-                return FriendsFragment.newInstance(2);
-            }*/
         }
 
         // Returns the page title for the top indicator

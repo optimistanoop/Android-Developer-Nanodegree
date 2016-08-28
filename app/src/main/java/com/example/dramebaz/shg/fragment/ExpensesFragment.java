@@ -16,7 +16,6 @@ import com.example.dramebaz.shg.RestApplication;
 import com.example.dramebaz.shg.adapter.ExpensesAdapter;
 import com.example.dramebaz.shg.client.SplitwiseRestClient;
 import com.example.dramebaz.shg.splitwise.Expense;
-import com.example.dramebaz.shg.splitwise.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
@@ -46,7 +45,7 @@ public class ExpensesFragment extends Fragment {
         groupId = getArguments().getInt(ARG_GROUP_ID);
 
         client = RestApplication.getSplitwiseRestClient();
-        client.getCurrentUser(new CurrentUserHandler());
+        loadExpenses();
 
         return view;
     }
@@ -61,26 +60,6 @@ public class ExpensesFragment extends Fragment {
         return fragment;
     }
 
-
-    private class CurrentUserHandler extends JsonHttpResponseHandler {
-        @Override
-        public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
-            try {
-                Log.i("SUCCESS current_user", json.toString());
-                SharedPreferences pref =
-                        PreferenceManager.getDefaultSharedPreferences(getActivity());
-                SharedPreferences.Editor edit = pref.edit();
-                User u = User.fromJSONObject(json.getJSONObject("user"));
-                edit.putInt("currentUserId", u.id);
-                edit.commit();
-                loadExpenses();
-            } catch (JSONException e) {
-                Log.e("FAILED current_user", "json_parsing", e);
-            }
-        }
-    }
-
-
     private void loadExpenses() {
         SharedPreferences pref =
                 PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -93,6 +72,7 @@ public class ExpensesFragment extends Fragment {
 
         SplitwiseRestClient client = RestApplication.getSplitwiseRestClient();
         Log.i("get_expenses", "group_id " + groupId);
+
         client.getExpenses(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject json) {

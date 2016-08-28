@@ -3,6 +3,7 @@ package com.example.dramebaz.shg.activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -28,7 +29,7 @@ public class LoginActivity extends OAuthLoginActionBarActivity<SplitwiseRestClie
     // Inflate the menu; this adds items to the action bar if it is present.
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.login, menu);
+        //getMenuInflater().inflate(R.menu.login, menu);
         return true;
     }
 
@@ -64,10 +65,11 @@ public class LoginActivity extends OAuthLoginActionBarActivity<SplitwiseRestClie
                     Log.i("Got currentUser", json.toString());
                     User user = User.fromJSONObject(json.getJSONObject("user"));
 
-                    SharedPreferences settings = getSharedPreferences("currentUser", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = settings.edit();
-                    editor.putString("id", user.id.toString());
-                    editor.commit();
+                    SharedPreferences pref =
+                            PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+                    SharedPreferences.Editor edit = pref.edit();
+                    edit.putInt("currentUserId", user.id);
+                    edit.commit();
 
                 } catch (Exception e) {
                     Log.e("FAILED get_expenses", "json_parsing", e);

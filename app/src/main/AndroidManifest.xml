@@ -40,7 +40,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.ExpensesActivity" />
-        <activity android:name=".activity.PaymentActivity" />
         <activity android:name=".activity.DashBoardActivity"></activity>
     </application>
 

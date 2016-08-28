@@ -6,6 +6,8 @@ package com.example.dramebaz.shg;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,11 +54,11 @@ public class GroupAdapter extends ArrayAdapter<Group> {
 
         Picasso.with(getContext()).load(R.drawable.ic_group_work_black_24dp).into(viewHolder.profileImage);
         viewHolder.username.setText(String.format("%s %s", group.name, ""));
-        SharedPreferences settings = getContext().getSharedPreferences("currentUser", getContext().MODE_PRIVATE);
-        SharedPreferences.Editor editor = settings.edit();
-        String id = settings.getString("id", "");
+        SharedPreferences pref =
+                PreferenceManager.getDefaultSharedPreferences(getContext());
+        int currentUserId =  pref.getInt("currentUserId", 0);
         for(GroupMember gm :group.members){
-            if(gm.user.id.toString().equals(id)){
+            if(gm.user.id == currentUserId){
                 viewHolder.totalBalance.setText(Presenter.getBalanceString(gm.balance));
                 viewHolder.balanceText.setText(Presenter.getBalanceText(gm.balance.amount));
 
