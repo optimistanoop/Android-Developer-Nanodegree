@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,14 +15,8 @@ import android.widget.ListView;
 
 import com.example.dramebaz.shg.R;
 import com.example.dramebaz.shg.RestApplication;
-import com.example.dramebaz.shg.adapter.GroupsSideBarAdapter;
 import com.example.dramebaz.shg.client.SplitwiseRestClient;
 import com.example.dramebaz.shg.fragment.ExpensesFragment;
-import com.example.dramebaz.shg.splitwise.Friend;
-import com.example.dramebaz.shg.splitwise.Group;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ExpensesActivity extends AppCompatActivity {
 
@@ -33,6 +26,7 @@ public class ExpensesActivity extends AppCompatActivity {
     private CharSequence mActivityTitle;
     private CharSequence mTitle;
     private SplitwiseRestClient client;
+    private String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +42,7 @@ public class ExpensesActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent i = getIntent();
-        String type = i.getStringExtra("type");
+        type = i.getStringExtra("type");
         String name = i.getStringExtra("name");
         int id = i.getIntExtra("id",0);
         loadExpense(id, type,name);
@@ -58,7 +52,12 @@ public class ExpensesActivity extends AppCompatActivity {
     // Inflate the menu; this adds items to the action bar if it is present.
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.expensemenu, menu);
+        if(type.equals("group")){
+
+            getMenuInflater().inflate(R.menu.expensemenugrp, menu);
+        }else {
+            getMenuInflater().inflate(R.menu.expensemenufrn, menu);
+        }
         return true;
     }
 
