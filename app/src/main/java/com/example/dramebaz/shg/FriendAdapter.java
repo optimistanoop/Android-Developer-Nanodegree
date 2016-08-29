@@ -13,7 +13,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class FriendsAdapter extends ArrayAdapter<GroupMember>{
+public class FriendAdapter extends ArrayAdapter<GroupMember>{
     private static class ViewHolder {
         ImageView profileImage;
         TextView username;
@@ -21,7 +21,7 @@ public class FriendsAdapter extends ArrayAdapter<GroupMember>{
         TextView totalBalance;
     }
 
-    public FriendsAdapter(Context context, List<GroupMember> objects) {
+    public FriendAdapter(Context context, List<GroupMember> objects) {
         super(context, android.R.layout.simple_list_item_1, objects);
     }
 
@@ -44,7 +44,7 @@ public class FriendsAdapter extends ArrayAdapter<GroupMember>{
             viewHolder = (ViewHolder) convertView.getTag();
         }
         String lastName = member.user.lastName;
-        if(lastName == "null"){
+        if(lastName.equals("null")){
             lastName = "";
         }
         Picasso.with(getContext()).load(member.user.pictureUrl).into(viewHolder.profileImage);

@@ -50,11 +50,14 @@ public static final String REST_URL = "https://secure.splitwise.com/api/v3.0"; /
      * http://dev.splitwise.com/dokuwiki/doku.php?id=get_expenses
      * @param handler
      */
-    public void getExpenses(JsonHttpResponseHandler handler, Integer groupId, Integer limit, Integer offset) {
+    public void getExpenses(JsonHttpResponseHandler handler, Integer groupId, Integer limit, Integer offset, Integer friendshipId) {
         String apiUrl = getApiUrl("get_expenses");
         RequestParams params = new RequestParams();
         if(groupId != null) {
             params.put("group_id", groupId);
+        }
+        if(friendshipId != null) {
+            params.put("friendship_id", friendshipId);
         }
         if(limit != null) {
             params.put("limit", limit);

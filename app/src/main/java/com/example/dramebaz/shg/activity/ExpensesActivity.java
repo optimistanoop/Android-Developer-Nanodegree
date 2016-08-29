@@ -74,11 +74,11 @@ public class ExpensesActivity extends AppCompatActivity {
         Fragment fragment = null;
         if(id != null) {
             setTitle(name);
-            fragment = ExpensesFragment.newInstance(id);
+            fragment = ExpensesFragment.newInstance(id, type);
         }
         else {
             setTitle(mActivityTitle);
-            fragment = ExpensesFragment.newInstance(null);
+            fragment = ExpensesFragment.newInstance(null, null);
         }
 
         FragmentManager fragmentManager = getSupportFragmentManager();

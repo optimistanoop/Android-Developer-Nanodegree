@@ -1,5 +1,6 @@
 package com.example.dramebaz.shg.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -7,12 +8,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.example.dramebaz.shg.FriendsAdapter;
+import com.example.dramebaz.shg.FriendAdapter;
 import com.example.dramebaz.shg.R;
 import com.example.dramebaz.shg.RestApplication;
+import com.example.dramebaz.shg.activity.ExpensesActivity;
 import com.example.dramebaz.shg.client.SplitwiseRestClient;
 import com.example.dramebaz.shg.splitwise.GroupMember;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -63,10 +66,25 @@ public class FriendsFragment extends Fragment {
         View view = inflater.inflate(R.layout.balance_per_contact, container, false);
         client = RestApplication.getSplitwiseRestClient();
         friends = new ArrayList<>();
-        friendAdapter = new FriendsAdapter(getContext(), friends);
+        friendAdapter = new FriendAdapter(getContext(), friends);
         lvFriends = (ListView) view.findViewById(R.id.lvBalanceAll);
         lvFriends.setAdapter(friendAdapter);
         getFriendsList();
+
+        lvFriends.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("item selected",position+" "+id);
+                int friendId = friends.get(position).user.id;
+                String friendName = friends.get(position).user.firstName;
+
+                Intent i = new Intent(getContext(), ExpensesActivity.class);
+                i.putExtra("type","friend");
+                i.putExtra("id", friendId);
+                i.putExtra("name", friendName);
+                startActivity(i);
+            }
+        });
 
         swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
