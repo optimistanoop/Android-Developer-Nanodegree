@@ -43,7 +43,44 @@ public static final String REST_URL = "https://secure.splitwise.com/api/v3.0"; /
      */
     public void createGroup(JsonHttpResponseHandler handler, String groupName) {
         String apiUrl = getApiUrl("create_group");
-        getClient().post(apiUrl, handler);
+        RequestParams params = new RequestParams();
+        if(groupName != null) {
+            params.put("name", groupName);
+        }
+        getClient().post(apiUrl, params,handler);
+    }
+
+    public void addGroupMember(JsonHttpResponseHandler handler,Integer group_id, String first_name, String last_name,String email) {
+        String apiUrl = getApiUrl("add_user_to_group");
+        RequestParams params = new RequestParams();
+        if(group_id != null) {
+            params.put("group_id", group_id);
+        }
+        if(first_name != null) {
+            params.put("first_name", first_name);
+        }
+        if(last_name != null) {
+            params.put("last_name", last_name);
+        }
+        if(email != null) {
+            params.put("email", email);
+        }
+        getClient().post(apiUrl, params,handler);
+    }
+
+    public void createFriend(JsonHttpResponseHandler handler,String user_email, String user_first_name, String user_last_name) {
+        String apiUrl = getApiUrl("create_friend");
+        RequestParams params = new RequestParams();
+        if(user_email != null) {
+            params.put("user_email", user_email);
+        }
+        if(user_first_name != null) {
+            params.put("user_first_name", user_first_name);
+        }
+        if(user_last_name != null) {
+            params.put("user_last_name", user_last_name);
+        }
+        getClient().post(apiUrl, params,handler);
     }
 
     /**
@@ -78,4 +115,15 @@ public static final String REST_URL = "https://secure.splitwise.com/api/v3.0"; /
         getClient().get(apiUrl, params, handler);
     }
 
+    public void deleteFriend(JsonHttpResponseHandler handler, Integer friendId) {
+        String apiUrl = getApiUrl("delete_friend/"+friendId);
+        RequestParams params = new RequestParams();
+        getClient().post(apiUrl, handler);
+    }
+
+    public void deleteGroup(JsonHttpResponseHandler handler, Integer groupId) {
+        String apiUrl = getApiUrl("delete_group/"+groupId);
+        RequestParams params = new RequestParams();
+        getClient().post(apiUrl, handler);
+    }
 }

@@ -72,6 +72,12 @@ public class ExpensesActivity extends AppCompatActivity {
             case R.id.addFrndToGrp:
                 addGroupMember(2295690,"baba","sai","babasaireddy@gmail.com");
                 return true;
+            case R.id.deleteFrnd:
+                deleteFriend(5037545);
+                return true;
+            case R.id.deleteGroup:
+                deleteGroup(2295690);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -97,6 +103,45 @@ public class ExpensesActivity extends AppCompatActivity {
         }, group_id, first_name, last_name, email);
     }
 
+    public void deleteFriend(int friendId){
+        SplitwiseRestClient client = RestApplication.getSplitwiseRestClient();
+        client.deleteFriend(new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
+                try {
+                    Log.i("delete_friend", json.toString());
+
+                } catch (Exception e) {
+                    Log.e("FAILED delete_friend", "json_parsing", e);
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+            }
+        }, friendId);
+    }
+
+    public void deleteGroup(int groupId){
+        SplitwiseRestClient client = RestApplication.getSplitwiseRestClient();
+        client.deleteGroup(new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
+                try {
+                    Log.i("delete_group", json.toString());
+
+                } catch (Exception e) {
+                    Log.e("FAILED delete_group", "json_parsing", e);
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+            }
+        }, groupId);
+    }
     @Override
     public void setTitle(CharSequence title) {
         mTitle = title;

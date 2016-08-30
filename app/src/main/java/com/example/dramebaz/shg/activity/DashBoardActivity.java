@@ -1,8 +1,6 @@
 package com.example.dramebaz.shg.activity;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -19,7 +17,6 @@ import com.example.dramebaz.shg.RestApplication;
 import com.example.dramebaz.shg.client.SplitwiseRestClient;
 import com.example.dramebaz.shg.fragment.FriendsFragment;
 import com.example.dramebaz.shg.fragment.GroupsFragment;
-import com.example.dramebaz.shg.splitwise.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
@@ -54,14 +51,17 @@ public class DashBoardActivity extends AppCompatActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.miAddGroup:
-                addGroup();
+                createGroup("foodGrp");
+                return true;
+            case R.id.miAddFriend:
+                createFriend("babasaireddy@gmail.com", "baba","sai");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    public void addGroup(){
+    public void createGroup(String name){
         SplitwiseRestClient client = RestApplication.getSplitwiseRestClient();
         client.createGroup(new JsonHttpResponseHandler() {
             @Override
@@ -78,7 +78,27 @@ public class DashBoardActivity extends AppCompatActivity {
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
             }
-        }, "testingshg");
+        }, name);
+    }
+
+    public void createFriend(String user_email, String user_first_name, String user_last_name){
+        SplitwiseRestClient client = RestApplication.getSplitwiseRestClient();
+        client.createFriend(new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
+                try {
+                    Log.i("Got createFriend", json.toString());
+
+                } catch (Exception e) {
+                    Log.e("FAILED createFriend", "json_parsing", e);
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+            }
+        }, user_email,  user_first_name,  user_last_name);
     }
 
         public static class MyPagerAdapter extends FragmentPagerAdapter {
