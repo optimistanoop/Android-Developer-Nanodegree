@@ -77,7 +77,8 @@ public class FriendsFragment extends Fragment {
                 Log.d("item selected",position+" "+id);
                 int friendId = friends.get(position).user.id;
                 String friendName = friends.get(position).user.firstName;
-
+                Log.d("item selected",position+" "+id);
+                Log.d("item selected",friendName+" "+friendId);
                 Intent i = new Intent(getContext(), ExpensesActivity.class);
                 i.putExtra("type","friend");
                 i.putExtra("id", friendId);

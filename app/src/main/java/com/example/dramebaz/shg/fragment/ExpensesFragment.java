@@ -118,7 +118,7 @@ public class ExpensesFragment extends Fragment {
 
         final ListView lvExpenses = (ListView) view.findViewById(R.id.lvExpenses);
         lvExpenses.setAdapter(expensesAdapter);
-
+        final List<Expense> finalExpenses = new ArrayList<Expense>();
         SplitwiseRestClient client = RestApplication.getSplitwiseRestClient();
         Log.i("get_expenses", "groupOrFrndId " + groupOrFrndId);
 
@@ -132,16 +132,19 @@ public class ExpensesFragment extends Fragment {
                     for(Expense e :expenses){
                         for( UserExpense u :e.userExpenses){
                             Log.d("anp userexp",u.user.id+" "+groupOrFrndId );
+
                                if(u.user.id.equals(groupOrFrndId)){
                                    Log.d("anp userexp match",u.user.id+" "+groupOrFrndId );
+                                   finalExpenses.add(e);
+                                  /* Log.d("anp userexp match",u.user.id+" "+groupOrFrndId );
                                    friendshipId = e.friendshipId;
-                                   break;
+                                   break;*/
                                }
                         }
                     }
                     // second call
-
-                    loadFrinddata();
+                    expensesAdapter.addAll(finalExpenses);
+                    //loadFrinddata();
                     // second call ends here
                 } catch (JSONException e) {
                     Log.e("FAILED get_expenses", "json_parsing", e);
@@ -153,10 +156,10 @@ public class ExpensesFragment extends Fragment {
                 super.onFailure(statusCode, headers, responseString, throwable);
                 //Log.e("FAILED get_expenses service_call", "");
             }
-        }, 0, null, null, null);
+        }, 0, 0, null, null);
     }
 
-    public  void loadFrinddata(){
+/*    public  void loadFrinddata(){
         client.getExpenses(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
@@ -175,6 +178,6 @@ public class ExpensesFragment extends Fragment {
                 super.onFailure(statusCode, headers, responseString, throwable);
                 //Log.e("FAILED get_expenses service_call", "");
             }
-        }, 0, 0, null, Integer.parseInt(friendshipId));
-    }
+        }, 0, 0, 0, Integer.parseInt(friendshipId));
+    }*/
 }

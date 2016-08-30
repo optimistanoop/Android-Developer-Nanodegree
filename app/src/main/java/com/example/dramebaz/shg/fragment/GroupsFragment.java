@@ -79,10 +79,10 @@ public class GroupsFragment extends Fragment {
         lvGroups.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("item selected",position+" "+id);
                 int groupId = groups.get(position).id;
                 String groupName = groups.get(position).name;
-
+                Log.d("item selected",position+" "+id);
+                Log.d("item selected",groupName+" "+groupId);
                 Intent i = new Intent(getContext(), ExpensesActivity.class);
                 i.putExtra("type","group");
                 i.putExtra("id", groupId);
