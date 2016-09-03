@@ -1,5 +1,6 @@
 package com.example.dramebaz.shg.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -7,12 +8,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.dramebaz.shg.R;
 import com.example.dramebaz.shg.RestApplication;
@@ -76,16 +79,43 @@ public class ExpensesActivity extends AppCompatActivity {
                 addGroupMember(123,"baba","sai","***@gmail.com");
                 return true;
             case R.id.deleteFrnd:
-                deleteFriend(id);
+                openDialog();
                 return true;
             case R.id.deleteGroup:
-                deleteGroup(id);
+                openDialog();
                 return true;
             case R.id.addExpense:
                 addExpenseToGroup();
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void openDialog(){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage("Are you sure,You want to delete "+name+" ?");
+
+        alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                Toast.makeText(ExpensesActivity.this,"You clicked yes button",Toast.LENGTH_LONG).show();
+                finish();
+                if(type.equals("group")){
+                    deleteGroup(id);
+                }else {
+                    deleteFriend(id);
+                }
+            }
+        });
+
+        alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 
     public void addExpenseToGroup(){
