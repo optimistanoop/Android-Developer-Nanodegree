@@ -50,6 +50,28 @@ public static final String REST_URL = "https://secure.splitwise.com/api/v3.0"; /
         getClient().post(apiUrl, params,handler);
     }
 
+    public void createExpense(JsonHttpResponseHandler handler, Integer cost, String description, Integer group_id) {
+        String apiUrl = getApiUrl("create_expense");
+        RequestParams params = new RequestParams();
+        params.put("users__0__user_id", 123);
+        params.put("users__0__paid_share", 100);
+        params.put("users__0__owed_share", 50);
+        params.put("users__1__user_id", 123);
+        params.put("users__1__paid_share", 0);
+        params.put("users__1__owed_share", 50);
+
+        if(cost != null) {
+            params.put("cost", cost);
+        }
+        if(description != null) {
+            params.put("description", description);
+        }
+        if(group_id != null) {
+            params.put("group_id", group_id);
+        }
+        getClient().post(apiUrl, params,handler);
+    }
+
     public void addGroupMember(JsonHttpResponseHandler handler,Integer group_id, String first_name, String last_name,String email) {
         String apiUrl = getApiUrl("add_user_to_group");
         RequestParams params = new RequestParams();
@@ -87,14 +109,14 @@ public static final String REST_URL = "https://secure.splitwise.com/api/v3.0"; /
      * http://dev.splitwise.com/dokuwiki/doku.php?id=get_expenses
      * @param handler
      */
-    public void getExpenses(JsonHttpResponseHandler handler, Integer groupId, Integer limit, Integer offset, Integer friendshipId) {
+    public void getExpenses(JsonHttpResponseHandler handler, Integer groupId, Integer limit, Integer offset, Integer friendId) {
         String apiUrl = getApiUrl("get_expenses");
         RequestParams params = new RequestParams();
         if(groupId != null) {
             params.put("group_id", groupId);
         }
-        if(friendshipId != null) {
-            params.put("friendship_id", friendshipId);
+        if(friendId != null) {
+            params.put("friend_id", friendId);
         }
         if(limit != null) {
             params.put("limit", limit);

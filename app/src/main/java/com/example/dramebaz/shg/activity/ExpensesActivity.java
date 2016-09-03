@@ -32,6 +32,8 @@ public class ExpensesActivity extends AppCompatActivity {
     private CharSequence mTitle;
     private SplitwiseRestClient client;
     private String type;
+    String name;
+    int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +50,8 @@ public class ExpensesActivity extends AppCompatActivity {
 
         Intent i = getIntent();
         type = i.getStringExtra("type");
-        String name = i.getStringExtra("name");
-        int id = i.getIntExtra("id",0);
+        name = i.getStringExtra("name");
+        id = i.getIntExtra("id",0);
         loadExpense(id, type,name);
 
     }
@@ -68,19 +70,43 @@ public class ExpensesActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
+
         switch (item.getItemId()) {
             case R.id.addFrndToGrp:
-                addGroupMember(2295690,"baba","sai","babasaireddy@gmail.com");
+                addGroupMember(123,"baba","sai","***@gmail.com");
                 return true;
             case R.id.deleteFrnd:
-                deleteFriend(5037545);
+                deleteFriend(id);
                 return true;
             case R.id.deleteGroup:
-                deleteGroup(2295690);
+                deleteGroup(id);
                 return true;
+            case R.id.addExpense:
+                addExpenseToGroup();
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void addExpenseToGroup(){
+        // redirect to the expense activity
+        SplitwiseRestClient client = RestApplication.getSplitwiseRestClient();
+        client.createExpense(new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
+                try {
+                    Log.i("create_expense", json.toString());
+
+                } catch (Exception e) {
+                    Log.e("FAILED create_expense", "json_parsing", e);
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+            }
+        }, 100, "mote", 0);
     }
 
     public void addGroupMember(int group_id, String first_name, String last_name,String email){

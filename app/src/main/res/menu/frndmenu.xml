@@ -6,7 +6,7 @@
         android:title="Delete Friend">
     </item>
     <item
-        android:id="@+id/addExp"
+        android:id="@+id/addExpense"
         android:icon="@drawable/ic_add"
         android:title="Add Expense">
     </item>
