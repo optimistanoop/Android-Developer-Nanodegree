@@ -145,7 +145,11 @@ public static final String REST_URL = "https://secure.splitwise.com/api/v3.0"; /
 
     public void deleteGroup(JsonHttpResponseHandler handler, Integer groupId) {
         String apiUrl = getApiUrl("delete_group/"+groupId);
-        RequestParams params = new RequestParams();
+        getClient().post(apiUrl, handler);
+    }
+
+    public void deleteExpense(JsonHttpResponseHandler handler, Integer expenseId) {
+        String apiUrl = getApiUrl("delete_expense/"+expenseId);
         getClient().post(apiUrl, handler);
     }
 }

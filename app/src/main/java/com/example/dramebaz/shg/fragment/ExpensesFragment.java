@@ -1,15 +1,18 @@
 package com.example.dramebaz.shg.fragment;
 
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.dramebaz.shg.R;
 import com.example.dramebaz.shg.RestApplication;
@@ -88,9 +91,18 @@ public class ExpensesFragment extends Fragment {
                     List<Expense> expenses = Expense.fromJSONArray(json.getJSONArray("expenses"));
                     Log.i("SUCCESS get_expenses", expenses.toString());
                     expensesAdapter.addAll(expenses);
+                    // item click listner for edit expense
                     lvExpenses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        }
+                    });
+                    // item log click listner for delete expense
+                    lvExpenses.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                        @Override
+                        public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                            openDialog(1);
+                            return false;
                         }
                     });
                 } catch (JSONException e) {
@@ -104,5 +116,51 @@ public class ExpensesFragment extends Fragment {
                 //Log.e("FAILED get_expenses service_call", "");
             }
         }, groupId, null, null, friendId);
+    }
+    public void openDialog(final int expenseId){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+        alertDialogBuilder.setMessage("Do you want to delete this expense ?");
+
+        alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                Toast.makeText(getActivity(),"You clicked yes button",Toast.LENGTH_LONG).show();
+                deleteExpense(expenseId);
+            }
+        });
+
+        alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+    public void deleteExpense(int expenseId){
+
+        SplitwiseRestClient client = RestApplication.getSplitwiseRestClient();
+
+        client.deleteExpense(new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
+                try {
+                    List<Expense> expenses = Expense.fromJSONArray(json.getJSONArray("expenses"));
+                    Log.i("SUCCESS delete_expense", expenses.toString());
+
+                } catch (JSONException e) {
+                    Log.e("FAILED delete_expense", "json_parsing", e);
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+                //Log.e("FAILED get_expenses service_call", "");
+            }
+        }, expenseId);
+
     }
 }
