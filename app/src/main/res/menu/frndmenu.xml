@@ -10,4 +10,9 @@
         android:icon="@drawable/ic_add"
         android:title="Add Expense">
     </item>
+    <item
+        android:id="@+id/miCalculate"
+        android:icon="@drawable/ic_group_add"
+        android:title="Calculate Interest">
+    </item>
 </menu>

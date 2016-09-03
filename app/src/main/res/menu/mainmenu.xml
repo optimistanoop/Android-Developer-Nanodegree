@@ -11,9 +11,5 @@
         android:icon="@drawable/ic_group_add"
         android:title="@string/add_group">
     </item>
-    <item
-        android:id="@+id/miCalculate"
-        android:icon="@drawable/ic_group_add"
-        android:title="Calculate Interest">
-    </item>
+
 </menu>
