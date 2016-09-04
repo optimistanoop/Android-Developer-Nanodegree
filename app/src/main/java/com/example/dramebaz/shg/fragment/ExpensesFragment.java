@@ -149,10 +149,9 @@ public class ExpensesFragment extends Fragment {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
                 try {
-                    List<Expense> expenses = Expense.fromJSONArray(json.getJSONArray("expenses"));
-                    Log.i("SUCCESS delete_expense", expenses.toString());
+                    Log.i("SUCCESS delete_expense", json.toString());
 
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     Log.e("FAILED delete_expense", "json_parsing", e);
                 }
             }
