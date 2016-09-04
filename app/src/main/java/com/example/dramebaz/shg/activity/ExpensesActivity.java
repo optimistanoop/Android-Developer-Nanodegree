@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -109,7 +110,7 @@ public class ExpensesActivity extends AppCompatActivity {
                         if (name.getText().toString().trim().equals("")) {
                             name.setError("This is required");
                             return;
-                        } else if (!email.getText().toString().trim().equals("")) {
+                        } else if (!email.getText().toString().trim().equals("") && !isValidEmail(email.getText().toString().trim())) {
                             email.setError("Not a valid email");
                             return;
                         }
@@ -117,9 +118,9 @@ public class ExpensesActivity extends AppCompatActivity {
                         d.dismiss();
                     }
                 });
-                d.show();
             }
         });
+        d.show();
     }
 
     public void openDeleteDialog(){
@@ -262,5 +263,9 @@ public class ExpensesActivity extends AppCompatActivity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+    }
+
+    public final static boolean isValidEmail(CharSequence target) {
+        return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 }
