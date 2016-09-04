@@ -32,13 +32,12 @@ public class ExpensesFragment extends Fragment {
 
     ExpensesAdapter expensesAdapter;
     List<Expense> expenses;
-    private SplitwiseRestClient client;
     private View view;
     private static final String ARG_GROUP_FRN_ID = "groupOrFrndId";
     private static final String TYPE = "type";
     private Integer groupOrFrndId;
     private String type;
-    private String friendshipId;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,7 +49,6 @@ public class ExpensesFragment extends Fragment {
 
         groupOrFrndId = getArguments().getInt(ARG_GROUP_FRN_ID);
         type = getArguments().getString(TYPE);
-        client = RestApplication.getSplitwiseRestClient();
         if(type.equals("group")){
             loadExpenses(groupOrFrndId, null);
         }else {
@@ -89,8 +87,14 @@ public class ExpensesFragment extends Fragment {
             public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
                 try {
                     List<Expense> expenses = Expense.fromJSONArray(json.getJSONArray("expenses"));
-                    Log.i("SUCCESS get_expenses", expenses.toString());
-                    expensesAdapter.addAll(expenses);
+                    Log.i("SUCCESS get_expenses", json.toString());
+                    List<Expense> requiredExp = new ArrayList<Expense>();
+                    for(Expense e :expenses){
+                        if(e.deleted_at.equals("null")){
+                            requiredExp.add(e);
+                        }
+                    }
+                    expensesAdapter.addAll(requiredExp);
                     // item click listner for edit expense
                     lvExpenses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override

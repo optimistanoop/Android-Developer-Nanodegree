@@ -11,6 +11,7 @@ public class Expense {
     public Integer id;
     public String groupId;
     public String friendshipId;
+    public String deleted_at;
     public String description;
     public String cost;
     public String currencyCode;
@@ -23,6 +24,7 @@ public class Expense {
         e.id = jsonObject.getInt("id");
         e.groupId = jsonObject.getString("group_id");
         e.friendshipId = jsonObject.getString("friendship_id");
+        e.deleted_at = jsonObject.getString("deleted_at");
         e.description = jsonObject.getString("description");
         e.cost = jsonObject.getString("cost");
         e.currencyCode = jsonObject.getString("currency_code");
