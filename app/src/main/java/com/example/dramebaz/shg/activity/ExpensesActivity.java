@@ -8,14 +8,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.dramebaz.shg.R;
@@ -29,12 +26,8 @@ import org.json.JSONObject;
 
 public class ExpensesActivity extends AppCompatActivity {
 
-    private ListView lvGroupList;
-    private LinearLayout llLeftDrawer;
-    private DrawerLayout mDrawerLayout;
     private CharSequence mActivityTitle;
     private CharSequence mTitle;
-    private SplitwiseRestClient client;
     private String type;
     String name;
     int id;
@@ -43,13 +36,7 @@ public class ExpensesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expenses);
-        client = RestApplication.getSplitwiseRestClient();
-
-        lvGroupList = (ListView)findViewById(R.id.group_list);
-        llLeftDrawer = (LinearLayout) findViewById(R.id.left_drawer);
-        mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         mActivityTitle = getTitle().toString();
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent i = getIntent();

@@ -10,7 +10,7 @@ import org.scribe.builder.api.Api;
 
 public class SplitwiseRestClient extends OAuthBaseClient {
     public static final Class<? extends Api> REST_API_CLASS = SplitwiseApi.class; // Change this
-public static final String REST_URL = "https://secure.splitwise.com/api/v3.0"; // Change this, base API URL
+    public static final String REST_URL = "https://secure.splitwise.com/api/v3.0"; // Change this, base API URL
     public static final String REST_CONSUMER_KEY = "";       // Change this
     public static final String REST_CONSUMER_SECRET = ""; // Change this
     public static final String REST_CALLBACK_URL = "oauth://codepathtweets"; // Change this (here and in manifest)
@@ -139,7 +139,6 @@ public static final String REST_URL = "https://secure.splitwise.com/api/v3.0"; /
 
     public void deleteFriend(JsonHttpResponseHandler handler, Integer friendId) {
         String apiUrl = getApiUrl("delete_friend/"+friendId);
-        RequestParams params = new RequestParams();
         getClient().post(apiUrl, handler);
     }
 

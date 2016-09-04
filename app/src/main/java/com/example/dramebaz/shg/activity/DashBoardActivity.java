@@ -23,7 +23,6 @@ import org.apache.http.Header;
 import org.json.JSONObject;
 
 public class DashBoardActivity extends AppCompatActivity {
-    FragmentPagerAdapter adapterViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
