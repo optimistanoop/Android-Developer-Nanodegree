@@ -1,5 +1,6 @@
 package com.example.dramebaz.shg.activity;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -13,6 +14,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.dramebaz.shg.R;
@@ -67,13 +71,13 @@ public class ExpensesActivity extends AppCompatActivity {
                 NavUtils.navigateUpFromSameTask(this);
                 return  true;
             case R.id.addFrndToGrp:
-                addGroupMember(id,"anp","anoop.k@quikr.com");
+                openAddGrpMemberDialog();
                 return true;
             case R.id.deleteFrnd:
-                openDialog();
+                openDeleteDialog();
                 return true;
             case R.id.deleteGroup:
-                openDialog();
+                openDeleteDialog();
                 return true;
             case R.id.addExpense:
                 addExpenseToGroup();
@@ -82,7 +86,43 @@ public class ExpensesActivity extends AppCompatActivity {
         }
     }
 
-    public void openDialog(){
+    public void openAddGrpMemberDialog() {
+        final AlertDialog d = new AlertDialog.Builder(this)
+                .setView(R.layout.add_group_member)
+                .setPositiveButton(android.R.string.ok, null) //Set to null. We override the onclick
+                .setNegativeButton(android.R.string.cancel, null)
+                .create();
+
+        d.setOnShowListener(new DialogInterface.OnShowListener() {
+
+            @Override
+            public void onShow(final DialogInterface dialog) {
+
+                Button b = d.getButton(AlertDialog.BUTTON_POSITIVE);
+                b.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View view) {
+                        Dialog f = (Dialog) dialog;
+                        EditText name = (EditText) f.findViewById(R.id.username);
+                        EditText email = (EditText) f.findViewById(R.id.email);
+                        if (name.getText().toString().trim().equals("")) {
+                            name.setError("This is required");
+                            return;
+                        } else if (!email.getText().toString().trim().equals("")) {
+                            email.setError("Not a valid email");
+                            return;
+                        }
+                        addGroupMember(id,name.getText().toString().trim(),email.getText().toString().trim());
+                        d.dismiss();
+                    }
+                });
+                d.show();
+            }
+        });
+    }
+
+    public void openDeleteDialog(){
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setMessage("Are you sure,You want to delete "+name+" ?");
 
