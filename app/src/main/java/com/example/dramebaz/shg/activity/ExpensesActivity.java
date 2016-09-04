@@ -67,7 +67,7 @@ public class ExpensesActivity extends AppCompatActivity {
                 NavUtils.navigateUpFromSameTask(this);
                 return  true;
             case R.id.addFrndToGrp:
-                addGroupMember(123,"baba","sai","***@gmail.com");
+                addGroupMember(id,"anp","anoop.k@quikr.com");
                 return true;
             case R.id.deleteFrnd:
                 openDialog();
@@ -130,7 +130,7 @@ public class ExpensesActivity extends AppCompatActivity {
         }, 100, "mote", 0);
     }
 
-    public void addGroupMember(int group_id, String first_name, String last_name,String email){
+    public void addGroupMember(int group_id,String name,String email){
         SplitwiseRestClient client = RestApplication.getSplitwiseRestClient();
         client.addGroupMember(new JsonHttpResponseHandler() {
             @Override
@@ -147,7 +147,7 @@ public class ExpensesActivity extends AppCompatActivity {
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
             }
-        }, group_id, first_name, last_name, email);
+        }, group_id,name, email);
     }
 
     public void deleteFriend(int friendId){

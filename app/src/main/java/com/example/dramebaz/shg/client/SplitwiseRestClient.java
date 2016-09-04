@@ -72,25 +72,22 @@ public class SplitwiseRestClient extends OAuthBaseClient {
         getClient().post(apiUrl, params,handler);
     }
 
-    public void addGroupMember(JsonHttpResponseHandler handler,Integer group_id, String first_name, String last_name,String email) {
+    public void addGroupMember(JsonHttpResponseHandler handler,Integer group_id,String firstName,String email) {
         String apiUrl = getApiUrl("add_user_to_group");
         RequestParams params = new RequestParams();
         if(group_id != null) {
             params.put("group_id", group_id);
         }
-        if(first_name != null) {
-            params.put("first_name", first_name);
-        }
-        if(last_name != null) {
-            params.put("last_name", last_name);
-        }
         if(email != null) {
             params.put("email", email);
+        }
+        if(firstName != null) {
+            params.put("first_name", firstName);
         }
         getClient().post(apiUrl, params,handler);
     }
 
-    public void createFriend(JsonHttpResponseHandler handler,String user_email, String user_first_name, String user_last_name) {
+    public void createFriend(JsonHttpResponseHandler handler,String user_email, String user_first_name) {
         String apiUrl = getApiUrl("create_friend");
         RequestParams params = new RequestParams();
         if(user_email != null) {
@@ -98,9 +95,6 @@ public class SplitwiseRestClient extends OAuthBaseClient {
         }
         if(user_first_name != null) {
             params.put("user_first_name", user_first_name);
-        }
-        if(user_last_name != null) {
-            params.put("user_last_name", user_last_name);
         }
         getClient().post(apiUrl, params,handler);
     }
