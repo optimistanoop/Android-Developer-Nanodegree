@@ -101,7 +101,9 @@ public class ExpensesFragment extends Fragment {
                     lvExpenses.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                         @Override
                         public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                            openDialog(1);
+                            Expense data = (Expense)lvExpenses.getItemAtPosition(i);
+                            Log.d("item long clicked", data.id.toString());
+                            openDialog(data.id);
                             return false;
                         }
                     });
@@ -117,7 +119,7 @@ public class ExpensesFragment extends Fragment {
             }
         }, groupId, null, null, friendId);
     }
-    public void openDialog(final int expenseId){
+    public void openDialog(final Integer expenseId){
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setMessage("Do you want to delete this expense ?");
 
@@ -139,7 +141,7 @@ public class ExpensesFragment extends Fragment {
         alertDialog.show();
     }
 
-    public void deleteExpense(int expenseId){
+    public void deleteExpense(Integer expenseId){
 
         SplitwiseRestClient client = RestApplication.getSplitwiseRestClient();
 
