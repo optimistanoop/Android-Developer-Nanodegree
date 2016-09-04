@@ -28,6 +28,11 @@ public class SplitwiseRestClient extends OAuthBaseClient {
         getClient().get(apiUrl, params, handler);
     }
 
+    public void getGroup(JsonHttpResponseHandler handler, Integer groupId) {
+        String apiUrl = getApiUrl("get_group/"+groupId);
+        RequestParams params = new RequestParams();
+        getClient().get(apiUrl, params, handler);
+    }
     /**
      * http://dev.splitwise.com/dokuwiki/doku.php?id=get_groups
      * @param handler

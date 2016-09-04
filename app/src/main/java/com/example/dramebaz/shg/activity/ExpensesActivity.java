@@ -3,12 +3,15 @@ package com.example.dramebaz.shg.activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
+import android.support.v4.util.ArrayMap;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -18,7 +21,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.example.dramebaz.shg.R;
 import com.example.dramebaz.shg.RestApplication;
@@ -28,6 +30,8 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
 import org.json.JSONObject;
+
+import java.util.Map;
 
 public class ExpensesActivity extends AppCompatActivity {
 
@@ -81,7 +85,7 @@ public class ExpensesActivity extends AppCompatActivity {
                 openDeleteDialog();
                 return true;
             case R.id.addExpense:
-                addExpenseToGroup();
+                openAddExpenseDialog(type);
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -130,8 +134,6 @@ public class ExpensesActivity extends AppCompatActivity {
         alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface arg0, int arg1) {
-                Toast.makeText(ExpensesActivity.this,"You clicked yes button",Toast.LENGTH_LONG).show();
-                finish();
                 if(type.equals("group")){
                     deleteGroup(id);
                 }else {
@@ -150,7 +152,55 @@ public class ExpensesActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
-    public void addExpenseToGroup(){
+    public void openAddExpenseDialog(String type) {
+        final AlertDialog d;
+        if(type.equals("group")){
+             d = new AlertDialog.Builder(this)
+                    .setView(R.layout.add_grp_expense_dialog)
+                    .setPositiveButton(android.R.string.ok, null) //Set to null. We override the onclick
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .create();
+        }else {
+             d = new AlertDialog.Builder(this)
+                    .setView(R.layout.add_frnd_expense_dialog)
+                    .setPositiveButton(android.R.string.ok, null) //Set to null. We override the onclick
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .create();
+        }
+
+
+        d.setOnShowListener(new DialogInterface.OnShowListener() {
+
+            @Override
+            public void onShow(final DialogInterface dialog) {
+
+                Button b = d.getButton(AlertDialog.BUTTON_POSITIVE);
+                b.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View view) {
+                        Dialog f = (Dialog) dialog;
+                        EditText cost = (EditText) f.findViewById(R.id.cost);
+                        EditText description = (EditText) f.findViewById(R.id.description);
+                        if (cost.getText().toString().trim().equals("") || !(Integer.parseInt(cost.getText().toString().trim())>0)) {
+                            cost.setError("Invalid no.");
+                            return;
+                        } else if (description.getText().toString().trim().equals("")) {
+                            description.setError("This is required");
+                            return;
+                        }
+                        // before sending any data to add expense , plz make sure for the firend and group members sharing cost equally
+                        addExpense(Integer.parseInt(cost.getText().toString().trim()), description.getText().toString().trim());
+                        d.dismiss();
+                    }
+                });
+            }
+        });
+        d.show();
+    }
+
+
+    public void addExpense(Integer cost, String description){
         // redirect to the expense activity
         SplitwiseRestClient client = RestApplication.getSplitwiseRestClient();
         client.createExpense(new JsonHttpResponseHandler() {
@@ -168,7 +218,7 @@ public class ExpensesActivity extends AppCompatActivity {
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
             }
-        }, 100, "mote", 0);
+        }, cost, description, 0);
     }
 
     public void addGroupMember(int group_id,String name,String email){
@@ -267,5 +317,28 @@ public class ExpensesActivity extends AppCompatActivity {
 
     public final static boolean isValidEmail(CharSequence target) {
         return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+    }
+
+    public Map<String,Integer> getUsersShareMap(Integer cost){
+        Map<String, Integer> userShareMap = new ArrayMap<>();
+        // get current user id
+        SharedPreferences pref =
+                PreferenceManager.getDefaultSharedPreferences(this);
+        int currentUserId =  pref.getInt("currentUserId", 0);
+        // check type
+        if(type.equals("group")){
+            // get all members id in case of group
+            // divide cost between all members
+            // paid share will be of current user id
+        }else{
+            userShareMap.put("users__0__user_id", currentUserId);
+            userShareMap.put("users__0__paid_share", cost);
+            userShareMap.put("users__0__owed_share", cost%2);
+            userShareMap.put("users__1__user_id", id);
+            userShareMap.put("users__1__paid_share", 0);
+            userShareMap.put("users__1__owed_share", cost%2);
+        }
+
+        return userShareMap;
     }
 }

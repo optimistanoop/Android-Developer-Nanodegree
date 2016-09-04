@@ -6,22 +6,22 @@
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:background="#5BC5A7"
-        android:text="ADD A GROUP MEMBER"
+        android:text="ADD GROUP EXPENSE"
         android:gravity="center"
         android:textSize="22sp"
         android:contentDescription="@string/app_name" />
     <EditText
-        android:id="@+id/username"
-        android:inputType="text"
+        android:id="@+id/cost"
+        android:inputType="number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
         android:layout_marginBottom="4dp"
-        android:hint="Name" />
+        android:hint="Cost" />
     <EditText
-        android:id="@+id/email"
+        android:id="@+id/description"
         android:inputType="textEmailAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,5 +30,10 @@
         android:layout_marginRight="4dp"
         android:layout_marginBottom="16dp"
         android:fontFamily="sans-serif"
-        android:hint="Email"/>
+        android:hint="Description"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="*Cost will be shared equally across group."
+        android:contentDescription="@string/app_name" />
 </LinearLayout>
