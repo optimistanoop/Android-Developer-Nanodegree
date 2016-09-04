@@ -39,8 +39,13 @@
                     android:scheme="oauth" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.ExpensesActivity" />
         <activity android:name=".activity.DashBoardActivity"></activity>
+        <activity android:name=".activity.ExpensesActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.DashBoardActivity" />
+        </activity>
+
     </application>
 
 </manifest>
