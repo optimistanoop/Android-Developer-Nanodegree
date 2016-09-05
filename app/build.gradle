@@ -32,8 +32,6 @@ dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.0'
-    compile 'com.braintreepayments.api:braintree:2.+'
-    compile 'com.braintreepayments.api:drop-in:2.+'
     compile 'com.android.support:recyclerview-v7:23.1.0'
     compile 'com.android.support:percent:23.1.0'
     compile 'com.android.support:support-annotations:23.1.0'
