@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.dramebaz.shg.R;
 import com.example.dramebaz.shg.RestApplication;
@@ -108,7 +107,7 @@ public class ExpensesFragment extends Fragment {
                         public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                             Expense data = (Expense)lvExpenses.getItemAtPosition(i);
                             Log.d("item long clicked", data.id.toString());
-                            openDialog(data.id);
+                            openChooseActionDialog(data.id);
                             return false;
                         }
                     });
@@ -124,14 +123,41 @@ public class ExpensesFragment extends Fragment {
             }
         }, groupId, null, null, friendId);
     }
-    public void openDialog(final Integer expenseId){
+
+    public void openChooseActionDialog(final Integer expenseId){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+        alertDialogBuilder.setMessage("Choose Action for expense");
+
+        alertDialogBuilder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+
+            }
+        });
+
+        alertDialogBuilder.setNegativeButton("Edit",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // TODO open edit expense dialog
+            }
+        });
+        alertDialogBuilder.setNeutralButton("Delete",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                openDeleteDialog(expenseId);
+            }
+        });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+    public void openDeleteDialog(final Integer expenseId){
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setMessage("Do you want to delete this expense ?");
 
         alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface arg0, int arg1) {
-                Toast.makeText(getActivity(),"You clicked yes button",Toast.LENGTH_LONG).show();
                 deleteExpense(expenseId);
             }
         });

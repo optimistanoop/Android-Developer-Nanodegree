@@ -10,9 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.example.dramebaz.shg.Presenter;
 import com.example.dramebaz.shg.R;
 import com.example.dramebaz.shg.RestApplication;
 import com.example.dramebaz.shg.client.SplitwiseRestClient;
@@ -102,7 +101,7 @@ public class DashBoardActivity extends AppCompatActivity {
                             EditText email = (EditText) f.findViewById(R.id.email);
                             if(name.getText().toString().trim().equals("")){
                                 name.setError("This is required"); return;
-                            }else if(!email.getText().toString().trim().equals("") && !isValidEmail(email.getText().toString().trim())){
+                            }else if(!email.getText().toString().trim().equals("") && !Presenter.isValidEmail(email.getText().toString().trim())){
                                 email.setError("Not a valid email"); return;
                             }
                             createFriend(email.getText().toString().trim(), name.getText().toString().trim());
@@ -193,9 +192,5 @@ public class DashBoardActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return tabTitles[position];
         }
-    }
-
-    public final static boolean isValidEmail(CharSequence target) {
-        return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 }

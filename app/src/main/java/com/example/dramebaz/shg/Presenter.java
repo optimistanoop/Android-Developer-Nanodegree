@@ -1,16 +1,28 @@
 package com.example.dramebaz.shg;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.text.Html;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.util.Log;
 
+import com.example.dramebaz.shg.client.SplitwiseRestClient;
 import com.example.dramebaz.shg.splitwise.Balance;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.apache.http.Header;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 
 public class Presenter {
@@ -85,5 +97,64 @@ public class Presenter {
         } catch (Exception e){
             return null;
         }
+    }
+    public final static boolean isValidEmail(CharSequence target) {
+        return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+    }
+
+    public static Map<String,Integer> getUsersShareMap(Context context, final Integer cost, final String type, final Integer id){
+        final Map<String, Integer> userShareMap = new LinkedHashMap<>();
+        // get current user id
+        SharedPreferences pref =
+                PreferenceManager.getDefaultSharedPreferences(context);
+        final int currentUserId =  pref.getInt("currentUserId", 0);
+        // check type
+        if(type.equals("group")){
+            // get all members id in case of group
+            SplitwiseRestClient client = RestApplication.getSplitwiseRestClient();
+            client.getGroup(new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
+                    try {
+                        // divide cost between all members
+                        // paid share will be of current user id
+                        JSONObject group = json.getJSONObject("group");
+                        JSONArray members = group.getJSONArray("members");
+                        int length = members.length();
+                        for(int i=0;i<length;i++){
+                            JSONObject member = members.getJSONObject(i);
+                            if(member.getInt("id")!= currentUserId){
+                                userShareMap.put("users__"+i+"__user_id", member.getInt("id"));
+                                userShareMap.put("users__"+i+"__paid_share", 0);
+                                userShareMap.put("users__"+i+"__owed_share", cost%length);
+                            }else {
+                                userShareMap.put("users__"+i+"__user_id", member.getInt("id"));
+                                userShareMap.put("users__"+i+"__paid_share", cost);
+                                userShareMap.put("users__"+i+"__owed_share", cost%length);
+                            }
+                        }
+                        Log.i("delete_group", json.toString());
+
+                    } catch (Exception e) {
+                        Log.e("FAILED delete_group", "json_parsing", e);
+                    }
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                    super.onFailure(statusCode, headers, responseString, throwable);
+                }
+            }, id);
+
+        }else{
+            userShareMap.put("users__0__user_id", currentUserId);
+            userShareMap.put("users__0__paid_share", cost);
+            userShareMap.put("users__0__owed_share", cost%2);
+            userShareMap.put("users__1__user_id", id);
+            userShareMap.put("users__1__paid_share", 0);
+            userShareMap.put("users__1__owed_share", cost%2);
+        }
+
+        return userShareMap;
     }
 }

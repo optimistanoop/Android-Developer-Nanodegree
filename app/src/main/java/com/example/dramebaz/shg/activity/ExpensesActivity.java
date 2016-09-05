@@ -3,17 +3,14 @@ package com.example.dramebaz.shg.activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.dramebaz.shg.Presenter;
 import com.example.dramebaz.shg.R;
 import com.example.dramebaz.shg.RestApplication;
 import com.example.dramebaz.shg.client.SplitwiseRestClient;
@@ -28,10 +26,8 @@ import com.example.dramebaz.shg.fragment.ExpensesFragment;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class ExpensesActivity extends AppCompatActivity {
@@ -115,7 +111,7 @@ public class ExpensesActivity extends AppCompatActivity {
                         if (name.getText().toString().trim().equals("")) {
                             name.setError("This is required");
                             return;
-                        } else if (!email.getText().toString().trim().equals("") && !isValidEmail(email.getText().toString().trim())) {
+                        } else if (!email.getText().toString().trim().equals("") && !Presenter.isValidEmail(email.getText().toString().trim())) {
                             email.setError("Not a valid email");
                             return;
                         }
@@ -153,7 +149,7 @@ public class ExpensesActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
-    public void openAddExpenseDialog(String type) {
+    public void openAddExpenseDialog(final String type) {
         final AlertDialog d;
         final Integer groupId;
         if(type.equals("group")){
@@ -194,7 +190,7 @@ public class ExpensesActivity extends AppCompatActivity {
                             return;
                         }
                         // before sending any data to add expense , plz make sure for the firend and group members sharing cost equally
-                        Map userShareMap = getUsersShareMap(Integer.parseInt(cost.getText().toString().trim()));
+                        Map userShareMap = Presenter.getUsersShareMap(getBaseContext(),Integer.parseInt(cost.getText().toString().trim()), type, id);
                         addExpense(Integer.parseInt(cost.getText().toString().trim()), description.getText().toString().trim(),groupId, userShareMap);
                         d.dismiss();
                     }
@@ -214,7 +210,6 @@ public class ExpensesActivity extends AppCompatActivity {
                 try {
                     Log.i("create_expense", json.toString());
                     //TODO expense added
-
                 } catch (Exception e) {
                     Log.e("FAILED create_expense", "json_parsing", e);
                 }
@@ -322,65 +317,5 @@ public class ExpensesActivity extends AppCompatActivity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-    }
-
-    public final static boolean isValidEmail(CharSequence target) {
-        return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
-    }
-
-    public Map<String,Integer> getUsersShareMap(final Integer cost){
-        final Map<String, Integer> userShareMap = new LinkedHashMap<>();
-        // get current user id
-        SharedPreferences pref =
-                PreferenceManager.getDefaultSharedPreferences(this);
-        final int currentUserId =  pref.getInt("currentUserId", 0);
-        // check type
-        if(type.equals("group")){
-            // get all members id in case of group
-            SplitwiseRestClient client = RestApplication.getSplitwiseRestClient();
-            client.getGroup(new JsonHttpResponseHandler() {
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
-                    try {
-                        // divide cost between all members
-                        // paid share will be of current user id
-                        JSONObject group = json.getJSONObject("group");
-                        JSONArray members = group.getJSONArray("members");
-                        int length = members.length();
-                        for(int i=0;i<length;i++){
-                            JSONObject member = members.getJSONObject(i);
-                            if(member.getInt("id")!= currentUserId){
-                                userShareMap.put("users__"+i+"__user_id", member.getInt("id"));
-                                userShareMap.put("users__"+i+"__paid_share", 0);
-                                userShareMap.put("users__"+i+"__owed_share", cost%length);
-                            }else {
-                                userShareMap.put("users__"+i+"__user_id", member.getInt("id"));
-                                userShareMap.put("users__"+i+"__paid_share", cost);
-                                userShareMap.put("users__"+i+"__owed_share", cost%length);
-                            }
-                        }
-                        Log.i("delete_group", json.toString());
-
-                    } catch (Exception e) {
-                        Log.e("FAILED delete_group", "json_parsing", e);
-                    }
-                }
-
-                @Override
-                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                    super.onFailure(statusCode, headers, responseString, throwable);
-                }
-            }, id);
-
-        }else{
-            userShareMap.put("users__0__user_id", currentUserId);
-            userShareMap.put("users__0__paid_share", cost);
-            userShareMap.put("users__0__owed_share", cost%2);
-            userShareMap.put("users__1__user_id", id);
-            userShareMap.put("users__1__paid_share", 0);
-            userShareMap.put("users__1__owed_share", cost%2);
-        }
-
-        return userShareMap;
     }
 }
