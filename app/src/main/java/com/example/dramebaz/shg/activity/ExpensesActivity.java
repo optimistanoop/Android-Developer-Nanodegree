@@ -249,7 +249,7 @@ public class ExpensesActivity extends AppCompatActivity {
 
                         }else{
                             userShareMap.put("users__0__user_id", currentUserId);
-                            userShareMap.put("users__0__paid_share", cost);
+                            userShareMap.put("users__0__paid_share", costvalue);
                             userShareMap.put("users__0__owed_share", costvalue/2);
                             userShareMap.put("users__1__user_id", id);
                             userShareMap.put("users__1__paid_share", 0);

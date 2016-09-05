@@ -33,6 +33,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -214,7 +215,7 @@ public class ExpensesFragment extends Fragment {
                     public void onClick(View view) {
 
                         EditText cost = (EditText) f.findViewById(R.id.cost);
-                        EditText description = (EditText) f.findViewById(R.id.description);
+                        final EditText description = (EditText) f.findViewById(R.id.description);
                         if (cost.getText().toString().trim().equals("") || !(Float.parseFloat(cost.getText().toString().trim())>0)) {
                             cost.setError("Invalid no.");
                             return;
@@ -223,14 +224,68 @@ public class ExpensesFragment extends Fragment {
                             return;
                         }
                         // before sending any data to add expense , plz make sure for the firend and group members sharing cost equally
-                        Map paramsMap = Presenter.getUsersShareMap(getContext(),Float.parseFloat(cost.getText().toString().trim()), type, groupOrFrndId);
-                        paramsMap.put("cost", Float.parseFloat(cost.getText().toString().trim()));
-                        paramsMap.put("id", expense.id);
+
+                        final Map userShareMap = new LinkedHashMap<>();
+                        // get current user id
+                        SharedPreferences pref =
+                                PreferenceManager.getDefaultSharedPreferences(getContext());
+                        final int currentUserId =  pref.getInt("currentUserId", 0);
+                        final float costvalue = Float.parseFloat(cost.getText().toString().trim());
+                        // check type
                         if(type.equals("group")){
-                            paramsMap.put("group_id", groupOrFrndId);
+                            // get all members id in case of group
+                            SplitwiseRestClient client = RestApplication.getSplitwiseRestClient();
+                            client.getGroup(new JsonHttpResponseHandler() {
+                                @Override
+                                public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
+                                    try {
+                                        Log.i("get_group", json.toString());
+                                        // divide cost between all members
+                                        // paid share will be of current user id
+                                        JSONObject group = json.getJSONObject("group");
+                                        JSONArray members = group.getJSONArray("members");
+                                        int length = members.length();
+                                        for(int i=0;i<length;i++){
+                                            JSONObject member = members.getJSONObject(i);
+                                            if(member.getInt("id")!= currentUserId){
+                                                userShareMap.put("users__"+i+"__user_id", member.getInt("id"));
+                                                userShareMap.put("users__"+i+"__paid_share", 0);
+                                                userShareMap.put("users__"+i+"__owed_share", costvalue/length);
+                                            }else {
+                                                userShareMap.put("users__"+i+"__user_id", member.getInt("id"));
+                                                userShareMap.put("users__"+i+"__paid_share", costvalue);
+                                                userShareMap.put("users__"+i+"__owed_share", costvalue/length);
+                                            }
+                                        }
+
+                                        userShareMap.put("cost",costvalue);
+                                        userShareMap.put("group_id",groupOrFrndId);
+                                        userShareMap.put("id", expense.id);
+                                        updateExpense(expense.id,description.getText().toString().trim(), userShareMap);
+                                        d.dismiss();
+                                    } catch (Exception e) {
+                                        Log.e("FAILED get_group", "json_parsing", e);
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                    super.onFailure(statusCode, headers, responseString, throwable);
+                                }
+                            }, groupOrFrndId);
+
+                        }else{
+                            userShareMap.put("users__0__user_id", currentUserId);
+                            userShareMap.put("users__0__paid_share", costvalue);
+                            userShareMap.put("users__0__owed_share", costvalue/2);
+                            userShareMap.put("users__1__user_id", groupOrFrndId);
+                            userShareMap.put("users__1__paid_share", 0);
+                            userShareMap.put("users__1__owed_share", costvalue/2);
+                            userShareMap.put("cost",costvalue);
+                            userShareMap.put("id", expense.id);
+                            updateExpense(expense.id,description.getText().toString().trim(), userShareMap);
+                            d.dismiss();
                         }
-                        updateExpense(expense.id,description.getText().toString().trim(), paramsMap);
-                        d.dismiss();
                     }
                 });
             }
