@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.dramebaz.shg.Presenter;
 import com.example.dramebaz.shg.R;
@@ -90,7 +91,7 @@ public class ExpensesActivity extends AppCompatActivity {
 
     public void openAddGrpMemberDialog() {
         final AlertDialog d = new AlertDialog.Builder(this)
-                .setView(R.layout.add_group_member)
+                .setView(R.layout.add_friend_dialog)
                 .setPositiveButton(android.R.string.ok, null) //Set to null. We override the onclick
                 .setNegativeButton(android.R.string.cancel, null)
                 .create();
@@ -99,13 +100,15 @@ public class ExpensesActivity extends AppCompatActivity {
 
             @Override
             public void onShow(final DialogInterface dialog) {
-
+                final Dialog f = (Dialog) dialog;
                 Button b = d.getButton(AlertDialog.BUTTON_POSITIVE);
+                TextView title = (TextView) f.findViewById(R.id.title);
+                title.setText("Add A GROUP MEMBER");
                 b.setOnClickListener(new View.OnClickListener() {
 
                     @Override
                     public void onClick(View view) {
-                        Dialog f = (Dialog) dialog;
+
                         EditText name = (EditText) f.findViewById(R.id.username);
                         EditText email = (EditText) f.findViewById(R.id.email);
                         if (name.getText().toString().trim().equals("")) {
@@ -150,36 +153,36 @@ public class ExpensesActivity extends AppCompatActivity {
     }
 
     public void openAddExpenseDialog(final String type) {
-        final AlertDialog d;
+
         final Integer groupId;
         if(type.equals("group")){
             groupId = id;
-             d = new AlertDialog.Builder(this)
-                    .setView(R.layout.add_grp_expense_dialog)
-                    .setPositiveButton(android.R.string.ok, null) //Set to null. We override the onclick
-                    .setNegativeButton(android.R.string.cancel, null)
-                    .create();
         }else {
             groupId = null;
-             d = new AlertDialog.Builder(this)
-                    .setView(R.layout.add_frnd_expense_dialog)
+        }
+        final AlertDialog d = new AlertDialog.Builder(this)
+                    .setView(R.layout.add_expense_dialog)
                     .setPositiveButton(android.R.string.ok, null) //Set to null. We override the onclick
                     .setNegativeButton(android.R.string.cancel, null)
                     .create();
-        }
-
 
         d.setOnShowListener(new DialogInterface.OnShowListener() {
 
             @Override
             public void onShow(final DialogInterface dialog) {
-
+                final Dialog f = (Dialog) dialog;
                 Button b = d.getButton(AlertDialog.BUTTON_POSITIVE);
+                if(type.equals("group")){
+                    TextView title = (TextView) f.findViewById(R.id.title);
+                    title.setText("ADD GROUP EXPENSE");
+                    TextView disclaimer = (TextView) f.findViewById(R.id.disclaimer);
+                    disclaimer.setText("*Cost will be shared equally across group.");
+                }
                 b.setOnClickListener(new View.OnClickListener() {
 
                     @Override
                     public void onClick(View view) {
-                        Dialog f = (Dialog) dialog;
+
                         EditText cost = (EditText) f.findViewById(R.id.cost);
                         EditText description = (EditText) f.findViewById(R.id.description);
                         if (cost.getText().toString().trim().equals("") || !(Integer.parseInt(cost.getText().toString().trim())>0)) {

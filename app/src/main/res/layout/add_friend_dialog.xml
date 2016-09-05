@@ -3,6 +3,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
     <TextView
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:background="#5BC5A7"

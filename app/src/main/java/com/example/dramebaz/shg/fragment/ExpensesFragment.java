@@ -160,7 +160,7 @@ public class ExpensesFragment extends Fragment {
     public void openEditExpenseDialog(final String type, final Integer expenseId) {
 
         final AlertDialog    d = new AlertDialog.Builder(getContext())
-                    .setView(R.layout.add_frnd_expense_dialog)
+                    .setView(R.layout.add_expense_dialog)
                     .setPositiveButton(android.R.string.ok, null) //Set to null. We override the onclick
                     .setNegativeButton(android.R.string.cancel, null)
                     .create();
@@ -174,9 +174,12 @@ public class ExpensesFragment extends Fragment {
                 final Dialog f = (Dialog) dialog;
                 Button b = d.getButton(AlertDialog.BUTTON_POSITIVE);
                 TextView title = (TextView) f.findViewById(R.id.title);
-                TextView disclaimer = (TextView) f.findViewById(R.id.disclaimer);
                 title.setText("EDIT EXPENSE");
-                disclaimer.setText("*Cost will be shared equally.");
+                if (type.equals("group")){
+                    TextView disclaimer = (TextView) f.findViewById(R.id.disclaimer);
+                    disclaimer.setText("*Cost will be shared equally across group.");
+                }
+
                 b.setOnClickListener(new View.OnClickListener() {
 
                     @Override
