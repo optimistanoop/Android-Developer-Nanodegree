@@ -191,7 +191,9 @@ public class ExpensesActivity extends AppCompatActivity {
                         }
                         // before sending any data to add expense , plz make sure for the firend and group members sharing cost equally
                         Map userShareMap = Presenter.getUsersShareMap(getBaseContext(),Integer.parseInt(cost.getText().toString().trim()), type, id);
-                        addExpense(Integer.parseInt(cost.getText().toString().trim()), description.getText().toString().trim(),groupId, userShareMap);
+                        userShareMap.put("cost",Integer.parseInt(cost.getText().toString().trim()));
+                        userShareMap.put("group_id",groupId);
+                        addExpense(description.getText().toString().trim(), userShareMap);
                         d.dismiss();
                     }
                 });
@@ -201,7 +203,7 @@ public class ExpensesActivity extends AppCompatActivity {
     }
 
 
-    public void addExpense(Integer cost, String description,Integer groupId, Map userShareMap){
+    public void addExpense(String description, Map userShareMap){
         // redirect to the expense activity
         SplitwiseRestClient client = RestApplication.getSplitwiseRestClient();
         client.createExpense(new JsonHttpResponseHandler() {
@@ -219,7 +221,7 @@ public class ExpensesActivity extends AppCompatActivity {
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
             }
-        }, cost, description,groupId, userShareMap);
+        },description, userShareMap);
     }
 
     public void addGroupMember(int group_id,String name,String email){

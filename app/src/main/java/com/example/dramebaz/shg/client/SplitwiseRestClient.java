@@ -62,18 +62,29 @@ public class SplitwiseRestClient extends OAuthBaseClient {
         getClient().post(apiUrl, params,handler);
     }
 
-    public void createExpense(JsonHttpResponseHandler handler, Integer cost, String description, Integer group_id,Map userShareMap) {
+    public void createExpense(JsonHttpResponseHandler handler, String description,Map userShareMap) {
         String apiUrl = getApiUrl("create_expense");
         RequestParams params = new RequestParams();
 
-        if(cost != null) {
-            params.put("cost", cost);
-        }
         if(description != null) {
             params.put("description", description);
         }
-        if(group_id != null) {
-            params.put("group_id", group_id);
+
+        Set<String> keys =userShareMap.keySet();
+        List<Integer> values= new LinkedList<>(userShareMap.values());
+        int i = 0;
+        for(String key:keys){
+            params.put(key, values.get(i));
+            i++;
+        }
+        getClient().post(apiUrl, params,handler);
+    }
+
+    public void updateExpense(JsonHttpResponseHandler handler,Integer expenseID,String description,Map userShareMap) {
+        String apiUrl = getApiUrl("update_expense/"+expenseID);
+        RequestParams params = new RequestParams();
+        if(description != null) {
+            params.put("description", description);
         }
         Set<String> keys =userShareMap.keySet();
         List<Integer> values= new LinkedList<>(userShareMap.values());
