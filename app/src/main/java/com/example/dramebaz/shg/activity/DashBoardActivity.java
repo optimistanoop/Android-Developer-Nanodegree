@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.example.dramebaz.shg.Presenter;
@@ -128,10 +129,16 @@ public class DashBoardActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
                 try {
                     Log.i("Got createGroup", json.toString());
-                    //TODO group created toast
+                    JSONObject group = json.getJSONObject("group");
+                    if(group.getInt("id")>0){
+                        Toast.makeText(getBaseContext(), group.getString("name")+" Created.",
+                                Toast.LENGTH_SHORT).show();
+                    }
 
                 } catch (Exception e) {
                     Log.e("FAILED get_expenses", "json_parsing", e);
+                    Toast.makeText(getBaseContext(), "Unexpected error occurred! Please try again.",
+                            Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -149,10 +156,16 @@ public class DashBoardActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
                 try {
                     Log.i("Got createFriend", json.toString());
-                    //TODO friend added toast
+                    JSONObject friend = json.getJSONObject("friend");
+                    if(friend.getInt("id")>0){
+                        Toast.makeText(getBaseContext(), "Friend added.",
+                                Toast.LENGTH_SHORT).show();
+                    }
 
                 } catch (Exception e) {
                     Log.e("FAILED createFriend", "json_parsing", e);
+                    Toast.makeText(getBaseContext(), "Unexpected error occurred! Please try again.",
+                            Toast.LENGTH_SHORT).show();
                 }
             }
 

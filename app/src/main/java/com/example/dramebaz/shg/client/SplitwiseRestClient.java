@@ -7,6 +7,8 @@ import com.example.dramebaz.shg.BuildConfig;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.scribe.builder.api.Api;
 
 import java.util.ArrayList;
@@ -86,6 +88,17 @@ public class SplitwiseRestClient extends OAuthBaseClient {
         if(description != null) {
             params.put("description", description);
         }
+/*
+        params.put("cost",160);
+        params.put("id", 121999576);
+        params.put("users__0__user_id", 3303267);
+        params.put("users__0__paid_share", 160);
+        params.put("users__0__owed_share", 80);
+        params.put("users__1__user_id", 2760785);
+        params.put("users__1__paid_share", 0);
+        params.put("users__1__owed_share", 80);
+*/
+
         Set<String> keys =userShareMap.keySet();
         List<Integer> values= new LinkedList<>(userShareMap.values());
         int i = 0;

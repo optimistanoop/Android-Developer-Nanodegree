@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Toast;
 
 import com.codepath.oauth.OAuthLoginActionBarActivity;
 import com.example.dramebaz.shg.R;
@@ -73,7 +74,8 @@ public class LoginActivity extends OAuthLoginActionBarActivity<SplitwiseRestClie
 
                 } catch (Exception e) {
                     Log.e("FAILED get_expenses", "json_parsing", e);
-                    //TODO an error occured
+                    Toast.makeText(getBaseContext(), "Unexpected error occurred! Please try again.",
+                            Toast.LENGTH_SHORT).show();
                 }
             }
 

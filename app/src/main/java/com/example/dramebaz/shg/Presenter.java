@@ -102,8 +102,8 @@ public class Presenter {
         return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 
-    public static Map<String,Integer> getUsersShareMap(Context context, final Integer cost, final String type, final Integer id){
-        final Map<String, Integer> userShareMap = new LinkedHashMap<>();
+    public static Map<String,Integer> getUsersShareMap(Context context, final Float cost, final String type, final Integer id){
+        final Map userShareMap = new LinkedHashMap<>();
         // get current user id
         SharedPreferences pref =
                 PreferenceManager.getDefaultSharedPreferences(context);
@@ -126,17 +126,17 @@ public class Presenter {
                             if(member.getInt("id")!= currentUserId){
                                 userShareMap.put("users__"+i+"__user_id", member.getInt("id"));
                                 userShareMap.put("users__"+i+"__paid_share", 0);
-                                userShareMap.put("users__"+i+"__owed_share", cost%length);
+                                userShareMap.put("users__"+i+"__owed_share", cost/length);
                             }else {
                                 userShareMap.put("users__"+i+"__user_id", member.getInt("id"));
                                 userShareMap.put("users__"+i+"__paid_share", cost);
-                                userShareMap.put("users__"+i+"__owed_share", cost%length);
+                                userShareMap.put("users__"+i+"__owed_share", cost/length);
                             }
                         }
-                        Log.i("delete_group", json.toString());
+                        Log.i("get_group", json.toString());
 
                     } catch (Exception e) {
-                        Log.e("FAILED delete_group", "json_parsing", e);
+                        Log.e("FAILED get_group", "json_parsing", e);
                     }
                 }
 
@@ -149,10 +149,10 @@ public class Presenter {
         }else{
             userShareMap.put("users__0__user_id", currentUserId);
             userShareMap.put("users__0__paid_share", cost);
-            userShareMap.put("users__0__owed_share", cost%2);
+            userShareMap.put("users__0__owed_share", cost/2);
             userShareMap.put("users__1__user_id", id);
             userShareMap.put("users__1__paid_share", 0);
-            userShareMap.put("users__1__owed_share", cost%2);
+            userShareMap.put("users__1__owed_share", cost/2);
         }
 
         return userShareMap;

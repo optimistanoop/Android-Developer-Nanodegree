@@ -3,8 +3,10 @@ package com.example.dramebaz.shg.activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -18,6 +20,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.dramebaz.shg.Presenter;
 import com.example.dramebaz.shg.R;
@@ -27,8 +30,10 @@ import com.example.dramebaz.shg.fragment.ExpensesFragment;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class ExpensesActivity extends AppCompatActivity {
@@ -183,9 +188,9 @@ public class ExpensesActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
 
-                        EditText cost = (EditText) f.findViewById(R.id.cost);
-                        EditText description = (EditText) f.findViewById(R.id.description);
-                        if (cost.getText().toString().trim().equals("") || !(Integer.parseInt(cost.getText().toString().trim())>0)) {
+                        final EditText cost = (EditText) f.findViewById(R.id.cost);
+                        final EditText description = (EditText) f.findViewById(R.id.description);
+                        if (cost.getText().toString().trim().equals("") || !(Float.parseFloat(cost.getText().toString().trim())>0)) {
                             cost.setError("Invalid no.");
                             return;
                         } else if (description.getText().toString().trim().equals("")) {
@@ -193,11 +198,67 @@ public class ExpensesActivity extends AppCompatActivity {
                             return;
                         }
                         // before sending any data to add expense , plz make sure for the firend and group members sharing cost equally
-                        Map userShareMap = Presenter.getUsersShareMap(getBaseContext(),Integer.parseInt(cost.getText().toString().trim()), type, id);
-                        userShareMap.put("cost",Integer.parseInt(cost.getText().toString().trim()));
-                        userShareMap.put("group_id",groupId);
-                        addExpense(description.getText().toString().trim(), userShareMap);
-                        d.dismiss();
+
+                        final Map userShareMap = new LinkedHashMap<>();
+                        // get current user id
+                        SharedPreferences pref =
+                                PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+                        final int currentUserId =  pref.getInt("currentUserId", 0);
+                        final float costvalue = Float.parseFloat(cost.getText().toString().trim());
+                        // check type
+                        if(type.equals("group")){
+                            // get all members id in case of group
+                            SplitwiseRestClient client = RestApplication.getSplitwiseRestClient();
+                            client.getGroup(new JsonHttpResponseHandler() {
+                                @Override
+                                public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
+                                    try {
+                                        Log.i("get_group", json.toString());
+                                        // divide cost between all members
+                                        // paid share will be of current user id
+                                        JSONObject group = json.getJSONObject("group");
+                                        JSONArray members = group.getJSONArray("members");
+                                        int length = members.length();
+                                        for(int i=0;i<length;i++){
+                                            JSONObject member = members.getJSONObject(i);
+                                            if(member.getInt("id")!= currentUserId){
+                                                userShareMap.put("users__"+i+"__user_id", member.getInt("id"));
+                                                userShareMap.put("users__"+i+"__paid_share", 0);
+                                                userShareMap.put("users__"+i+"__owed_share", costvalue/length);
+                                            }else {
+                                                userShareMap.put("users__"+i+"__user_id", member.getInt("id"));
+                                                userShareMap.put("users__"+i+"__paid_share", costvalue);
+                                                userShareMap.put("users__"+i+"__owed_share", costvalue/length);
+                                            }
+                                        }
+
+                                        userShareMap.put("cost",costvalue);
+                                        userShareMap.put("group_id",groupId);
+                                        addExpense(description.getText().toString().trim(), userShareMap);
+                                        d.dismiss();
+                                    } catch (Exception e) {
+                                        Log.e("FAILED get_group", "json_parsing", e);
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                    super.onFailure(statusCode, headers, responseString, throwable);
+                                }
+                            }, id);
+
+                        }else{
+                            userShareMap.put("users__0__user_id", currentUserId);
+                            userShareMap.put("users__0__paid_share", cost);
+                            userShareMap.put("users__0__owed_share", costvalue/2);
+                            userShareMap.put("users__1__user_id", id);
+                            userShareMap.put("users__1__paid_share", 0);
+                            userShareMap.put("users__1__owed_share", costvalue/2);
+                            userShareMap.put("cost",costvalue);
+                            addExpense(description.getText().toString().trim(), userShareMap);
+                            d.dismiss();
+                        }
+
                     }
                 });
             }
@@ -214,9 +275,15 @@ public class ExpensesActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
                 try {
                     Log.i("create_expense", json.toString());
-                    //TODO expense added
+                    JSONArray expenses = json.getJSONArray("expenses");
+                    if(expenses.length()>0){
+                        Toast.makeText(getBaseContext(), "Expense added.",
+                                Toast.LENGTH_SHORT).show();
+                    }
                 } catch (Exception e) {
                     Log.e("FAILED create_expense", "json_parsing", e);
+                    Toast.makeText(getBaseContext(), "Unexpected error occurred! Please try again.",
+                            Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -234,16 +301,23 @@ public class ExpensesActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
                 try {
                     Log.i("add_user_to_group", json.toString());
-                    //TODO group member added
+                    if(json.getBoolean("success")){
+                        Toast.makeText(getBaseContext(), "Group member added.",
+                                Toast.LENGTH_SHORT).show();
+                    }
 
                 } catch (Exception e) {
                     Log.e("FAILED addGrpMember", "json_parsing", e);
+                    Toast.makeText(getBaseContext(), "Unexpected error occurred! Please try again.",
+                            Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
+                Toast.makeText(getBaseContext(), "Unexpected error occurred! Please try again.",
+                        Toast.LENGTH_SHORT).show();
             }
         }, group_id,name, email);
     }
@@ -255,16 +329,27 @@ public class ExpensesActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
                 try {
                     Log.i("delete_friend", json.toString());
-                    // TODO friend deleted
+                    if(json.getBoolean("success")){
+                        Toast.makeText(getBaseContext(), "Friend deleted.",
+                                Toast.LENGTH_SHORT).show();
+                        NavUtils.navigateUpFromSameTask(ExpensesActivity.this);
+                    }else {
+                        Toast.makeText(getBaseContext(), json.getString("error"),
+                                Toast.LENGTH_SHORT).show();
+                    }
 
                 } catch (Exception e) {
                     Log.e("FAILED delete_friend", "json_parsing", e);
+                    Toast.makeText(getBaseContext(), "Unexpected error occurred! Please try again.",
+                            Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
+                Toast.makeText(getBaseContext(), "Unexpected error occurred! Please try again.",
+                        Toast.LENGTH_SHORT).show();
             }
         }, friendId);
     }
@@ -276,16 +361,24 @@ public class ExpensesActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
                 try {
                     Log.i("delete_group", json.toString());
-                    // TODO group deleted
+                    if(json.getBoolean("success")){
+                        Toast.makeText(getBaseContext(), "Group deleted.",
+                                Toast.LENGTH_SHORT).show();
+                        NavUtils.navigateUpFromSameTask(ExpensesActivity.this);
+                    }
 
                 } catch (Exception e) {
                     Log.e("FAILED delete_group", "json_parsing", e);
+                    Toast.makeText(getBaseContext(), "Unexpected error occurred! Please try again.",
+                            Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
+                Toast.makeText(getBaseContext(), "Unexpected error occurred! Please try again.",
+                        Toast.LENGTH_SHORT).show();
             }
         }, groupId);
     }

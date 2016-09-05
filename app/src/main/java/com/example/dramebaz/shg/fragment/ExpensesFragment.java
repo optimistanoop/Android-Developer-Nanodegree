@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.dramebaz.shg.Presenter;
 import com.example.dramebaz.shg.R;
@@ -27,6 +28,7 @@ import com.example.dramebaz.shg.splitwise.Expense;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -138,13 +140,16 @@ public class ExpensesFragment extends Fragment {
                     });
                 } catch (JSONException e) {
                     Log.e("FAILED get_expenses", "json_parsing", e);
+                    Toast.makeText(getActivity(), "Unexpected error occurred! Please try again.",
+                            Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
-                //Log.e("FAILED get_expenses service_call", "");
+                Toast.makeText(getActivity(), "Unexpected error occurred! Please try again.",
+                        Toast.LENGTH_SHORT).show();
             }
         }, groupId, null, null, friendId);
     }
@@ -162,7 +167,7 @@ public class ExpensesFragment extends Fragment {
         alertDialogBuilder.setNegativeButton("Edit",new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                openEditExpenseDialog(type,groupOrFrndId);
+                openEditExpenseDialog(type,expense);
             }
         });
         alertDialogBuilder.setNeutralButton("Delete",new DialogInterface.OnClickListener() {
@@ -176,7 +181,7 @@ public class ExpensesFragment extends Fragment {
         alertDialog.show();
     }
 
-    public void openEditExpenseDialog(final String type, final Integer expenseId) {
+    public void openEditExpenseDialog(final String type, final Expense expense) {
 
         final AlertDialog    d = new AlertDialog.Builder(getContext())
                     .setView(R.layout.add_expense_dialog)
@@ -194,6 +199,10 @@ public class ExpensesFragment extends Fragment {
                 Button b = d.getButton(AlertDialog.BUTTON_POSITIVE);
                 TextView title = (TextView) f.findViewById(R.id.title);
                 title.setText("EDIT EXPENSE");
+                EditText cost = (EditText) f.findViewById(R.id.cost);
+                EditText description = (EditText) f.findViewById(R.id.description);
+                cost.setText(expense.cost);
+                description.setText(expense.description);
                 if (type.equals("group")){
                     TextView disclaimer = (TextView) f.findViewById(R.id.disclaimer);
                     disclaimer.setText("*Cost will be shared equally across group.");
@@ -206,7 +215,7 @@ public class ExpensesFragment extends Fragment {
 
                         EditText cost = (EditText) f.findViewById(R.id.cost);
                         EditText description = (EditText) f.findViewById(R.id.description);
-                        if (cost.getText().toString().trim().equals("") || !(Integer.parseInt(cost.getText().toString().trim())>0)) {
+                        if (cost.getText().toString().trim().equals("") || !(Float.parseFloat(cost.getText().toString().trim())>0)) {
                             cost.setError("Invalid no.");
                             return;
                         } else if (description.getText().toString().trim().equals("")) {
@@ -214,10 +223,13 @@ public class ExpensesFragment extends Fragment {
                             return;
                         }
                         // before sending any data to add expense , plz make sure for the firend and group members sharing cost equally
-                        Map paramsMap = Presenter.getUsersShareMap(getContext(),Integer.parseInt(cost.getText().toString().trim()), type, groupOrFrndId);
-                        paramsMap.put("cost", Integer.parseInt(cost.getText().toString().trim()));
-
-                        updateExpense(expenseId,description.getText().toString().trim(), paramsMap);
+                        Map paramsMap = Presenter.getUsersShareMap(getContext(),Float.parseFloat(cost.getText().toString().trim()), type, groupOrFrndId);
+                        paramsMap.put("cost", Float.parseFloat(cost.getText().toString().trim()));
+                        paramsMap.put("id", expense.id);
+                        if(type.equals("group")){
+                            paramsMap.put("group_id", groupOrFrndId);
+                        }
+                        updateExpense(expense.id,description.getText().toString().trim(), paramsMap);
                         d.dismiss();
                     }
                 });
@@ -256,17 +268,23 @@ public class ExpensesFragment extends Fragment {
             public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
                 try {
                     Log.i("SUCCESS delete_expense", json.toString());
-                    //TODO deleted toast
+                    if(json.getBoolean("success")){
+                        Toast.makeText(getActivity(), "Expense deleted.",
+                                Toast.LENGTH_SHORT).show();
+                    }
 
                 } catch (Exception e) {
                     Log.e("FAILED delete_expense", "json_parsing", e);
+                    Toast.makeText(getActivity(), "Unexpected error occurred! Please try again.",
+                            Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
-                //Log.e("FAILED get_expenses service_call", "");
+                Toast.makeText(getActivity(), "Unexpected error occurred! Please try again.",
+                        Toast.LENGTH_SHORT).show();
             }
         }, expenseId);
 
@@ -280,18 +298,25 @@ public class ExpensesFragment extends Fragment {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
                 try {
-                    Log.i("SUCCESS delete_expense", json.toString());
-                    //TODO deleted toast
+                    Log.i("SUCCESS update_expense", json.toString());
+                    JSONArray expenses = json.getJSONArray("expenses");
+                    if(expenses.length()>0){
+                        Toast.makeText(getActivity(), "Expense updated.",
+                                Toast.LENGTH_SHORT).show();
+                    }
 
                 } catch (Exception e) {
-                    Log.e("FAILED delete_expense", "json_parsing", e);
+                    Log.e("FAILED update_expense", "json_parsing", e);
+                    Toast.makeText(getActivity(), "Unexpected error occurred! Please try again.",
+                            Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
-                //Log.e("FAILED get_expenses service_call", "");
+                Toast.makeText(getActivity(), "Unexpected error occurred! Please try again.",
+                        Toast.LENGTH_SHORT).show();
             }
         }, expenseId,description,params);
 
