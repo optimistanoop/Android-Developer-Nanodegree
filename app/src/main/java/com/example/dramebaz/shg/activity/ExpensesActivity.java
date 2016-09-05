@@ -29,8 +29,10 @@ import com.example.dramebaz.shg.fragment.ExpensesFragment;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class ExpensesActivity extends AppCompatActivity {
@@ -154,13 +156,16 @@ public class ExpensesActivity extends AppCompatActivity {
 
     public void openAddExpenseDialog(String type) {
         final AlertDialog d;
+        final Integer groupId;
         if(type.equals("group")){
+            groupId = id;
              d = new AlertDialog.Builder(this)
                     .setView(R.layout.add_grp_expense_dialog)
                     .setPositiveButton(android.R.string.ok, null) //Set to null. We override the onclick
                     .setNegativeButton(android.R.string.cancel, null)
                     .create();
         }else {
+            groupId = null;
              d = new AlertDialog.Builder(this)
                     .setView(R.layout.add_frnd_expense_dialog)
                     .setPositiveButton(android.R.string.ok, null) //Set to null. We override the onclick
@@ -190,7 +195,8 @@ public class ExpensesActivity extends AppCompatActivity {
                             return;
                         }
                         // before sending any data to add expense , plz make sure for the firend and group members sharing cost equally
-                        addExpense(Integer.parseInt(cost.getText().toString().trim()), description.getText().toString().trim());
+                        Map userShareMap = getUsersShareMap(Integer.parseInt(cost.getText().toString().trim()));
+                        addExpense(Integer.parseInt(cost.getText().toString().trim()), description.getText().toString().trim(),groupId, userShareMap);
                         d.dismiss();
                     }
                 });
@@ -200,7 +206,7 @@ public class ExpensesActivity extends AppCompatActivity {
     }
 
 
-    public void addExpense(Integer cost, String description){
+    public void addExpense(Integer cost, String description,Integer groupId, Map userShareMap){
         // redirect to the expense activity
         SplitwiseRestClient client = RestApplication.getSplitwiseRestClient();
         client.createExpense(new JsonHttpResponseHandler() {
@@ -218,7 +224,7 @@ public class ExpensesActivity extends AppCompatActivity {
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
             }
-        }, cost, description, 0);
+        }, cost, description,groupId, userShareMap);
     }
 
     public void addGroupMember(int group_id,String name,String email){
@@ -319,17 +325,50 @@ public class ExpensesActivity extends AppCompatActivity {
         return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 
-    public Map<String,Integer> getUsersShareMap(Integer cost){
-        Map<String, Integer> userShareMap = new ArrayMap<>();
+    public Map<String,Integer> getUsersShareMap(final Integer cost){
+        final Map<String, Integer> userShareMap = new LinkedHashMap<>();
         // get current user id
         SharedPreferences pref =
                 PreferenceManager.getDefaultSharedPreferences(this);
-        int currentUserId =  pref.getInt("currentUserId", 0);
+        final int currentUserId =  pref.getInt("currentUserId", 0);
         // check type
         if(type.equals("group")){
             // get all members id in case of group
-            // divide cost between all members
-            // paid share will be of current user id
+            SplitwiseRestClient client = RestApplication.getSplitwiseRestClient();
+            client.getGroup(new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
+                    try {
+                        // divide cost between all members
+                        // paid share will be of current user id
+                        JSONObject group = json.getJSONObject("group");
+                        JSONArray members = group.getJSONArray("members");
+                        int length = members.length();
+                        for(int i=0;i<length;i++){
+                            JSONObject member = members.getJSONObject(i);
+                            if(member.getInt("id")!= currentUserId){
+                                userShareMap.put("users__"+i+"__user_id", member.getInt("id"));
+                                userShareMap.put("users__"+i+"__paid_share", 0);
+                                userShareMap.put("users__"+i+"__owed_share", cost%length);
+                            }else {
+                                userShareMap.put("users__"+i+"__user_id", member.getInt("id"));
+                                userShareMap.put("users__"+i+"__paid_share", cost);
+                                userShareMap.put("users__"+i+"__owed_share", cost%length);
+                            }
+                        }
+                        Log.i("delete_group", json.toString());
+
+                    } catch (Exception e) {
+                        Log.e("FAILED delete_group", "json_parsing", e);
+                    }
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                    super.onFailure(statusCode, headers, responseString, throwable);
+                }
+            }, id);
+
         }else{
             userShareMap.put("users__0__user_id", currentUserId);
             userShareMap.put("users__0__paid_share", cost);

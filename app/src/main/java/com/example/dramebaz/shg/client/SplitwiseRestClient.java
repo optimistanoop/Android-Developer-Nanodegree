@@ -8,6 +8,12 @@ import com.loopj.android.http.RequestParams;
 
 import org.scribe.builder.api.Api;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 public class SplitwiseRestClient extends OAuthBaseClient {
     public static final Class<? extends Api> REST_API_CLASS = SplitwiseApi.class; // Change this
     public static final String REST_URL = "https://secure.splitwise.com/api/v3.0"; // Change this, base API URL
@@ -55,15 +61,9 @@ public class SplitwiseRestClient extends OAuthBaseClient {
         getClient().post(apiUrl, params,handler);
     }
 
-    public void createExpense(JsonHttpResponseHandler handler, Integer cost, String description, Integer group_id) {
+    public void createExpense(JsonHttpResponseHandler handler, Integer cost, String description, Integer group_id,Map userShareMap) {
         String apiUrl = getApiUrl("create_expense");
         RequestParams params = new RequestParams();
-        params.put("users__0__user_id", 123);
-        params.put("users__0__paid_share", 100);
-        params.put("users__0__owed_share", 50);
-        params.put("users__1__user_id", 123);
-        params.put("users__1__paid_share", 0);
-        params.put("users__1__owed_share", 50);
 
         if(cost != null) {
             params.put("cost", cost);
@@ -73,6 +73,13 @@ public class SplitwiseRestClient extends OAuthBaseClient {
         }
         if(group_id != null) {
             params.put("group_id", group_id);
+        }
+        Set<String> keys =userShareMap.keySet();
+        List<Integer> values= new LinkedList<>(userShareMap.values());
+        int i = 0;
+        for(String key:keys){
+            params.put(key, values.get(i));
+            i++;
         }
         getClient().post(apiUrl, params,handler);
     }
