@@ -95,6 +95,7 @@ public class ExpensesFragment extends Fragment {
                         }
                     }
                     expensesAdapter.addAll(requiredExp);
+                    expensesAdapter.notifyDataSetChanged();
                     // item click listner for edit expense
                     lvExpenses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
@@ -154,6 +155,7 @@ public class ExpensesFragment extends Fragment {
             public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
                 try {
                     Log.i("SUCCESS delete_expense", json.toString());
+                    //TODO deleted toast
 
                 } catch (Exception e) {
                     Log.e("FAILED delete_expense", "json_parsing", e);

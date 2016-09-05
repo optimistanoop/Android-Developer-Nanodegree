@@ -129,6 +129,7 @@ public class DashBoardActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
                 try {
                     Log.i("Got createGroup", json.toString());
+                    //TODO group created toast
 
                 } catch (Exception e) {
                     Log.e("FAILED get_expenses", "json_parsing", e);
@@ -149,6 +150,7 @@ public class DashBoardActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
                 try {
                     Log.i("Got createFriend", json.toString());
+                    //TODO friend added toast
 
                 } catch (Exception e) {
                     Log.e("FAILED createFriend", "json_parsing", e);

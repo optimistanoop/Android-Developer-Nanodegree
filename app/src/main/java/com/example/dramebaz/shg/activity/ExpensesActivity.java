@@ -11,7 +11,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
-import android.support.v4.util.ArrayMap;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -214,6 +213,7 @@ public class ExpensesActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
                 try {
                     Log.i("create_expense", json.toString());
+                    //TODO expense added
 
                 } catch (Exception e) {
                     Log.e("FAILED create_expense", "json_parsing", e);
@@ -234,6 +234,7 @@ public class ExpensesActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
                 try {
                     Log.i("add_user_to_group", json.toString());
+                    //TODO group member added
 
                 } catch (Exception e) {
                     Log.e("FAILED addGrpMember", "json_parsing", e);
@@ -254,6 +255,7 @@ public class ExpensesActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
                 try {
                     Log.i("delete_friend", json.toString());
+                    // TODO friend deleted
 
                 } catch (Exception e) {
                     Log.e("FAILED delete_friend", "json_parsing", e);
@@ -274,6 +276,7 @@ public class ExpensesActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
                 try {
                     Log.i("delete_group", json.toString());
+                    // TODO group deleted
 
                 } catch (Exception e) {
                     Log.e("FAILED delete_group", "json_parsing", e);

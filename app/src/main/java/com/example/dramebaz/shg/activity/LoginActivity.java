@@ -73,6 +73,7 @@ public class LoginActivity extends OAuthLoginActionBarActivity<SplitwiseRestClie
 
                 } catch (Exception e) {
                     Log.e("FAILED get_expenses", "json_parsing", e);
+                    //TODO an error occured
                 }
             }
 
