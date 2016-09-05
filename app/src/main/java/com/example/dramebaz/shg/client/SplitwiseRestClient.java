@@ -3,6 +3,7 @@ package com.example.dramebaz.shg.client;
 import android.content.Context;
 
 import com.codepath.oauth.OAuthBaseClient;
+import com.example.dramebaz.shg.BuildConfig;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -17,8 +18,8 @@ import java.util.Set;
 public class SplitwiseRestClient extends OAuthBaseClient {
     public static final Class<? extends Api> REST_API_CLASS = SplitwiseApi.class; // Change this
     public static final String REST_URL = "https://secure.splitwise.com/api/v3.0"; // Change this, base API URL
-    public static final String REST_CONSUMER_KEY = "";       // Change this
-    public static final String REST_CONSUMER_SECRET = ""; // Change this
+    public static final String REST_CONSUMER_KEY = BuildConfig.REST_CONSUMER_KEY;       // Change this
+    public static final String REST_CONSUMER_SECRET = BuildConfig.REST_CONSUMER_SECRET; // Change this
     public static final String REST_CALLBACK_URL = "oauth://codepathtweets"; // Change this (here and in manifest)
 
     public SplitwiseRestClient(Context context) {

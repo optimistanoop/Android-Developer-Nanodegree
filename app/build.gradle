@@ -12,6 +12,10 @@ android {
         versionName "1.0"
     }
     buildTypes {
+        all {
+            buildConfigField 'String', 'REST_CONSUMER_KEY', "\"REST_CONSUMER_KEY\""
+            buildConfigField 'String', 'REST_CONSUMER_SECRET', "\"REST_CONSUMER_SECRET\""
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
