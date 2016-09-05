@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -42,6 +43,7 @@ public class ExpensesFragment extends Fragment {
     private static final String TYPE = "type";
     private Integer groupOrFrndId;
     private String type;
+    private SwipeRefreshLayout swipeContainer;
 
 
     @Override
@@ -59,6 +61,22 @@ public class ExpensesFragment extends Fragment {
         }else {
             loadExpenses(null,groupOrFrndId);
         }
+
+        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Your code to refresh the list here.
+                // Make sure you call swipeContainer.setRefreshing(false)
+                // once the network request has completed successfully.
+                if(type.equals("group")){
+                    loadExpenses(groupOrFrndId, null);
+                }else {
+                    loadExpenses(null,groupOrFrndId);
+                }
+            }
+        });
 
         return view;
     }
@@ -101,6 +119,7 @@ public class ExpensesFragment extends Fragment {
                     }
                     expensesAdapter.addAll(requiredExp);
                     expensesAdapter.notifyDataSetChanged();
+                    swipeContainer.setRefreshing(false);
                     // item click listner for edit expense
                     lvExpenses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
