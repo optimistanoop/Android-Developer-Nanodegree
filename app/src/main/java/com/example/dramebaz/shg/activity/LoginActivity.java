@@ -7,6 +7,8 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.codepath.oauth.OAuthLoginActionBarActivity;
@@ -23,6 +25,10 @@ public class LoginActivity extends OAuthLoginActionBarActivity<SplitwiseRestClie
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //Remove title bar
+        //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //Remove notification bar
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
     }
