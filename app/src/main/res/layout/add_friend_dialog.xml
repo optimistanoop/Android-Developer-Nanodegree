@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:background="#5BC5A7"
-        android:text="ADD A FRIEND"
+        android:text="@string/add_a_frn"
         android:gravity="center"
         android:textSize="22sp"
         android:contentDescription="@string/app_name" />
@@ -20,7 +20,7 @@
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
         android:layout_marginBottom="4dp"
-        android:hint="Name" />
+        android:hint="@string/name" />
     <EditText
         android:id="@+id/email"
         android:inputType="textEmailAddress"
@@ -31,5 +31,5 @@
         android:layout_marginRight="4dp"
         android:layout_marginBottom="16dp"
         android:fontFamily="sans-serif"
-        android:hint="Email"/>
+        android:hint="@string/email"/>
 </LinearLayout>

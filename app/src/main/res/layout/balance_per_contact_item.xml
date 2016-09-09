@@ -11,15 +11,16 @@
         android:minHeight="30dp"
         android:minWidth="30dp"
         android:src="@drawable/ic_shopping_cart"
+        android:contentDescription="@string/profile_pic_desc"
         android:layout_alignParentStart="true"
         android:layout_marginTop="10dp"
         android:padding="5dp" />
 
     <TextView
+        android:id="@+id/tvContactName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/tvContactName"
+        android:text="@string/name"
         android:paddingTop="14dp"
         android:textSize="18sp"
         android:textColor="@color/bt_black"
@@ -27,23 +28,23 @@
         android:layout_toEndOf="@+id/ivContactProfilePic" />
 
     <TextView
+        android:id="@+id/tvBalanceText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/tvBalanceText"
+        android:text="@string/you_lent"
         android:padding="5dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
     <TextView
+        android:id="@+id/tvTotalBalance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/tvTotalBalance"
+        android:text="@string/balance"
+        android:layout_below="@+id/tvBalanceText"
         android:padding="5dp"
         android:textSize="18sp"
-        android:layout_below="@+id/tvBalanceText"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 </RelativeLayout>

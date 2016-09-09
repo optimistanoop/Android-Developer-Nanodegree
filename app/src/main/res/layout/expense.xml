@@ -18,7 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="14dp"
-        android:text="date"
+        android:text="@string/date"
         android:paddingRight="5dp"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/ivUserIcon"
@@ -29,7 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="14dp"
-        android:text="description"
+        android:text="@string/description"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/tvDate"/>
 
@@ -38,7 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="10dp"
-        android:text="paid"
+        android:text="@string/paid"
         android:paddingRight="3dp"
         android:layout_below="@+id/tvDescription"
         android:layout_alignLeft="@+id/tvDescription"
@@ -49,7 +49,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="10dp"
-        android:text="cost"
+        android:text="@string/cost"
         android:layout_alignTop="@+id/tvPayer"
         android:layout_toRightOf="@+id/tvPayer"
         android:layout_toEndOf="@+id/tvPayer" />
@@ -65,14 +65,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="10dp"
-            android:text="you owe"
+            android:text="@string/you_owe"
             android:layout_alignParentRight="true"/>
         <TextView
             android:id="@+id/tvBalanceCost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14dp"
-            android:text="cost"
+            android:text="@string/cost"
             android:layout_below="@+id/tvBalanceSummary"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
