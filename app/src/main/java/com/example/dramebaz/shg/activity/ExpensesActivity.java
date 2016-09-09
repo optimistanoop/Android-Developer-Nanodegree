@@ -134,7 +134,7 @@ public class ExpensesActivity extends AppCompatActivity {
 
     public void openDeleteDialog(){
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setMessage(getResources().getString(R.string.r_u_sure_del)+name+" ?");
+        alertDialogBuilder.setMessage(getResources().getString(R.string.r_u_sure_del)+" "+name+" ?");
 
         alertDialogBuilder.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
             @Override
