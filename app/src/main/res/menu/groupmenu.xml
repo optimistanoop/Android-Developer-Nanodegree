@@ -3,16 +3,16 @@
     <item
         android:id="@+id/deleteGroup"
         android:icon="@drawable/ic_add"
-        android:title="Delete Group">
+        android:title="@string/delete_group_menu">
     </item>
     <item
         android:id="@+id/addExpense"
         android:icon="@drawable/ic_add"
-        android:title="Add Expense">
+        android:title="@string/add_expense">
     </item>
     <item
         android:id="@+id/addFrndToGrp"
         android:icon="@drawable/ic_add"
-        android:title="Add Friend To group">
+        android:title="@string/add_frn_to_grp">
     </item>
 </menu>

@@ -2,11 +2,6 @@
     <!--general-->
     <string name="app_name">SHG</string>
     <string name="login_label">Login</string>
-    <string name="add_group">Add Group</string>
-    <string name="add_friend">Add Friend</string>
-    <string name="add_grp_member">Add A GROUP MEMBER</string>
-    <string name="add_expense">Add Expense</string>
-    <string name="add_grp_expense">ADD GROUP EXPENSE</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     <string name="action_settings">Settings</string>
@@ -15,6 +10,14 @@
     <string name="friend">Friend</string>
     <string name="menu">Menu</string>
 
+    <!--menu-->
+    <string name="add_group">Add Group</string>
+    <string name="add_friend">Add Friend</string>
+    <string name="add_expense">Add Expense</string>
+    <string name="delete_group_menu">Delete Group</string>
+    <string name="add_frn_to_grp">Add Friend To Group</string>
+    <string name="delete_frnd_menu">Delete Friend</string>
+    <string name="calc_interest">Calculate Interest</string>
 
     <!--ui-->
     <string name="invalid_no">Invalid Number</string>
@@ -25,6 +28,16 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="cancel">Cancel</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="choose_action_exp">Choose action for expense</string>
+    <string name="confirm_del_exp">Do you want to delete this expense ?</string>
+    <string name="you_paid">You paid</string>
+    <string name="you_lent">You lent</string>
+    <string name="you_borrowed">You borrowed</string>
+    <string name="edit_expense">EDIT EXPENSE</string>
+    <string name="add_grp_member">Add A GROUP MEMBER</string>
+    <string name="add_grp_expense">ADD GROUP EXPENSE</string>
 
 
     <!--toast-->
@@ -33,6 +46,8 @@
     <string name="grp_mem_added">Group member added.</string>
     <string name="friend_deleted">Friend deleted.</string>
     <string name="grp_deleted">Group deleted.</string>
+    <string name="exp_updated">Expense updated.</string>
+    <string name="exp_deleted">Expense deleted.</string>
     <string name="error_try_again">Unexpected error occurred! Please try again.</string>
 
 
@@ -43,6 +58,12 @@
     <string name="current_user_id">currentUserId</string>
     <string name="rest_url">https://secure.splitwise.com/api/v3.0</string>
     <string name="rest_callback_url">oauth://codepathtweets</string>
+    <string name="users__0__user_id">users__0__user_id</string>
+    <string name="users__1__user_id">users__1__user_id</string>
+    <string name="users__0__paid_share">users____paid_share</string>
+    <string name="users__1__paid_share">users__1__paid_share</string>
+    <string name="users__0__owed_share">users__0__owed_share</string>
+    <string name="users__1__owed_share">users__1__owed_share</string>
 
 
     <!--json keys-->
@@ -53,6 +74,7 @@
     <string name="cost">cost</string>
     <string name="user">user</string>
     <string name="expenses">expenses</string>
+    <string name="friends">friends</string>
     <string name="success">success</string>
     <string name="error">error</string>
     <string name="first_name">first_name</string>
