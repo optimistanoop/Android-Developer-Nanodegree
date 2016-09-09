@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.codepath.oauth.OAuthBaseClient;
 import com.example.dramebaz.shg.BuildConfig;
+import com.example.dramebaz.shg.R;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -18,27 +19,32 @@ import java.util.Map;
 import java.util.Set;
 
 public class SplitwiseRestClient extends OAuthBaseClient {
-    public static final Class<? extends Api> REST_API_CLASS = SplitwiseApi.class; // Change this
-    public static final String REST_URL = "https://secure.splitwise.com/api/v3.0"; // Change this, base API URL
-    public static final String REST_CONSUMER_KEY = BuildConfig.REST_CONSUMER_KEY;       // Change this
-    public static final String REST_CONSUMER_SECRET = BuildConfig.REST_CONSUMER_SECRET; // Change this
-    public static final String REST_CALLBACK_URL = "oauth://codepathtweets"; // Change this (here and in manifest)
+    private static Context context;
+    public static final Class<? extends Api> REST_API_CLASS = SplitwiseApi.class;
+    public static final String REST_URL = "https://secure.splitwise.com/api/v3.0";
+    public static final String REST_CONSUMER_KEY = BuildConfig.REST_CONSUMER_KEY;
+    public static final String REST_CONSUMER_SECRET = BuildConfig.REST_CONSUMER_SECRET;
+    public static final String REST_CALLBACK_URL ="oauth://codepathtweets";
 
     public SplitwiseRestClient(Context context) {
         super(context, REST_API_CLASS, REST_URL, REST_CONSUMER_KEY, REST_CONSUMER_SECRET, REST_CALLBACK_URL);
+        this.context= context;
     }
 
+    private static String getApiEndPoint(int id){
+        return context.getResources().getString(id);
+    }
     /**
      * http://dev.splitwise.com/dokuwiki/doku.php?id=get_current_user
      */
     public void getCurrentUser(JsonHttpResponseHandler handler) {
-        String apiUrl = getApiUrl("get_current_user");
+        String apiUrl = getApiUrl(getApiEndPoint(R.string.get_current_user));
         RequestParams params = new RequestParams();
         getClient().get(apiUrl, params, handler);
     }
 
     public void getGroup(JsonHttpResponseHandler handler, Integer groupId) {
-        String apiUrl = getApiUrl("get_group/"+groupId);
+        String apiUrl = getApiUrl(getApiEndPoint(R.string.get_group)+groupId);
         RequestParams params = new RequestParams();
         getClient().get(apiUrl, params, handler);
     }
@@ -47,7 +53,7 @@ public class SplitwiseRestClient extends OAuthBaseClient {
      * @param handler
      */
     public void getGroups(JsonHttpResponseHandler handler) {
-        String apiUrl = getApiUrl("get_groups");
+        String apiUrl = getApiUrl(getApiEndPoint(R.string.get_groups));
         RequestParams params = new RequestParams();
         getClient().get(apiUrl, params, handler);
     }
@@ -56,20 +62,20 @@ public class SplitwiseRestClient extends OAuthBaseClient {
      * http://dev.splitwise.com/dokuwiki/doku.php?id=create_group
      */
     public void createGroup(JsonHttpResponseHandler handler, String groupName) {
-        String apiUrl = getApiUrl("create_group");
+        String apiUrl = getApiUrl(getApiEndPoint(R.string.create_group));
         RequestParams params = new RequestParams();
         if(groupName != null) {
-            params.put("name", groupName);
+            params.put(getApiEndPoint(R.string.name), groupName);
         }
         getClient().post(apiUrl, params,handler);
     }
 
     public void createExpense(JsonHttpResponseHandler handler, String description,Map userShareMap) {
-        String apiUrl = getApiUrl("create_expense");
+        String apiUrl = getApiUrl(getApiEndPoint(R.string.create_expense));
         RequestParams params = new RequestParams();
 
         if(description != null) {
-            params.put("description", description);
+            params.put(getApiEndPoint(R.string.description), description);
         }
 
         Set<String> keys =userShareMap.keySet();
@@ -83,22 +89,11 @@ public class SplitwiseRestClient extends OAuthBaseClient {
     }
 
     public void updateExpense(JsonHttpResponseHandler handler,Integer expenseID,String description,Map userShareMap) {
-        String apiUrl = getApiUrl("update_expense/"+expenseID);
+        String apiUrl = getApiUrl(getApiEndPoint(R.string.update_expense)+expenseID);
         RequestParams params = new RequestParams();
         if(description != null) {
-            params.put("description", description);
+            params.put(getApiEndPoint(R.string.description), description);
         }
-/*
-        params.put("cost",160);
-        params.put("id", 121999576);
-        params.put("users__0__user_id", 3303267);
-        params.put("users__0__paid_share", 160);
-        params.put("users__0__owed_share", 80);
-        params.put("users__1__user_id", 2760785);
-        params.put("users__1__paid_share", 0);
-        params.put("users__1__owed_share", 80);
-*/
-
         Set<String> keys =userShareMap.keySet();
         List<Integer> values= new LinkedList<>(userShareMap.values());
         int i = 0;
@@ -110,28 +105,28 @@ public class SplitwiseRestClient extends OAuthBaseClient {
     }
 
     public void addGroupMember(JsonHttpResponseHandler handler,Integer group_id,String firstName,String email) {
-        String apiUrl = getApiUrl("add_user_to_group");
+        String apiUrl = getApiUrl(getApiEndPoint(R.string.add_user_to_group));
         RequestParams params = new RequestParams();
         if(group_id != null) {
-            params.put("group_id", group_id);
+            params.put(getApiEndPoint(R.string.group_id), group_id);
         }
         if(email != null) {
-            params.put("email", email);
+            params.put(getApiEndPoint(R.string.email), email);
         }
         if(firstName != null) {
-            params.put("first_name", firstName);
+            params.put(getApiEndPoint(R.string.first_name), firstName);
         }
         getClient().post(apiUrl, params,handler);
     }
 
     public void createFriend(JsonHttpResponseHandler handler,String user_email, String user_first_name) {
-        String apiUrl = getApiUrl("create_friend");
+        String apiUrl = getApiUrl(getApiEndPoint(R.string.create_friend));
         RequestParams params = new RequestParams();
         if(user_email != null) {
-            params.put("user_email", user_email);
+            params.put(getApiEndPoint(R.string.user_email), user_email);
         }
         if(user_first_name != null) {
-            params.put("user_first_name", user_first_name);
+            params.put(getApiEndPoint(R.string.user_first_name), user_first_name);
         }
         getClient().post(apiUrl, params,handler);
     }
@@ -141,19 +136,19 @@ public class SplitwiseRestClient extends OAuthBaseClient {
      * @param handler
      */
     public void getExpenses(JsonHttpResponseHandler handler, Integer groupId, Integer limit, Integer offset, Integer friendId) {
-        String apiUrl = getApiUrl("get_expenses");
+        String apiUrl = getApiUrl(getApiEndPoint(R.string.get_expenses));
         RequestParams params = new RequestParams();
         if(groupId != null) {
-            params.put("group_id", groupId);
+            params.put(getApiEndPoint(R.string.group_id), groupId);
         }
         if(friendId != null) {
-            params.put("friend_id", friendId);
+            params.put(getApiEndPoint(R.string.friend_id), friendId);
         }
         if(limit != null) {
-            params.put("limit", limit);
+            params.put(getApiEndPoint(R.string.limit), limit);
         }
         if(offset != null) {
-            params.put("offset", offset);
+            params.put(getApiEndPoint(R.string.offset), offset);
         }
         getClient().get(apiUrl, params, handler);
     }
@@ -163,23 +158,23 @@ public class SplitwiseRestClient extends OAuthBaseClient {
      * @param handler
      */
     public void getFriends(JsonHttpResponseHandler handler) {
-        String apiUrl = getApiUrl("get_friends");
+        String apiUrl = getApiUrl(getApiEndPoint(R.string.get_friends));
         RequestParams params = new RequestParams();
         getClient().get(apiUrl, params, handler);
     }
 
     public void deleteFriend(JsonHttpResponseHandler handler, Integer friendId) {
-        String apiUrl = getApiUrl("delete_friend/"+friendId);
+        String apiUrl = getApiUrl(getApiEndPoint(R.string.delete_friend)+friendId);
         getClient().post(apiUrl, handler);
     }
 
     public void deleteGroup(JsonHttpResponseHandler handler, Integer groupId) {
-        String apiUrl = getApiUrl("delete_group/"+groupId);
+        String apiUrl = getApiUrl(getApiEndPoint(R.string.delete_group)+groupId);
         getClient().post(apiUrl, handler);
     }
 
     public void deleteExpense(JsonHttpResponseHandler handler, Integer expenseId) {
-        String apiUrl = getApiUrl("delete_expense/"+expenseId);
+        String apiUrl = getApiUrl(getApiEndPoint(R.string.delete_expense)+expenseId);
         getClient().post(apiUrl, handler);
     }
 }

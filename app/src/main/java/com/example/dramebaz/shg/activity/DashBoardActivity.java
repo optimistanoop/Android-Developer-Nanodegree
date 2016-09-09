@@ -58,10 +58,10 @@ public class DashBoardActivity extends AppCompatActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.miAddGroup:
-                openDialog("addAGroup");
+                openDialog(getResources().getString(R.string.add_group));
                 return true;
             case R.id.miAddFriend:
-                openDialog("addAFriend");
+                openDialog(getResources().getString(R.string.add_friend));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -70,7 +70,7 @@ public class DashBoardActivity extends AppCompatActivity {
 
     public void openDialog(final String type){
         final AlertDialog d;
-        if (type.equals("addAFriend")){
+        if (type.equals(getResources().getString(R.string.add_friend))){
              d = new AlertDialog.Builder(this)
                     .setView(R.layout.add_friend_dialog)
                     .setPositiveButton(android.R.string.ok, null) //Set to null. We override the onclick
@@ -97,19 +97,19 @@ public class DashBoardActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         Dialog f = (Dialog) dialog;
-                        if(type.equals("addAFriend")){
+                        if(type.equals(getResources().getString(R.string.add_friend))){
                             EditText name = (EditText) f.findViewById(R.id.username);
                             EditText email = (EditText) f.findViewById(R.id.email);
                             if(name.getText().toString().trim().equals("")){
-                                name.setError("This is required"); return;
+                                name.setError(getResources().getString(R.string.this_is_required)); return;
                             }else if(!email.getText().toString().trim().equals("") && !Presenter.isValidEmail(email.getText().toString().trim())){
-                                email.setError("Not a valid email"); return;
+                                email.setError(getResources().getString(R.string.not_a_valid_email)); return;
                             }
                             createFriend(email.getText().toString().trim(), name.getText().toString().trim());
                         }else{
                             EditText groupName = (EditText)f.findViewById(R.id.groupname);
                             if(groupName.getText().toString().trim().equals("")){
-                                groupName.setError("This is required"); return;
+                                groupName.setError(getResources().getString(R.string.this_is_required)); return;
                             }
                             createGroup(groupName.getText().toString().trim());
                         }
@@ -128,16 +128,16 @@ public class DashBoardActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
                 try {
-                    Log.i("Got createGroup", json.toString());
-                    JSONObject group = json.getJSONObject("group");
+                    Log.i(getResources().getString(R.string.create_group), json.toString());
+                    JSONObject group = json.getJSONObject(getResources().getString(R.string.group).toLowerCase());
                     if(group.getInt("id")>0){
-                        Toast.makeText(getBaseContext(), group.getString("name")+" Created.",
+                        Toast.makeText(getBaseContext(), group.getString(getResources().getString(R.string.name))+" Created.",
                                 Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (Exception e) {
-                    Log.e("FAILED get_expenses", "json_parsing", e);
-                    Toast.makeText(getBaseContext(), "Unexpected error occurred! Please try again.",
+                    Log.e(getResources().getString(R.string.create_group), getResources().getString(R.string.json_parsing), e);
+                    Toast.makeText(getBaseContext(), getResources().getString(R.string.error_try_again),
                             Toast.LENGTH_SHORT).show();
                 }
             }
@@ -150,21 +150,21 @@ public class DashBoardActivity extends AppCompatActivity {
     }
 
     public void createFriend(String user_email, String user_first_name){
-        SplitwiseRestClient client = RestApplication.getSplitwiseRestClient();
+        final SplitwiseRestClient client = RestApplication.getSplitwiseRestClient();
         client.createFriend(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
                 try {
-                    Log.i("Got createFriend", json.toString());
-                    JSONObject friend = json.getJSONObject("friend");
+                    Log.i(getResources().getString(R.string.create_friend), json.toString());
+                    JSONObject friend = json.getJSONObject(getResources().getString(R.string.friend).toLowerCase());
                     if(friend.getInt("id")>0){
                         Toast.makeText(getBaseContext(), "Friend added.",
                                 Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (Exception e) {
-                    Log.e("FAILED createFriend", "json_parsing", e);
-                    Toast.makeText(getBaseContext(), "Unexpected error occurred! Please try again.",
+                    Log.e(getResources().getString(R.string.create_friend), getResources().getString(R.string.json_parsing), e);
+                    Toast.makeText(getBaseContext(), getResources().getString(R.string.error_try_again),
                             Toast.LENGTH_SHORT).show();
                 }
             }

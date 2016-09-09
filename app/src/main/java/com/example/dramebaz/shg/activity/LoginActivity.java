@@ -63,18 +63,18 @@ public class LoginActivity extends OAuthLoginActionBarActivity<SplitwiseRestClie
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
                 try {
-                    Log.i("Got currentUser", json.toString());
-                    User user = User.fromJSONObject(json.getJSONObject("user"));
+                    Log.i(getResources().getString(R.string.get_current_user), json.toString());
+                    User user = User.fromJSONObject(json.getJSONObject(getResources().getString(R.string.user)));
 
                     SharedPreferences pref =
                             PreferenceManager.getDefaultSharedPreferences(getBaseContext());
                     SharedPreferences.Editor edit = pref.edit();
-                    edit.putInt("currentUserId", user.id);
+                    edit.putInt(getResources().getString(R.string.current_user_id), user.id);
                     edit.commit();
 
                 } catch (Exception e) {
-                    Log.e("FAILED get_expenses", "json_parsing", e);
-                    Toast.makeText(getBaseContext(), "Unexpected error occurred! Please try again.",
+                    Log.e(getResources().getString(R.string.get_current_user), getResources().getString(R.string.json_parsing), e);
+                    Toast.makeText(getBaseContext(), getResources().getString(R.string.error_try_again),
                             Toast.LENGTH_SHORT).show();
                 }
             }

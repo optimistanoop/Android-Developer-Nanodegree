@@ -52,9 +52,9 @@ public class ExpensesActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent i = getIntent();
-        type = i.getStringExtra("type");
-        name = i.getStringExtra("name");
-        id = i.getIntExtra("id",0);
+        type = i.getStringExtra(getResources().getString(R.string.type));
+        name = i.getStringExtra(getResources().getString(R.string.name));
+        id = i.getIntExtra(getResources().getString(R.string.id),0);
         loadExpense(id, type,name);
 
     }
@@ -62,7 +62,7 @@ public class ExpensesActivity extends AppCompatActivity {
     // Inflate the menu; this adds items to the action bar if it is present.
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if(type.equals("group")){
+        if(type.equals(getResources().getString(R.string.group).toLowerCase())){
             getMenuInflater().inflate(R.menu.groupmenu, menu);
         }else {
             getMenuInflater().inflate(R.menu.frndmenu, menu);
@@ -108,7 +108,7 @@ public class ExpensesActivity extends AppCompatActivity {
                 final Dialog f = (Dialog) dialog;
                 Button b = d.getButton(AlertDialog.BUTTON_POSITIVE);
                 TextView title = (TextView) f.findViewById(R.id.title);
-                title.setText("Add A GROUP MEMBER");
+                title.setText(getResources().getString(R.string.add_grp_member));
                 b.setOnClickListener(new View.OnClickListener() {
 
                     @Override
@@ -117,10 +117,10 @@ public class ExpensesActivity extends AppCompatActivity {
                         EditText name = (EditText) f.findViewById(R.id.username);
                         EditText email = (EditText) f.findViewById(R.id.email);
                         if (name.getText().toString().trim().equals("")) {
-                            name.setError("This is required");
+                            name.setError(getResources().getString(R.string.this_is_required));
                             return;
                         } else if (!email.getText().toString().trim().equals("") && !Presenter.isValidEmail(email.getText().toString().trim())) {
-                            email.setError("Not a valid email");
+                            email.setError(getResources().getString(R.string.not_a_valid_email));
                             return;
                         }
                         addGroupMember(id,name.getText().toString().trim(),email.getText().toString().trim());
@@ -134,12 +134,12 @@ public class ExpensesActivity extends AppCompatActivity {
 
     public void openDeleteDialog(){
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setMessage("Are you sure,You want to delete "+name+" ?");
+        alertDialogBuilder.setMessage(getResources().getString(R.string.r_u_sure_del)+name+" ?");
 
-        alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface arg0, int arg1) {
-                if(type.equals("group")){
+                if(type.equals(getResources().getString(R.string.group).toLowerCase())){
                     deleteGroup(id);
                 }else {
                     deleteFriend(id);
@@ -147,7 +147,7 @@ public class ExpensesActivity extends AppCompatActivity {
             }
         });
 
-        alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setNegativeButton(getResources().getString(R.string.no),new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
             }
@@ -160,7 +160,7 @@ public class ExpensesActivity extends AppCompatActivity {
     public void openAddExpenseDialog(final String type) {
 
         final Integer groupId;
-        if(type.equals("group")){
+        if(type.equals(getResources().getString(R.string.group).toLowerCase())){
             groupId = id;
         }else {
             groupId = null;
@@ -177,11 +177,11 @@ public class ExpensesActivity extends AppCompatActivity {
             public void onShow(final DialogInterface dialog) {
                 final Dialog f = (Dialog) dialog;
                 Button b = d.getButton(AlertDialog.BUTTON_POSITIVE);
-                if(type.equals("group")){
+                if(type.equals(getResources().getString(R.string.group).toLowerCase())){
                     TextView title = (TextView) f.findViewById(R.id.title);
-                    title.setText("ADD GROUP EXPENSE");
+                    title.setText(getResources().getString(R.string.add_grp_expense));
                     TextView disclaimer = (TextView) f.findViewById(R.id.disclaimer);
-                    disclaimer.setText("*Cost will be shared equally across group.");
+                    disclaimer.setText(getResources().getString(R.string.cost_share_grp));
                 }
                 b.setOnClickListener(new View.OnClickListener() {
 
@@ -191,10 +191,10 @@ public class ExpensesActivity extends AppCompatActivity {
                         final EditText cost = (EditText) f.findViewById(R.id.cost);
                         final EditText description = (EditText) f.findViewById(R.id.description);
                         if (cost.getText().toString().trim().equals("") || !(Float.parseFloat(cost.getText().toString().trim())>0)) {
-                            cost.setError("Invalid no.");
+                            cost.setError(getResources().getString(R.string.invalid_no));
                             return;
                         } else if (description.getText().toString().trim().equals("")) {
-                            description.setError("This is required");
+                            description.setError(getResources().getString(R.string.this_is_required));
                             return;
                         }
                         // before sending any data to add expense , plz make sure for the firend and group members sharing cost equally
@@ -203,21 +203,21 @@ public class ExpensesActivity extends AppCompatActivity {
                         // get current user id
                         SharedPreferences pref =
                                 PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-                        final int currentUserId =  pref.getInt("currentUserId", 0);
+                        final int currentUserId =  pref.getInt(getResources().getString(R.string.current_user_id), 0);
                         final float costvalue = Float.parseFloat(cost.getText().toString().trim());
                         // check type
-                        if(type.equals("group")){
+                        if(type.equals(getResources().getString(R.string.group).toLowerCase())){
                             // get all members id in case of group
                             SplitwiseRestClient client = RestApplication.getSplitwiseRestClient();
                             client.getGroup(new JsonHttpResponseHandler() {
                                 @Override
                                 public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
                                     try {
-                                        Log.i("get_group", json.toString());
+                                        Log.i(getResources().getString(R.string.get_group), json.toString());
                                         // divide cost between all members
                                         // paid share will be of current user id
-                                        JSONObject group = json.getJSONObject("group");
-                                        JSONArray members = group.getJSONArray("members");
+                                        JSONObject group = json.getJSONObject(getResources().getString(R.string.group).toLowerCase());
+                                        JSONArray members = group.getJSONArray(getResources().getString(R.string.members));
                                         int length = members.length();
                                         for(int i=0;i<length;i++){
                                             JSONObject member = members.getJSONObject(i);
@@ -232,18 +232,20 @@ public class ExpensesActivity extends AppCompatActivity {
                                             }
                                         }
 
-                                        userShareMap.put("cost",costvalue);
-                                        userShareMap.put("group_id",groupId);
+                                        userShareMap.put(getResources().getString(R.string.cost),costvalue);
+                                        userShareMap.put(getResources().getString(R.string.group_id),groupId);
                                         addExpense(description.getText().toString().trim(), userShareMap);
                                         d.dismiss();
                                     } catch (Exception e) {
-                                        Log.e("FAILED get_group", "json_parsing", e);
+                                        Log.e(getResources().getString(R.string.get_group), getResources().getString(R.string.json_parsing), e);
                                     }
                                 }
 
                                 @Override
                                 public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                                     super.onFailure(statusCode, headers, responseString, throwable);
+                                    Toast.makeText(getBaseContext(), getResources().getString(R.string.error_try_again),
+                                            Toast.LENGTH_SHORT).show();
                                 }
                             }, id);
 
@@ -274,15 +276,15 @@ public class ExpensesActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
                 try {
-                    Log.i("create_expense", json.toString());
-                    JSONArray expenses = json.getJSONArray("expenses");
+                    Log.i(getResources().getString(R.string.create_expense), json.toString());
+                    JSONArray expenses = json.getJSONArray(getResources().getString(R.string.expenses));
                     if(expenses.length()>0){
-                        Toast.makeText(getBaseContext(), "Expense added.",
+                        Toast.makeText(getBaseContext(), getResources().getString(R.string.expense_added),
                                 Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
-                    Log.e("FAILED create_expense", "json_parsing", e);
-                    Toast.makeText(getBaseContext(), "Unexpected error occurred! Please try again.",
+                    Log.e(getResources().getString(R.string.create_expense), getResources().getString(R.string.json_parsing), e);
+                    Toast.makeText(getBaseContext(), getResources().getString(R.string.error_try_again),
                             Toast.LENGTH_SHORT).show();
                 }
             }
@@ -300,15 +302,15 @@ public class ExpensesActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
                 try {
-                    Log.i("add_user_to_group", json.toString());
-                    if(json.getBoolean("success")){
-                        Toast.makeText(getBaseContext(), "Group member added.",
+                    Log.i(getResources().getString(R.string.add_user_to_group), json.toString());
+                    if(json.getBoolean(getResources().getString(R.string.success))){
+                        Toast.makeText(getBaseContext(), getResources().getString(R.string.grp_mem_added),
                                 Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (Exception e) {
-                    Log.e("FAILED addGrpMember", "json_parsing", e);
-                    Toast.makeText(getBaseContext(), "Unexpected error occurred! Please try again.",
+                    Log.e(getResources().getString(R.string.add_user_to_group), getResources().getString(R.string.json_parsing), e);
+                    Toast.makeText(getBaseContext(), getResources().getString(R.string.error_try_again),
                             Toast.LENGTH_SHORT).show();
                 }
             }
@@ -316,7 +318,7 @@ public class ExpensesActivity extends AppCompatActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
-                Toast.makeText(getBaseContext(), "Unexpected error occurred! Please try again.",
+                Toast.makeText(getBaseContext(), getResources().getString(R.string.error_try_again),
                         Toast.LENGTH_SHORT).show();
             }
         }, group_id,name, email);
@@ -328,19 +330,19 @@ public class ExpensesActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
                 try {
-                    Log.i("delete_friend", json.toString());
-                    if(json.getBoolean("success")){
-                        Toast.makeText(getBaseContext(), "Friend deleted.",
+                    Log.i(getResources().getString(R.string.delete_friend), json.toString());
+                    if(json.getBoolean(getResources().getString(R.string.success))){
+                        Toast.makeText(getBaseContext(), getResources().getString(R.string.friend_deleted),
                                 Toast.LENGTH_SHORT).show();
                         NavUtils.navigateUpFromSameTask(ExpensesActivity.this);
                     }else {
-                        Toast.makeText(getBaseContext(), json.getString("error"),
+                        Toast.makeText(getBaseContext(), json.getString(getResources().getString(R.string.error)),
                                 Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (Exception e) {
-                    Log.e("FAILED delete_friend", "json_parsing", e);
-                    Toast.makeText(getBaseContext(), "Unexpected error occurred! Please try again.",
+                    Log.e(getResources().getString(R.string.delete_friend), getResources().getString(R.string.json_parsing), e);
+                    Toast.makeText(getBaseContext(), getResources().getString(R.string.error_try_again),
                             Toast.LENGTH_SHORT).show();
                 }
             }
@@ -348,7 +350,7 @@ public class ExpensesActivity extends AppCompatActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
-                Toast.makeText(getBaseContext(), "Unexpected error occurred! Please try again.",
+                Toast.makeText(getBaseContext(), getResources().getString(R.string.error_try_again),
                         Toast.LENGTH_SHORT).show();
             }
         }, friendId);
@@ -360,16 +362,16 @@ public class ExpensesActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
                 try {
-                    Log.i("delete_group", json.toString());
-                    if(json.getBoolean("success")){
-                        Toast.makeText(getBaseContext(), "Group deleted.",
+                    Log.i(getResources().getString(R.string.delete_group), json.toString());
+                    if(json.getBoolean(getResources().getString(R.string.success))){
+                        Toast.makeText(getBaseContext(), getResources().getString(R.string.grp_deleted),
                                 Toast.LENGTH_SHORT).show();
                         NavUtils.navigateUpFromSameTask(ExpensesActivity.this);
                     }
 
                 } catch (Exception e) {
-                    Log.e("FAILED delete_group", "json_parsing", e);
-                    Toast.makeText(getBaseContext(), "Unexpected error occurred! Please try again.",
+                    Log.e(getResources().getString(R.string.delete_group), getResources().getString(R.string.json_parsing), e);
+                    Toast.makeText(getBaseContext(), getResources().getString(R.string.error_try_again),
                             Toast.LENGTH_SHORT).show();
                 }
             }
@@ -377,7 +379,7 @@ public class ExpensesActivity extends AppCompatActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
-                Toast.makeText(getBaseContext(), "Unexpected error occurred! Please try again.",
+                Toast.makeText(getBaseContext(), getResources().getString(R.string.error_try_again),
                         Toast.LENGTH_SHORT).show();
             }
         }, groupId);

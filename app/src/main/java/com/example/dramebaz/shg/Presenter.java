@@ -1,29 +1,18 @@
 package com.example.dramebaz.shg;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.example.dramebaz.shg.client.SplitwiseRestClient;
-import com.example.dramebaz.shg.splitwise.Balance;
-import com.loopj.android.http.JsonHttpResponseHandler;
-
-import org.apache.http.Header;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.Locale;
-import java.util.Map;
 import java.util.TimeZone;
+
+import com.example.dramebaz.shg.splitwise.Balance;
 
 public class Presenter {
     public static String getCostString(String cost, String currencyCode) {
