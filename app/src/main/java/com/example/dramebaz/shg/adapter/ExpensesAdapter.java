@@ -17,11 +17,13 @@ import java.util.List;
 
 public class ExpensesAdapter extends ArrayAdapter<Expense> {
 
-    Integer currentUserId;
+    private Integer currentUserId;
+    private Context context;
 
     public ExpensesAdapter(Context context, List<Expense> expenses, Integer currentUserId) {
         super(context, R.layout.expense, expenses);
         this.currentUserId = currentUserId;
+        this.context = context;
     }
 
     @Override
@@ -45,18 +47,18 @@ public class ExpensesAdapter extends ArrayAdapter<Expense> {
         for(UserExpense ue : e.userExpenses) {
             if(ue.isPayer()) {
                 if(ue.user.id.equals(currentUserId))
-                    tvPayer.setText("You paid");
+                    tvPayer.setText(context.getResources().getString(R.string.you_paid));
                 else
                     tvPayer.setText(ue.user.firstName + " paid");
             }
             if(ue.user.id.equals(currentUserId)) {
                 if(ue.getNetBalance() != null && ue.getNetBalance() > 0) {
-                    tvBalanceSummary.setText("You lent");
+                    tvBalanceSummary.setText(context.getResources().getString(R.string.you_lent));
                     tvBalanceSummary.setTextColor(getContext().getResources().getColor(R.color.colorPrimary));
                     tvBalanceCost.setTextColor(getContext().getResources().getColor(R.color.colorPrimary));
                 }
                 else {
-                    tvBalanceSummary.setText("You borrowed");
+                    tvBalanceSummary.setText(context.getResources().getString(R.string.you_borrowed));
                     tvBalanceSummary.setTextColor(Color.RED);
                     tvBalanceCost.setTextColor(Color.RED);
                 }

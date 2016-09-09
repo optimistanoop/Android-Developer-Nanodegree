@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.dramebaz.shg.FriendAdapter;
 import com.example.dramebaz.shg.R;
@@ -74,15 +75,12 @@ public class FriendsFragment extends Fragment {
         lvFriends.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("item selected",position+" "+id);
                 int friendId = friends.get(position).user.id;
                 String friendName = friends.get(position).user.firstName;
-                Log.d("item selected",position+" "+id);
-                Log.d("item selected",friendName+" "+friendId);
                 Intent i = new Intent(getContext(), ExpensesActivity.class);
-                i.putExtra("type","friend");
-                i.putExtra("id", friendId);
-                i.putExtra("name", friendName);
+                i.putExtra(getResources().getString(R.string.type),getResources().getString(R.string.friend).toLowerCase());
+                i.putExtra(getResources().getString(R.string.id), friendId);
+                i.putExtra(getResources().getString(R.string.name), friendName);
                 startActivity(i);
             }
         });
@@ -109,9 +107,9 @@ public class FriendsFragment extends Fragment {
             public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
                 try {
                     friendAdapter.clear();
-                    Log.i("Got something", json.toString());
-                    friends = GroupMember.fromJSONArray(json.getJSONArray("friends"));
-                    Log.i("SUCCESS get_friends", friends.toString());
+                    Log.i(getResources().getString(R.string.get_friends), json.toString());
+                    friends = GroupMember.fromJSONArray(json.getJSONArray(getResources().getString(R.string.friends)));
+                    Log.i(getResources().getString(R.string.get_friends), friends.toString());
                     for (int i = 0; i<friends.size();i++){
                         GroupMember friend = friends.get(i);
                         if (mPage == 1 && friend.balance.amount != null && Double.valueOf(friend.balance.amount) < 0) {
@@ -129,13 +127,15 @@ public class FriendsFragment extends Fragment {
                     friendAdapter.notifyDataSetChanged();
 
                 } catch (JSONException e) {
-                    Log.e("FAILED get_friends", "json_parsing", e);
+                    Log.e(getResources().getString(R.string.get_friends), getResources().getString(R.string.json_parsing), e);
                 }
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
+                Toast.makeText(getContext(), getResources().getString(R.string.error_try_again),
+                        Toast.LENGTH_SHORT).show();
             }
         });
     }

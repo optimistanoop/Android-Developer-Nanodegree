@@ -4,6 +4,7 @@ package com.example.dramebaz.shg.fragment;
  * Created by dramebaz on 20/8/16.
  */
 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,7 +20,6 @@ import android.widget.ListView;
 import com.example.dramebaz.shg.GroupAdapter;
 import com.example.dramebaz.shg.R;
 import com.example.dramebaz.shg.RestApplication;
-import com.example.dramebaz.shg.activity.DashBoardActivity;
 import com.example.dramebaz.shg.activity.ExpensesActivity;
 import com.example.dramebaz.shg.client.SplitwiseRestClient;
 import com.example.dramebaz.shg.splitwise.Group;
@@ -81,12 +81,10 @@ public class GroupsFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 int groupId = groups.get(position).id;
                 String groupName = groups.get(position).name;
-                Log.d("item selected",position+" "+id);
-                Log.d("item selected",groupName+" "+groupId);
                 Intent i = new Intent(getContext(), ExpensesActivity.class);
-                i.putExtra("type","group");
-                i.putExtra("id", groupId);
-                i.putExtra("name", groupName);
+                i.putExtra(getResources().getString(R.string.type),getResources().getString(R.string.group).toLowerCase());
+                i.putExtra(getResources().getString(R.string.id), groupId);
+                i.putExtra(getResources().getString(R.string.name), groupName);
                 startActivity(i);
             }
         });
@@ -112,9 +110,9 @@ public class GroupsFragment extends Fragment {
             public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
                 try {
                     groupAdapter.clear();
-                    Log.i("Got groups", json.toString());
-                    groups = Group.fromJSONArray(json.getJSONArray("groups"));
-                    Log.i("SUCCESS get_groups", groups.toString());
+                    Log.i(getResources().getString(R.string.get_groups), json.toString());
+                    groups = Group.fromJSONArray(json.getJSONArray(getResources().getString(R.string.groups).toLowerCase()));
+                    Log.i(getResources().getString(R.string.get_groups), groups.toString());
                     for (int i = 0; i<groups.size();i++){
                         Group group = groups.get(i);
                             groupAdapter.add(group);
@@ -124,7 +122,7 @@ public class GroupsFragment extends Fragment {
                     groupAdapter.notifyDataSetChanged();
 
                 } catch (JSONException e) {
-                    Log.e("FAILED get_expenses", "json_parsing", e);
+                    Log.e(getResources().getString(R.string.get_groups), getResources().getString(R.string.json_parsing), e);
                 }
             }
 

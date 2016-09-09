@@ -59,7 +59,7 @@ public class ExpensesFragment extends Fragment {
 
         groupOrFrndId = getArguments().getInt(ARG_GROUP_FRN_ID);
         type = getArguments().getString(TYPE);
-        if(type.equals("group")){
+        if(type.equals( getResources().getString(R.string.group).toLowerCase())){
             loadExpenses(groupOrFrndId, null);
         }else {
             loadExpenses(null,groupOrFrndId);
@@ -73,7 +73,7 @@ public class ExpensesFragment extends Fragment {
                 // Your code to refresh the list here.
                 // Make sure you call swipeContainer.setRefreshing(false)
                 // once the network request has completed successfully.
-                if(type.equals("group")){
+                if(type.equals( getResources().getString(R.string.group).toLowerCase())){
                     loadExpenses(groupOrFrndId, null);
                 }else {
                     loadExpenses(null,groupOrFrndId);
@@ -99,7 +99,7 @@ public class ExpensesFragment extends Fragment {
     private void loadExpenses(Integer groupId, Integer friendId) {
         SharedPreferences pref =
                 PreferenceManager.getDefaultSharedPreferences(getActivity());
-        Integer currentUserId =  pref.getInt("currentUserId", 0);
+        Integer currentUserId =  pref.getInt( getResources().getString(R.string.current_user_id), 0);
         expenses = new ArrayList<>();
         expensesAdapter = new ExpensesAdapter(getActivity(), expenses, currentUserId);
 
@@ -112,8 +112,8 @@ public class ExpensesFragment extends Fragment {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
                 try {
-                    List<Expense> expenses = Expense.fromJSONArray(json.getJSONArray("expenses"));
-                    Log.i("SUCCESS get_expenses", json.toString());
+                    List<Expense> expenses = Expense.fromJSONArray(json.getJSONArray( getResources().getString(R.string.expenses)));
+                    Log.i( getResources().getString(R.string.get_expenses), json.toString());
                     List<Expense> requiredExp = new ArrayList<Expense>();
                     for(Expense e :expenses){
                         if(e.deleted_at.equals("null")){
@@ -134,14 +134,13 @@ public class ExpensesFragment extends Fragment {
                         @Override
                         public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                             Expense expense = (Expense)lvExpenses.getItemAtPosition(i);
-                            Log.d("item long clicked", expense.id.toString());
                             openChooseActionDialog(expense);
                             return false;
                         }
                     });
                 } catch (JSONException e) {
-                    Log.e("FAILED get_expenses", "json_parsing", e);
-                    Toast.makeText(getActivity(), "Unexpected error occurred! Please try again.",
+                    Log.e(getResources().getString(R.string.get_expenses), getResources().getString(R.string.json_parsing), e);
+                    Toast.makeText(getContext(), getResources().getString(R.string.error_try_again),
                             Toast.LENGTH_SHORT).show();
                 }
             }
@@ -149,7 +148,7 @@ public class ExpensesFragment extends Fragment {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
-                Toast.makeText(getActivity(), "Unexpected error occurred! Please try again.",
+                Toast.makeText(getContext(), getResources().getString(R.string.error_try_again),
                         Toast.LENGTH_SHORT).show();
             }
         }, groupId, null, null, friendId);
@@ -157,21 +156,21 @@ public class ExpensesFragment extends Fragment {
 
     public void openChooseActionDialog(final Expense expense){
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-        alertDialogBuilder.setMessage("Choose Action for expense");
+        alertDialogBuilder.setMessage(getResources().getString(R.string.choose_action_exp));
 
-        alertDialogBuilder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setPositiveButton( getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface arg0, int arg1) {
             }
         });
 
-        alertDialogBuilder.setNegativeButton("Edit",new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setNegativeButton(getResources().getString(R.string.edit),new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 openEditExpenseDialog(type,expense);
             }
         });
-        alertDialogBuilder.setNeutralButton("Delete",new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setNeutralButton(getResources().getString(R.string.delete),new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 openDeleteDialog(expense.id);
@@ -199,14 +198,14 @@ public class ExpensesFragment extends Fragment {
                 final Dialog f = (Dialog) dialog;
                 Button b = d.getButton(AlertDialog.BUTTON_POSITIVE);
                 TextView title = (TextView) f.findViewById(R.id.title);
-                title.setText("EDIT EXPENSE");
+                title.setText(getResources().getString(R.string.edit_expense));
                 EditText cost = (EditText) f.findViewById(R.id.cost);
                 EditText description = (EditText) f.findViewById(R.id.description);
                 cost.setText(expense.cost);
                 description.setText(expense.description);
-                if (type.equals("group")){
+                if (type.equals( getResources().getString(R.string.group).toLowerCase())){
                     TextView disclaimer = (TextView) f.findViewById(R.id.disclaimer);
-                    disclaimer.setText("*Cost will be shared equally across group.");
+                    disclaimer.setText( getResources().getString(R.string.cost_share_grp));
                 }
 
                 b.setOnClickListener(new View.OnClickListener() {
@@ -217,10 +216,10 @@ public class ExpensesFragment extends Fragment {
                         EditText cost = (EditText) f.findViewById(R.id.cost);
                         final EditText description = (EditText) f.findViewById(R.id.description);
                         if (cost.getText().toString().trim().equals("") || !(Float.parseFloat(cost.getText().toString().trim())>0)) {
-                            cost.setError("Invalid no.");
+                            cost.setError( getResources().getString(R.string.invalid_no));
                             return;
                         } else if (description.getText().toString().trim().equals("")) {
-                            description.setError("This is required");
+                            description.setError( getResources().getString(R.string.this_is_required));
                             return;
                         }
                         // before sending any data to add expense , plz make sure for the firend and group members sharing cost equally
@@ -229,60 +228,63 @@ public class ExpensesFragment extends Fragment {
                         // get current user id
                         SharedPreferences pref =
                                 PreferenceManager.getDefaultSharedPreferences(getContext());
-                        final int currentUserId =  pref.getInt("currentUserId", 0);
+                        final int currentUserId =  pref.getInt( getResources().getString(R.string.current_user_id), 0);
                         final float costvalue = Float.parseFloat(cost.getText().toString().trim());
                         // check type
-                        if(type.equals("group")){
+                        if(type.equals( getResources().getString(R.string.group).toLowerCase())){
                             // get all members id in case of group
                             SplitwiseRestClient client = RestApplication.getSplitwiseRestClient();
                             client.getGroup(new JsonHttpResponseHandler() {
                                 @Override
                                 public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
                                     try {
-                                        Log.i("get_group", json.toString());
+                                        Log.i( getResources().getString(R.string.get_group), json.toString());
                                         // divide cost between all members
                                         // paid share will be of current user id
-                                        JSONObject group = json.getJSONObject("group");
-                                        JSONArray members = group.getJSONArray("members");
+                                        JSONObject group = json.getJSONObject( getResources().getString(R.string.group).toLowerCase());
+                                        JSONArray members = group.getJSONArray( getResources().getString(R.string.members));
                                         int length = members.length();
                                         for(int i=0;i<length;i++){
                                             JSONObject member = members.getJSONObject(i);
-                                            if(member.getInt("id")!= currentUserId){
-                                                userShareMap.put("users__"+i+"__user_id", member.getInt("id"));
-                                                userShareMap.put("users__"+i+"__paid_share", 0);
-                                                userShareMap.put("users__"+i+"__owed_share", costvalue/length);
+                                            if(member.getInt(getResources().getString(R.string.id))!= currentUserId){
+                                                userShareMap.put(getResources().getString(R.string.users__0__user_id).replace("0",""+i), member.getInt(getResources().getString(R.string.id)));
+                                                userShareMap.put(getResources().getString(R.string.users__0__paid_share).replace("0",""+i), 0);
+                                                userShareMap.put(getResources().getString(R.string.users__0__owed_share).replace("0",""+i), costvalue/length);
                                             }else {
-                                                userShareMap.put("users__"+i+"__user_id", member.getInt("id"));
-                                                userShareMap.put("users__"+i+"__paid_share", costvalue);
-                                                userShareMap.put("users__"+i+"__owed_share", costvalue/length);
+                                                userShareMap.put(getResources().getString(R.string.users__0__user_id).replace("0",""+i), member.getInt(getResources().getString(R.string.id)));
+                                                userShareMap.put(getResources().getString(R.string.users__0__paid_share).replace("0",""+i), costvalue);
+                                                userShareMap.put(getResources().getString(R.string.users__0__owed_share).replace("0",""+i), costvalue/length);
                                             }
                                         }
 
-                                        userShareMap.put("cost",costvalue);
-                                        userShareMap.put("group_id",groupOrFrndId);
-                                        userShareMap.put("id", expense.id);
+                                        userShareMap.put( getResources().getString(R.string.cost),costvalue);
+                                        userShareMap.put( getResources().getString(R.string.group_id),groupOrFrndId);
+                                        userShareMap.put( getResources().getString(R.string.id), expense.id);
                                         updateExpense(expense.id,description.getText().toString().trim(), userShareMap);
                                         d.dismiss();
                                     } catch (Exception e) {
-                                        Log.e("FAILED get_group", "json_parsing", e);
+                                        Log.e(getResources().getString(R.string.get_group), getResources().getString(R.string.json_parsing), e);
+                                        Toast.makeText(getContext(), getResources().getString(R.string.error_try_again),
+                                                Toast.LENGTH_SHORT).show();
                                     }
                                 }
 
                                 @Override
                                 public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                                     super.onFailure(statusCode, headers, responseString, throwable);
+                                    Toast.makeText(getContext(), getResources().getString(R.string.error_try_again),
+                                            Toast.LENGTH_SHORT).show();
                                 }
                             }, groupOrFrndId);
 
                         }else{
-                            userShareMap.put("users__0__user_id", currentUserId);
-                            userShareMap.put("users__0__paid_share", costvalue);
-                            userShareMap.put("users__0__owed_share", costvalue/2);
-                            userShareMap.put("users__1__user_id", groupOrFrndId);
-                            userShareMap.put("users__1__paid_share", 0);
-                            userShareMap.put("users__1__owed_share", costvalue/2);
-                            userShareMap.put("cost",costvalue);
-                            userShareMap.put("id", expense.id);
+                            userShareMap.put(getResources().getString(R.string.users__0__user_id), currentUserId);
+                            userShareMap.put(getResources().getString(R.string.users__0__paid_share), costvalue);
+                            userShareMap.put(getResources().getString(R.string.users__0__owed_share), costvalue/2);
+                            userShareMap.put(getResources().getString(R.string.users__1__user_id), groupOrFrndId);
+                            userShareMap.put(getResources().getString(R.string.users__1__paid_share), 0);
+                            userShareMap.put(getResources().getString(R.string.users__1__owed_share), costvalue/2);
+                            userShareMap.put(getResources().getString(R.string.id), expense.id);
                             updateExpense(expense.id,description.getText().toString().trim(), userShareMap);
                             d.dismiss();
                         }
@@ -295,16 +297,16 @@ public class ExpensesFragment extends Fragment {
 
     public void openDeleteDialog(final Integer expenseId){
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-        alertDialogBuilder.setMessage("Do you want to delete this expense ?");
+        alertDialogBuilder.setMessage(getResources().getString(R.string.confirm_del_exp));
 
-        alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setPositiveButton( getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface arg0, int arg1) {
                 deleteExpense(expenseId);
             }
         });
 
-        alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setNegativeButton( getResources().getString(R.string.no),new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
             }
@@ -322,15 +324,15 @@ public class ExpensesFragment extends Fragment {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
                 try {
-                    Log.i("SUCCESS delete_expense", json.toString());
-                    if(json.getBoolean("success")){
-                        Toast.makeText(getActivity(), "Expense deleted.",
+                    Log.i( getResources().getString(R.string.delete_expense), json.toString());
+                    if(json.getBoolean( getResources().getString(R.string.success))){
+                        Toast.makeText(getActivity(), getResources().getString(R.string.exp_updated),
                                 Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (Exception e) {
-                    Log.e("FAILED delete_expense", "json_parsing", e);
-                    Toast.makeText(getActivity(), "Unexpected error occurred! Please try again.",
+                    Log.e(getResources().getString(R.string.delete_expense), getResources().getString(R.string.json_parsing), e);
+                    Toast.makeText(getContext(), getResources().getString(R.string.error_try_again),
                             Toast.LENGTH_SHORT).show();
                 }
             }
@@ -338,7 +340,7 @@ public class ExpensesFragment extends Fragment {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
-                Toast.makeText(getActivity(), "Unexpected error occurred! Please try again.",
+                Toast.makeText(getContext(), getResources().getString(R.string.error_try_again),
                         Toast.LENGTH_SHORT).show();
             }
         }, expenseId);
@@ -353,16 +355,16 @@ public class ExpensesFragment extends Fragment {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
                 try {
-                    Log.i("SUCCESS update_expense", json.toString());
-                    JSONArray expenses = json.getJSONArray("expenses");
+                    Log.i( getResources().getString(R.string.update_expense), json.toString());
+                    JSONArray expenses = json.getJSONArray( getResources().getString(R.string.expenses));
                     if(expenses.length()>0){
-                        Toast.makeText(getActivity(), "Expense updated.",
+                        Toast.makeText(getActivity(), getResources().getString(R.string.exp_updated),
                                 Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (Exception e) {
-                    Log.e("FAILED update_expense", "json_parsing", e);
-                    Toast.makeText(getActivity(), "Unexpected error occurred! Please try again.",
+                    Log.e(getResources().getString(R.string.update_expense), getResources().getString(R.string.json_parsing), e);
+                    Toast.makeText(getContext(), getResources().getString(R.string.error_try_again),
                             Toast.LENGTH_SHORT).show();
                 }
             }
@@ -370,7 +372,7 @@ public class ExpensesFragment extends Fragment {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
-                Toast.makeText(getActivity(), "Unexpected error occurred! Please try again.",
+                Toast.makeText(getContext(), getResources().getString(R.string.error_try_again),
                         Toast.LENGTH_SHORT).show();
             }
         }, expenseId,description,params);

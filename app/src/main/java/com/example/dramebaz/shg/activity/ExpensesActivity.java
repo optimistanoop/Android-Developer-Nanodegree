@@ -221,14 +221,14 @@ public class ExpensesActivity extends AppCompatActivity {
                                         int length = members.length();
                                         for(int i=0;i<length;i++){
                                             JSONObject member = members.getJSONObject(i);
-                                            if(member.getInt("id")!= currentUserId){
-                                                userShareMap.put("users__"+i+"__user_id", member.getInt("id"));
-                                                userShareMap.put("users__"+i+"__paid_share", 0);
-                                                userShareMap.put("users__"+i+"__owed_share", costvalue/length);
+                                            if(member.getInt(getResources().getString(R.string.id))!= currentUserId){
+                                                userShareMap.put(getResources().getString(R.string.users__0__user_id).replace("0",""+i), member.getInt(getResources().getString(R.string.id)));
+                                                userShareMap.put(getResources().getString(R.string.users__0__paid_share).replace("0",""+i), 0);
+                                                userShareMap.put(getResources().getString(R.string.users__0__owed_share).replace("0",""+i), costvalue/length);
                                             }else {
-                                                userShareMap.put("users__"+i+"__user_id", member.getInt("id"));
-                                                userShareMap.put("users__"+i+"__paid_share", costvalue);
-                                                userShareMap.put("users__"+i+"__owed_share", costvalue/length);
+                                                userShareMap.put(getResources().getString(R.string.users__0__user_id).replace("0",""+i), member.getInt(getResources().getString(R.string.id)));
+                                                userShareMap.put(getResources().getString(R.string.users__0__paid_share).replace("0",""+i), costvalue);
+                                                userShareMap.put(getResources().getString(R.string.users__0__owed_share).replace("0",""+i), costvalue/length);
                                             }
                                         }
 
@@ -250,13 +250,13 @@ public class ExpensesActivity extends AppCompatActivity {
                             }, id);
 
                         }else{
-                            userShareMap.put("users__0__user_id", currentUserId);
-                            userShareMap.put("users__0__paid_share", costvalue);
-                            userShareMap.put("users__0__owed_share", costvalue/2);
-                            userShareMap.put("users__1__user_id", id);
-                            userShareMap.put("users__1__paid_share", 0);
-                            userShareMap.put("users__1__owed_share", costvalue/2);
-                            userShareMap.put("cost",costvalue);
+                            userShareMap.put(getResources().getString(R.string.users__0__user_id), currentUserId);
+                            userShareMap.put(getResources().getString(R.string.users__0__paid_share), costvalue);
+                            userShareMap.put(getResources().getString(R.string.users__0__owed_share), costvalue/2);
+                            userShareMap.put(getResources().getString(R.string.users__1__user_id), id);
+                            userShareMap.put(getResources().getString(R.string.users__1__paid_share), 0);
+                            userShareMap.put(getResources().getString(R.string.users__1__owed_share), costvalue/2);
+                            userShareMap.put(getResources().getString(R.string.cost),costvalue);
                             addExpense(description.getText().toString().trim(), userShareMap);
                             d.dismiss();
                         }
