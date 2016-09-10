@@ -40,7 +40,8 @@
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:visibility="invisible"
-        android:onClick="nofriendwarning"
+        android:clickable="true"
+        android:onClick="noFriendWarning"
         android:layout_below="@+id/nofrnd"
         android:layout_margin="20dp"
         android:text="@string/add_friend" />

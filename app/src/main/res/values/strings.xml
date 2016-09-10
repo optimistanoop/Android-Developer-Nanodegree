@@ -64,6 +64,7 @@
     <string name="type">type</string>
     <string name="name">name</string>
     <string name="id">id</string>
+    <string name="balance_key">balance</string>
     <string name="current_user_id">currentUserId</string>
     <string name="rest_url">https://secure.splitwise.com/api/v3.0</string>
     <string name="rest_callback_url">oauth://codepathtweets</string>

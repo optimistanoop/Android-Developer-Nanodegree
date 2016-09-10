@@ -83,7 +83,7 @@ public class FriendsFragment extends Fragment {
                 i.putExtra(getResources().getString(R.string.type),getResources().getString(R.string.friend).toLowerCase());
                 i.putExtra(getResources().getString(R.string.id), friendId);
                 i.putExtra(getResources().getString(R.string.name), friendName);
-                i.putExtra("balance",balance);
+                i.putExtra(getResources().getString(R.string.balance_key),balance);
                 startActivity(i);
             }
         });

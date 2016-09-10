@@ -56,8 +56,8 @@ public class ExpensesActivity extends AppCompatActivity {
         type = i.getStringExtra(getResources().getString(R.string.type));
         name = i.getStringExtra(getResources().getString(R.string.name));
         id = i.getIntExtra(getResources().getString(R.string.id),0);
-        if(type.equals("friend")){
-            balance = i.getStringExtra("balance").replace("-","");
+        if(type.equals(getResources().getString(R.string.friend).toLowerCase())){
+            balance = i.getStringExtra(getResources().getString(R.string.balance_key)).replace("-","");
         }
         loadExpense(id, type,name);
 
@@ -477,7 +477,7 @@ public class ExpensesActivity extends AppCompatActivity {
     public void showInterest(float interest, float principle){
         final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         float total = principle + interest;
-        alertDialogBuilder.setMessage("Total interest- "+interest+". \nTotal amount is- "+total+".");
+        alertDialogBuilder.setMessage("Total interest- "+interest+". \nTotal amount- "+total+".");
 
         alertDialogBuilder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
             @Override

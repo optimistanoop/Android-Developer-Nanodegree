@@ -47,6 +47,10 @@ public class DashBoardActivity extends AppCompatActivity {
 
     }
 
+    private void noFriendWarning(View v){
+        openDialog(getResources().getString(R.string.add_friend));
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.mainmenu, menu);
@@ -207,7 +211,4 @@ public class DashBoardActivity extends AppCompatActivity {
         }
     }
 
-    private void nofriendwarning(View v){
-        openDialog(getResources().getString(R.string.add_friend));
-    }
 }
