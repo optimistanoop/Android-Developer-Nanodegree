@@ -112,6 +112,8 @@ public class GroupsFragment extends Fragment {
                     groupAdapter.clear();
                     Log.i(getResources().getString(R.string.get_groups), json.toString());
                     groups = Group.fromJSONArray(json.getJSONArray(getResources().getString(R.string.groups).toLowerCase()));
+                    //TODO groups size is zero , ask to add group
+                    //TODO call dashbord activity no group warning
                     Log.i(getResources().getString(R.string.get_groups), groups.toString());
                     for (int i = 0; i<groups.size();i++){
                         Group group = groups.get(i);

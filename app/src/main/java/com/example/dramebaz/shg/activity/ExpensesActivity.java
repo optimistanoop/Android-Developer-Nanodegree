@@ -43,6 +43,7 @@ public class ExpensesActivity extends AppCompatActivity {
     private String type;
     String name;
     int id;
+    String balance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +56,13 @@ public class ExpensesActivity extends AppCompatActivity {
         type = i.getStringExtra(getResources().getString(R.string.type));
         name = i.getStringExtra(getResources().getString(R.string.name));
         id = i.getIntExtra(getResources().getString(R.string.id),0);
+        if(type.equals("friend")){
+            balance = i.getStringExtra("balance").replace("-","");
+        }
         loadExpense(id, type,name);
 
     }
+
 
     // Inflate the menu; this adds items to the action bar if it is present.
     @Override
@@ -89,6 +94,8 @@ public class ExpensesActivity extends AppCompatActivity {
                 return true;
             case R.id.addExpense:
                 openAddExpenseDialog(type);
+            case R.id.miCalculate:
+                calculateInterest();
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -417,5 +424,68 @@ public class ExpensesActivity extends AppCompatActivity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+    }
+
+    public void calculateInterest(){
+        final AlertDialog d = new AlertDialog.Builder(this)
+                .setView(R.layout.calc_int_dialog)
+                .setPositiveButton(android.R.string.ok, null) //Set to null. We override the onclick
+                .setNegativeButton(android.R.string.cancel, null)
+                .create();
+
+        d.setOnShowListener(new DialogInterface.OnShowListener() {
+
+            @Override
+            public void onShow(final DialogInterface dialog) {
+                final Dialog f = (Dialog) dialog;
+                Button b = d.getButton(AlertDialog.BUTTON_POSITIVE);
+                EditText principle = (EditText)d.findViewById(R.id.principle);
+                principle.setText(balance);
+                b.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View view) {
+
+                        EditText principle = (EditText) f.findViewById(R.id.principle);
+                        EditText rate = (EditText) f.findViewById(R.id.rate);
+                        EditText time = (EditText) f.findViewById(R.id.time);
+
+                        if (principle.getText().toString().trim().equals("") || !(Float.parseFloat(principle.getText().toString().trim())>0)) {
+                            principle.setError(getResources().getString(R.string.invalid_no));
+                            return;
+                        }else if (rate.getText().toString().trim().equals("") || !(Float.parseFloat(rate.getText().toString().trim())>0)) {
+                            rate.setError(getResources().getString(R.string.invalid_no));
+                            return;
+                        } else if (time.getText().toString().trim().equals("") || !(Float.parseFloat(time.getText().toString().trim())>0)) {
+                            time.setError(getResources().getString(R.string.invalid_no));
+                            return;
+                        }
+
+                        float p = Float.parseFloat(principle.getText().toString().trim());
+                        float r = Float.parseFloat(rate.getText().toString().trim());
+                        float t = Float.parseFloat(time.getText().toString().trim())/12;
+                        float i = p*r*t/100;
+                        d.dismiss();
+                        showInterest(i, p);
+                    }
+                });
+            }
+        });
+        d.show();
+    }
+
+    public void showInterest(float interest, float principle){
+        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        float total = principle + interest;
+        alertDialogBuilder.setMessage("Total interest- "+interest+". \nTotal amount is- "+total+".");
+
+        alertDialogBuilder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+
+            }
+        });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 }

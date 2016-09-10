@@ -206,4 +206,8 @@ public class DashBoardActivity extends AppCompatActivity {
             return tabTitles[position];
         }
     }
+
+    private void nofriendwarning(View v){
+        openDialog(getResources().getString(R.string.add_friend));
+    }
 }

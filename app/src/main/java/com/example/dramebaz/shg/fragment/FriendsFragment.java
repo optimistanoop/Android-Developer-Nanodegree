@@ -65,6 +65,7 @@ public class FriendsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.balance_per_contact, container, false);
+
         client = RestApplication.getSplitwiseRestClient();
         friends = new ArrayList<>();
         friendAdapter = new FriendAdapter(getContext(), friends);
@@ -76,11 +77,13 @@ public class FriendsFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 int friendId = friends.get(position).user.id;
+                String balance = friends.get(position).balance.amount;
                 String friendName = friends.get(position).user.firstName;
                 Intent i = new Intent(getContext(), ExpensesActivity.class);
                 i.putExtra(getResources().getString(R.string.type),getResources().getString(R.string.friend).toLowerCase());
                 i.putExtra(getResources().getString(R.string.id), friendId);
                 i.putExtra(getResources().getString(R.string.name), friendName);
+                i.putExtra("balance",balance);
                 startActivity(i);
             }
         });
@@ -109,6 +112,8 @@ public class FriendsFragment extends Fragment {
                     friendAdapter.clear();
                     Log.i(getResources().getString(R.string.get_friends), json.toString());
                     friends = GroupMember.fromJSONArray(json.getJSONArray(getResources().getString(R.string.friends)));
+                    //TODO friends size is zero , ask to add friend
+                    //TODO call dashbord activity no friend warning
                     Log.i(getResources().getString(R.string.get_friends), friends.toString());
                     for (int i = 0; i<friends.size();i++){
                         GroupMember friend = friends.get(i);
