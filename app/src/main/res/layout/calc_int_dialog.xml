@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:background="#5BC5A7"
-        android:text="CALCULATE INTEREST"
+        android:text="@string/calc_int"
         android:gravity="center"
         android:textSize="22sp"
         android:contentDescription="@string/app_name" />
@@ -20,7 +20,7 @@
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
         android:layout_marginBottom="4dp"
-        android:hint="principle" />
+        android:hint="@string/principal" />
     <EditText
         android:id="@+id/rate"
         android:inputType="number"
@@ -31,7 +31,7 @@
         android:layout_marginRight="4dp"
         android:layout_marginBottom="16dp"
         android:fontFamily="sans-serif"
-        android:hint="rate"/>
+        android:hint="@string/rate"/>
 
     <EditText
         android:id="@+id/time"
@@ -43,5 +43,5 @@
         android:layout_marginRight="4dp"
         android:layout_marginBottom="16dp"
         android:fontFamily="sans-serif"
-        android:hint="months"/>
+        android:hint="@string/month"/>
 </LinearLayout>

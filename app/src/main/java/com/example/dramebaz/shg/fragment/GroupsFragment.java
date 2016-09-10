@@ -69,7 +69,7 @@ public class GroupsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.balance_per_contact, container, false);
+        View view = inflater.inflate(R.layout.balance_per_contact_grp, container, false);
         client = RestApplication.getSplitwiseRestClient();
         groups = new ArrayList<>();
         groupAdapter = new GroupAdapter(getContext(), groups);
@@ -113,7 +113,7 @@ public class GroupsFragment extends Fragment {
                     groupAdapter.clear();
                     Log.i(getResources().getString(R.string.get_groups), json.toString());
                     groups = Group.fromJSONArray(json.getJSONArray(getResources().getString(R.string.groups).toLowerCase()));
-                    Button noDataWarning = (Button) getActivity().findViewById(R.id.noDataWarning);
+                    Button noDataWarning = (Button) getActivity().findViewById(R.id.noGrpDataWarning);
                     noDataWarning.setText(getResources().getString(R.string.add_group));
                     if(groups.size()== 0){
                         noDataWarning.setVisibility(View.VISIBLE);

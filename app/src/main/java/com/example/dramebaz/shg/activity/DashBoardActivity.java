@@ -142,6 +142,9 @@ public class DashBoardActivity extends AppCompatActivity {
                     if(group.getInt("id")>0){
                         Toast.makeText(getBaseContext(), group.getString(getResources().getString(R.string.name))+" Created.",
                                 Toast.LENGTH_SHORT).show();
+                        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+                        viewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
+                        viewPager.setCurrentItem(1);
                     }
 
                 } catch (Exception e) {
@@ -169,6 +172,9 @@ public class DashBoardActivity extends AppCompatActivity {
                     if(friend.getInt("id")>0){
                         Toast.makeText(getBaseContext(), "Friend added.",
                                 Toast.LENGTH_SHORT).show();
+                        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+                        viewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
+                        viewPager.setCurrentItem(0);
                     }
 
                 } catch (Exception e) {

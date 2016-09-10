@@ -120,6 +120,12 @@ public class ExpensesFragment extends Fragment {
                             requiredExp.add(e);
                         }
                     }
+                    Button noExpDataWarning = (Button) getActivity().findViewById(R.id.noExpDataWarning);
+                    if(requiredExp.size()== 0){
+                        noExpDataWarning.setVisibility(View.VISIBLE);
+                    }else {
+                        noExpDataWarning.setVisibility(View.INVISIBLE);
+                    }
                     expensesAdapter.addAll(requiredExp);
                     expensesAdapter.notifyDataSetChanged();
                     swipeContainer.setRefreshing(false);

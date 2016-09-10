@@ -59,10 +59,13 @@ public class ExpensesActivity extends AppCompatActivity {
         if(type.equals(getResources().getString(R.string.friend).toLowerCase())){
             balance = i.getStringExtra(getResources().getString(R.string.balance_key)).replace("-","");
         }
-        loadExpense(id, type,name);
+        loadExpenseFrag(id, type,name);
 
     }
 
+    public void noExpDataWarning(View v){
+        openAddExpenseDialog(type);
+    }
 
     // Inflate the menu; this adds items to the action bar if it is present.
     @Override
@@ -94,8 +97,10 @@ public class ExpensesActivity extends AppCompatActivity {
                 return true;
             case R.id.addExpense:
                 openAddExpenseDialog(type);
+                return true;
             case R.id.miCalculate:
                 calculateInterest();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -288,6 +293,10 @@ public class ExpensesActivity extends AppCompatActivity {
                     if(expenses.length()>0){
                         Toast.makeText(getBaseContext(), getResources().getString(R.string.expense_added),
                                 Toast.LENGTH_SHORT).show();
+                        loadExpenseFrag(id, type,name);
+                    }else {
+                        Toast.makeText(getBaseContext(), getResources().getString(R.string.error_try_again),
+                                Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
                     Log.e(getResources().getString(R.string.create_expense), getResources().getString(R.string.json_parsing), e);
@@ -397,7 +406,7 @@ public class ExpensesActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(mTitle);
     }
 
-    private void loadExpense(Integer id, String type, String name) {
+    private void loadExpenseFrag(Integer id, String type, String name) {
         // update the main content by replacing fragment
 
         Fragment fragment = null;

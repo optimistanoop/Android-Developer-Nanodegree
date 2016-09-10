@@ -40,6 +40,9 @@
     <string name="paid">paid</string>
     <string name="date">date</string>
     <string name="you_owe">You Owe</string>
+    <string name="principal">principal</string>
+    <string name="rate">rate per annam</string>
+    <string name="month">months</string>
     <string name="you_borrowed">You borrowed</string>
     <string name="edit_expense">EDIT EXPENSE</string>
     <string name="add_grp_member">Add A GROUP MEMBER</string>
@@ -47,6 +50,7 @@
     <string name="add_frn_expense">ADD FRIEND EXPENSE</string>
     <string name="add_a_frn">ADD A FRIEND</string>
     <string name="add_a_grp">ADD A GROUP</string>
+    <string name="calc_int">CALCULATE INTEREST</string>
 
 
     <!--toast-->
@@ -70,7 +74,7 @@
     <string name="rest_callback_url">oauth://codepathtweets</string>
     <string name="users__0__user_id">users__0__user_id</string>
     <string name="users__1__user_id">users__1__user_id</string>
-    <string name="users__0__paid_share">users____paid_share</string>
+    <string name="users__0__paid_share">users__0__paid_share</string>
     <string name="users__1__paid_share">users__1__paid_share</string>
     <string name="users__0__owed_share">users__0__owed_share</string>
     <string name="users__1__owed_share">users__1__owed_share</string>

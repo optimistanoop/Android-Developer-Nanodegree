@@ -65,7 +65,7 @@ public class FriendsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.balance_per_contact, container, false);
+        View view = inflater.inflate(R.layout.balance_per_contact_frnd, container, false);
 
         client = RestApplication.getSplitwiseRestClient();
         friends = new ArrayList<>();
@@ -113,11 +113,11 @@ public class FriendsFragment extends Fragment {
                     friendAdapter.clear();
                     Log.i(getResources().getString(R.string.get_friends), json.toString());
                     friends = GroupMember.fromJSONArray(json.getJSONArray(getResources().getString(R.string.friends)));
-                    Button noDataWarning = (Button) getActivity().findViewById(R.id.noDataWarning);
+                    Button noFrnDataWarning = (Button) getActivity().findViewById(R.id.noFrnDataWarning);
                     if(friends.size()== 0){
-                        noDataWarning.setVisibility(View.VISIBLE);
+                        noFrnDataWarning.setVisibility(View.VISIBLE);
                     }else {
-                        noDataWarning.setVisibility(View.INVISIBLE);
+                        noFrnDataWarning.setVisibility(View.INVISIBLE);
                     }
 
                     Log.i(getResources().getString(R.string.get_friends), friends.toString());
