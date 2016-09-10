@@ -23,28 +23,5 @@
         android:layout_height="wrap_content"
         android:background="@android:color/white" />
 
-    <TextView
-        android:id="@+id/nofrnd"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:gravity="center_vertical"
-        android:visibility="invisible"
-        android:layout_margin="20dp"
-        android:text="Seems no frind, plz add" />
-
-    <Button
-        android:id="@+id/nofriendwarning"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:visibility="invisible"
-        android:clickable="true"
-        android:onClick="noFriendWarning"
-        android:layout_below="@+id/nofrnd"
-        android:layout_margin="20dp"
-        android:text="@string/add_friend" />
-
 </RelativeLayout>
 

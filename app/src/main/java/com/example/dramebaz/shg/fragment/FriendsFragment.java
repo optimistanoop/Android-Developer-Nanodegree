@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -112,8 +113,13 @@ public class FriendsFragment extends Fragment {
                     friendAdapter.clear();
                     Log.i(getResources().getString(R.string.get_friends), json.toString());
                     friends = GroupMember.fromJSONArray(json.getJSONArray(getResources().getString(R.string.friends)));
-                    //TODO friends size is zero , ask to add friend
-                    //TODO call dashbord activity no friend warning
+                    Button noDataWarning = (Button) getActivity().findViewById(R.id.noDataWarning);
+                    if(friends.size()== 0){
+                        noDataWarning.setVisibility(View.VISIBLE);
+                    }else {
+                        noDataWarning.setVisibility(View.INVISIBLE);
+                    }
+
                     Log.i(getResources().getString(R.string.get_friends), friends.toString());
                     for (int i = 0; i<friends.size();i++){
                         GroupMember friend = friends.get(i);

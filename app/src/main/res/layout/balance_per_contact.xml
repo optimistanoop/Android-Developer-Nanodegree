@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:orientation="vertical">
     <android.support.v4.widget.SwipeRefreshLayout
@@ -14,4 +14,16 @@
         android:id="@+id/lvBalanceAll" />
     </android.support.v4.widget.SwipeRefreshLayout>
 
-</LinearLayout>
+    <Button
+        android:id="@+id/noDataWarning"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:visibility="invisible"
+        android:clickable="true"
+        android:onClick="noDataWarning"
+        android:layout_margin="20dp"
+        android:text="@string/add_friend" />
+
+</RelativeLayout>

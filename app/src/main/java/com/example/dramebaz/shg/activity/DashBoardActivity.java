@@ -47,8 +47,13 @@ public class DashBoardActivity extends AppCompatActivity {
 
     }
 
-    private void noFriendWarning(View v){
-        openDialog(getResources().getString(R.string.add_friend));
+    public void noDataWarning(View v){
+        CharSequence noDataButton = ((Button) v).getText();
+        if(noDataButton.equals(getResources().getString(R.string.add_friend))){
+            openDialog(getResources().getString(R.string.add_friend));
+        }else {
+            openDialog(getResources().getString(R.string.add_group));
+        }
     }
 
     @Override

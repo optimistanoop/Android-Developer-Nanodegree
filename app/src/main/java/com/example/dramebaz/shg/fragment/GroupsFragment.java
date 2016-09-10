@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.dramebaz.shg.GroupAdapter;
@@ -112,8 +113,14 @@ public class GroupsFragment extends Fragment {
                     groupAdapter.clear();
                     Log.i(getResources().getString(R.string.get_groups), json.toString());
                     groups = Group.fromJSONArray(json.getJSONArray(getResources().getString(R.string.groups).toLowerCase()));
-                    //TODO groups size is zero , ask to add group
-                    //TODO call dashbord activity no group warning
+                    Button noDataWarning = (Button) getActivity().findViewById(R.id.noDataWarning);
+                    noDataWarning.setText(getResources().getString(R.string.add_group));
+                    if(groups.size()== 0){
+                        noDataWarning.setVisibility(View.VISIBLE);
+                    }else {
+                        noDataWarning.setVisibility(View.INVISIBLE);
+                    }
+
                     Log.i(getResources().getString(R.string.get_groups), groups.toString());
                     for (int i = 0; i<groups.size();i++){
                         Group group = groups.get(i);
