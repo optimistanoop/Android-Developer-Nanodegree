@@ -10,8 +10,6 @@ import java.util.List;
 public class Group {
     public Integer id;
     public String name;
-    public String type;
-    public String countryCode;
     public List<GroupMember> members;
 
     public static Group fromJSONObject(JSONObject jsonObject) throws JSONException {

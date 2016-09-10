@@ -2,9 +2,8 @@ package com.example.dramebaz.shg;
 
 import android.text.Html;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.util.Log;
-
-import com.example.dramebaz.shg.splitwise.Balance;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -12,6 +11,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+
+import com.example.dramebaz.shg.splitwise.Balance;
 
 public class Presenter {
     public static String getCostString(String cost, String currencyCode) {
@@ -86,4 +87,8 @@ public class Presenter {
             return null;
         }
     }
+    public final static boolean isValidEmail(CharSequence target) {
+        return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+    }
+
 }

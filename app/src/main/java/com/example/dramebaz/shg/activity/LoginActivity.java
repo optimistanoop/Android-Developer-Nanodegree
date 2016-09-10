@@ -3,9 +3,13 @@ package com.example.dramebaz.shg.activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.codepath.oauth.OAuthLoginActionBarActivity;
 import com.example.dramebaz.shg.R;
@@ -21,6 +25,10 @@ public class LoginActivity extends OAuthLoginActionBarActivity<SplitwiseRestClie
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //Remove title bar
+        //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //Remove notification bar
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
     }
@@ -28,7 +36,7 @@ public class LoginActivity extends OAuthLoginActionBarActivity<SplitwiseRestClie
     // Inflate the menu; this adds items to the action bar if it is present.
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.login, menu);
+        //getMenuInflater().inflate(R.menu.login, menu);
         return true;
     }
 
@@ -36,7 +44,7 @@ public class LoginActivity extends OAuthLoginActionBarActivity<SplitwiseRestClie
     // i.e Display application "homepage"
     @Override
     public void onLoginSuccess() {
-        getFriendsList();
+        getCurrentUser();
         Intent i = new Intent(this, DashBoardActivity.class);
         startActivity(i);
     }
@@ -55,22 +63,25 @@ public class LoginActivity extends OAuthLoginActionBarActivity<SplitwiseRestClie
         getClient().connect();
     }
 
-    private void getFriendsList(){
+    private void getCurrentUser(){
         SplitwiseRestClient client = RestApplication.getSplitwiseRestClient();
         client.getCurrentUser(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
                 try {
-                    Log.i("Got currentUser", json.toString());
-                    User user = User.fromJSONObject(json.getJSONObject("user"));
+                    Log.i(getResources().getString(R.string.get_current_user), json.toString());
+                    User user = User.fromJSONObject(json.getJSONObject(getResources().getString(R.string.user)));
 
-                    SharedPreferences settings = getSharedPreferences("currentUser", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = settings.edit();
-                    editor.putString("id", user.id.toString());
-                    editor.commit();
+                    SharedPreferences pref =
+                            PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+                    SharedPreferences.Editor edit = pref.edit();
+                    edit.putInt(getResources().getString(R.string.current_user_id), user.id);
+                    edit.commit();
 
                 } catch (Exception e) {
-                    Log.e("FAILED get_expenses", "json_parsing", e);
+                    Log.e(getResources().getString(R.string.get_current_user), getResources().getString(R.string.json_parsing), e);
+                    Toast.makeText(getBaseContext(), getResources().getString(R.string.error_try_again),
+                            Toast.LENGTH_SHORT).show();
                 }
             }
 
