@@ -11,6 +11,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:src="@drawable/ic_shopping_cart"
+        android:contentDescription="@string/profile_pic_desc"
         android:padding="4dp"/>
 
     <TextView

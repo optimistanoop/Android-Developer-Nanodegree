@@ -26,5 +26,6 @@
         android:clickable="true"
         android:onClick="noExpDataWarning"
         android:layout_margin="20dp"
+        android:contentDescription="@string/add_expense"
         android:text="@string/add_expense" />
 </RelativeLayout>

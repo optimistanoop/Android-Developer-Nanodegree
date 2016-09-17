@@ -20,6 +20,7 @@
         android:layout_alignParentBottom="true"
         android:layout_margin="20dp"
         android:onClick="loginToRest"
+        android:contentDescription="@string/login_label"
         android:text="@string/login_label" />
 
 </RelativeLayout>

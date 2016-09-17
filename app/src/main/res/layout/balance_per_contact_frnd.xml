@@ -24,6 +24,7 @@
         android:clickable="true"
         android:onClick="noDataWarning"
         android:layout_margin="20dp"
+        android:contentDescription="@string/add_friend"
         android:text="@string/add_friend" />
 
 </RelativeLayout>
