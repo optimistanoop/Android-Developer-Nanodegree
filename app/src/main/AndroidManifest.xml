@@ -46,6 +46,14 @@
                 android:value=".activity.DashBoardActivity" />
         </activity>
 
+        <receiver android:name=".widget.SHGWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"></action>
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/shg_wid"></meta-data>
+        </receiver>
+
     </application>
 
 </manifest>
