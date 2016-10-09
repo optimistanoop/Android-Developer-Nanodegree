@@ -57,6 +57,7 @@
     <!--toast-->
     <string name="json_parsing">json_parsing</string>
     <string name="expense_added">Expense added.</string>
+    <string name="friend_added">Friend added.</string>
     <string name="grp_mem_added">Group member added.</string>
     <string name="friend_deleted">Friend deleted.</string>
     <string name="grp_deleted">Group deleted.</string>

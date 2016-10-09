@@ -139,7 +139,7 @@ public class DashBoardActivity extends AppCompatActivity {
                 try {
                     Log.i(getResources().getString(R.string.create_group), json.toString());
                     JSONObject group = json.getJSONObject(getResources().getString(R.string.group).toLowerCase());
-                    if(group.getInt("id")>0){
+                    if(group.getInt(getResources().getString(R.string.id))>0){
                         Toast.makeText(getBaseContext(), group.getString(getResources().getString(R.string.name))+" Created.",
                                 Toast.LENGTH_SHORT).show();
                         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -169,8 +169,8 @@ public class DashBoardActivity extends AppCompatActivity {
                 try {
                     Log.i(getResources().getString(R.string.create_friend), json.toString());
                     JSONObject friend = json.getJSONObject(getResources().getString(R.string.friend).toLowerCase());
-                    if(friend.getInt("id")>0){
-                        Toast.makeText(getBaseContext(), "Friend added.",
+                    if(friend.getInt(getResources().getString(R.string.id))>0){
+                        Toast.makeText(getBaseContext(), getResources().getString(R.string.friend_added),
                                 Toast.LENGTH_SHORT).show();
                         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
                         viewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
