@@ -20,6 +20,7 @@ import com.example.dramebaz.shg.RestApplication;
 import com.example.dramebaz.shg.activity.ExpensesActivity;
 import com.example.dramebaz.shg.client.SplitwiseRestClient;
 import com.example.dramebaz.shg.splitwise.GroupMember;
+import com.google.firebase.crash.FirebaseCrash;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
@@ -138,6 +139,7 @@ public class FriendsFragment extends Fragment {
                     friendAdapter.notifyDataSetChanged();
 
                 } catch (JSONException e) {
+                    FirebaseCrash.report(e);
                     Log.e(getResources().getString(R.string.get_friends), getResources().getString(R.string.json_parsing), e);
                 }
             }

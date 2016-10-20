@@ -25,6 +25,7 @@ import com.example.dramebaz.shg.RestApplication;
 import com.example.dramebaz.shg.adapter.ExpensesAdapter;
 import com.example.dramebaz.shg.client.SplitwiseRestClient;
 import com.example.dramebaz.shg.splitwise.Expense;
+import com.google.firebase.crash.FirebaseCrash;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
@@ -145,6 +146,7 @@ public class ExpensesFragment extends Fragment {
                         }
                     });
                 } catch (JSONException e) {
+                    FirebaseCrash.report(e);
                     Log.e(getResources().getString(R.string.get_expenses), getResources().getString(R.string.json_parsing), e);
                     Toast.makeText(getContext(), getResources().getString(R.string.error_try_again),
                             Toast.LENGTH_SHORT).show();
@@ -269,6 +271,7 @@ public class ExpensesFragment extends Fragment {
                                         updateExpense(expense.id,description.getText().toString().trim(), userShareMap);
                                         d.dismiss();
                                     } catch (Exception e) {
+                                        FirebaseCrash.report(e);
                                         Log.e(getResources().getString(R.string.get_group), getResources().getString(R.string.json_parsing), e);
                                         Toast.makeText(getContext(), getResources().getString(R.string.error_try_again),
                                                 Toast.LENGTH_SHORT).show();
@@ -337,6 +340,7 @@ public class ExpensesFragment extends Fragment {
                     }
 
                 } catch (Exception e) {
+                    FirebaseCrash.report(e);
                     Log.e(getResources().getString(R.string.delete_expense), getResources().getString(R.string.json_parsing), e);
                     Toast.makeText(getContext(), getResources().getString(R.string.error_try_again),
                             Toast.LENGTH_SHORT).show();
@@ -369,6 +373,7 @@ public class ExpensesFragment extends Fragment {
                     }
 
                 } catch (Exception e) {
+                    FirebaseCrash.report(e);
                     Log.e(getResources().getString(R.string.update_expense), getResources().getString(R.string.json_parsing), e);
                     Toast.makeText(getContext(), getResources().getString(R.string.error_try_again),
                             Toast.LENGTH_SHORT).show();
