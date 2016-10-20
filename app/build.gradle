@@ -49,4 +49,7 @@ dependencies {
     compile 'com.loopj.android:android-async-http:1.4.8'
     compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
+    compile 'com.google.firebase:firebase-crash:9.6.1'
 }
+
+apply plugin: 'com.google.gms.google-services'

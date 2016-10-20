@@ -25,6 +25,7 @@ import com.example.dramebaz.shg.RestApplication;
 import com.example.dramebaz.shg.client.SplitwiseRestClient;
 import com.example.dramebaz.shg.fragment.FriendsFragment;
 import com.example.dramebaz.shg.fragment.GroupsFragment;
+import com.google.firebase.crash.FirebaseCrash;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
@@ -148,6 +149,7 @@ public class DashBoardActivity extends AppCompatActivity {
                     }
 
                 } catch (Exception e) {
+                    FirebaseCrash.report(e);
                     Log.e(getResources().getString(R.string.create_group), getResources().getString(R.string.json_parsing), e);
                     Toast.makeText(getBaseContext(), getResources().getString(R.string.error_try_again),
                             Toast.LENGTH_SHORT).show();
@@ -178,6 +180,7 @@ public class DashBoardActivity extends AppCompatActivity {
                     }
 
                 } catch (Exception e) {
+                    FirebaseCrash.report(e);
                     Log.e(getResources().getString(R.string.create_friend), getResources().getString(R.string.json_parsing), e);
                     Toast.makeText(getBaseContext(), getResources().getString(R.string.error_try_again),
                             Toast.LENGTH_SHORT).show();

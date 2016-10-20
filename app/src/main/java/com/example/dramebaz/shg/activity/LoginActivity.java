@@ -7,7 +7,6 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
@@ -16,6 +15,7 @@ import com.example.dramebaz.shg.R;
 import com.example.dramebaz.shg.RestApplication;
 import com.example.dramebaz.shg.client.SplitwiseRestClient;
 import com.example.dramebaz.shg.splitwise.User;
+import com.google.firebase.crash.FirebaseCrash;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
@@ -79,6 +79,7 @@ public class LoginActivity extends OAuthLoginActionBarActivity<SplitwiseRestClie
                     edit.commit();
 
                 } catch (Exception e) {
+                    FirebaseCrash.report(e);
                     Log.e(getResources().getString(R.string.get_current_user), getResources().getString(R.string.json_parsing), e);
                     Toast.makeText(getBaseContext(), getResources().getString(R.string.error_try_again),
                             Toast.LENGTH_SHORT).show();

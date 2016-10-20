@@ -27,6 +27,7 @@ import com.example.dramebaz.shg.R;
 import com.example.dramebaz.shg.RestApplication;
 import com.example.dramebaz.shg.client.SplitwiseRestClient;
 import com.example.dramebaz.shg.fragment.ExpensesFragment;
+import com.google.firebase.crash.FirebaseCrash;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
@@ -249,6 +250,7 @@ public class ExpensesActivity extends AppCompatActivity {
                                         addExpense(description.getText().toString().trim(), userShareMap);
                                         d.dismiss();
                                     } catch (Exception e) {
+                                        FirebaseCrash.report(e);
                                         Log.e(getResources().getString(R.string.get_group), getResources().getString(R.string.json_parsing), e);
                                     }
                                 }
@@ -299,6 +301,7 @@ public class ExpensesActivity extends AppCompatActivity {
                                 Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
+                    FirebaseCrash.report(e);
                     Log.e(getResources().getString(R.string.create_expense), getResources().getString(R.string.json_parsing), e);
                     Toast.makeText(getBaseContext(), getResources().getString(R.string.error_try_again),
                             Toast.LENGTH_SHORT).show();
@@ -325,6 +328,7 @@ public class ExpensesActivity extends AppCompatActivity {
                     }
 
                 } catch (Exception e) {
+                    FirebaseCrash.report(e);
                     Log.e(getResources().getString(R.string.add_user_to_group), getResources().getString(R.string.json_parsing), e);
                     Toast.makeText(getBaseContext(), getResources().getString(R.string.error_try_again),
                             Toast.LENGTH_SHORT).show();
@@ -357,6 +361,7 @@ public class ExpensesActivity extends AppCompatActivity {
                     }
 
                 } catch (Exception e) {
+                    FirebaseCrash.report(e);
                     Log.e(getResources().getString(R.string.delete_friend), getResources().getString(R.string.json_parsing), e);
                     Toast.makeText(getBaseContext(), getResources().getString(R.string.error_try_again),
                             Toast.LENGTH_SHORT).show();
@@ -386,6 +391,7 @@ public class ExpensesActivity extends AppCompatActivity {
                     }
 
                 } catch (Exception e) {
+                    FirebaseCrash.report(e);
                     Log.e(getResources().getString(R.string.delete_group), getResources().getString(R.string.json_parsing), e);
                     Toast.makeText(getBaseContext(), getResources().getString(R.string.error_try_again),
                             Toast.LENGTH_SHORT).show();
