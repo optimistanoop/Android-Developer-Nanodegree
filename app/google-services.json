@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "680091464762",
+    "firebase_url": "https://shgs-e72a3.firebaseio.com",
+    "project_id": "shgs-e72a3",
+    "storage_bucket": "shgs-e72a3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:680091464762:android:5671324e9ef799c4",
+        "android_client_info": {
+          "package_name": "com.example.dramebaz.shg"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "680091464762-bfol22pdi5p01le0gq5sshqo058i0jqp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCp0XYKChCEBgmY3-xsfZ1lKjDgNDOZBLA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
