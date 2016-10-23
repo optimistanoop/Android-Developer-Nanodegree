@@ -54,6 +54,11 @@
                 android:resource="@xml/shg_wid"></meta-data>
         </receiver>
 
+        <provider
+            android:name=".UserProvider"
+            android:authorities="com.example.provider.SHG">
+        </provider>
+
     </application>
 
 </manifest>
