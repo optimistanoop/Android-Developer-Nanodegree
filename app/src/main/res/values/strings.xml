@@ -21,6 +21,7 @@
 
     <!--ui-->
     <string name="invalid_no">Invalid Number</string>
+    <string name="na">NA</string>
     <string name="this_is_required">This is required</string>
     <string name="cost_share_grp">*Cost will be shared equally across group.</string>
     <string name="cost_share_frn">*Cost will be shared equally.</string>

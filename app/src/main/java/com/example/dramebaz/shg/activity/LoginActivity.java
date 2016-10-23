@@ -1,9 +1,15 @@
 package com.example.dramebaz.shg.activity;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -13,6 +19,7 @@ import android.widget.Toast;
 import com.codepath.oauth.OAuthLoginActionBarActivity;
 import com.example.dramebaz.shg.R;
 import com.example.dramebaz.shg.RestApplication;
+import com.example.dramebaz.shg.UserProvider;
 import com.example.dramebaz.shg.client.SplitwiseRestClient;
 import com.example.dramebaz.shg.splitwise.User;
 import com.google.firebase.crash.FirebaseCrash;
@@ -21,7 +28,8 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import org.apache.http.Header;
 import org.json.JSONObject;
 
-public class LoginActivity extends OAuthLoginActionBarActivity<SplitwiseRestClient> {
+public class LoginActivity extends OAuthLoginActionBarActivity<SplitwiseRestClient> implements
+        LoaderManager.LoaderCallbacks<Cursor>{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +39,7 @@ public class LoginActivity extends OAuthLoginActionBarActivity<SplitwiseRestClie
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        getSupportLoaderManager().initLoader(1, null, this);
     }
 
     // Inflate the menu; this adds items to the action bar if it is present.
@@ -72,11 +81,14 @@ public class LoginActivity extends OAuthLoginActionBarActivity<SplitwiseRestClie
                     Log.i(getResources().getString(R.string.get_current_user), json.toString());
                     User user = User.fromJSONObject(json.getJSONObject(getResources().getString(R.string.user)));
 
-                    SharedPreferences pref =
-                            PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-                    SharedPreferences.Editor edit = pref.edit();
-                    edit.putInt(getResources().getString(R.string.current_user_id), user.id);
-                    edit.commit();
+                    ContentValues values = new ContentValues();
+
+                    values.put(UserProvider.NAME, user.firstName);
+
+                    values.put(UserProvider.USERID, user.id);
+
+                    Uri uri = getContentResolver().insert( UserProvider.CONTENT_URI, values);
+
 
                 } catch (Exception e) {
                     FirebaseCrash.report(e);
@@ -93,5 +105,31 @@ public class LoginActivity extends OAuthLoginActionBarActivity<SplitwiseRestClie
         });
     }
 
+    @Override
+    public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
+        String URL = "content://com.example.provider.SHG/users";
+        Uri students = Uri.parse(URL);
+
+        return new CursorLoader(this, students, null, null, null, "_id");
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> arg0, Cursor c) {
+
+        if (c.moveToLast()) {
+
+            SharedPreferences pref =
+                    PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+            SharedPreferences.Editor edit = pref.edit();
+            edit.putInt(getResources().getString(R.string.current_user_id), Integer.parseInt(c.getString(c.getColumnIndex(UserProvider.USERID))));
+            edit.commit();
+        }
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+
+    }
 
 }
