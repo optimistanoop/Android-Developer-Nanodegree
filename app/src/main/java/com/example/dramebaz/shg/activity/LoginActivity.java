@@ -111,10 +111,10 @@ public class LoginActivity extends OAuthLoginActionBarActivity<SplitwiseRestClie
 
     @Override
     public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
-        String URL = "content://com.example.provider.SHG/users";
+        String URL = getResources().getString(R.string.provider_url);
         Uri students = Uri.parse(URL);
 
-        return new CursorLoader(this, students, null, null, null, "_id");
+        return new CursorLoader(this, students, null, null, null, getResources().getString(R.string._id));
     }
 
     @Override
@@ -133,7 +133,6 @@ public class LoginActivity extends OAuthLoginActionBarActivity<SplitwiseRestClie
             payload.putString(getResources().getString(R.string.current_user_id), c.getString(c.getColumnIndex(UserProvider.USERID)));
             mFirebaseAnalytics.logEvent(getResources().getString(R.string.get), payload);
             //Firebase analytics - Track User Flows
-
 
         }
 

@@ -56,7 +56,7 @@ public class GroupAdapter extends ArrayAdapter<Group> {
         viewHolder.username.setText(String.format("%s %s", group.name, ""));
         SharedPreferences pref =
                 PreferenceManager.getDefaultSharedPreferences(getContext());
-        int currentUserId =  pref.getInt("currentUserId", 0);
+        int currentUserId =  pref.getInt(getContext().getResources().getString(R.string.current_user_id), 0);
         for(GroupMember gm :group.members){
             if(gm.user.id == currentUserId){
                 viewHolder.totalBalance.setText(Presenter.getBalanceString(gm.balance));

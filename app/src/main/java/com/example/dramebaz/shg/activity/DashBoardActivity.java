@@ -153,7 +153,7 @@ public class DashBoardActivity extends AppCompatActivity {
                     Log.i(getResources().getString(R.string.create_group), json.toString());
                     JSONObject group = json.getJSONObject(getResources().getString(R.string.group).toLowerCase());
                     if(group.getInt(getResources().getString(R.string.id))>0){
-                        Toast.makeText(getBaseContext(), group.getString(getResources().getString(R.string.name))+" Created.",
+                        Toast.makeText(getBaseContext(), group.getString(getResources().getString(R.string.name))+" "+getResources().getString(R.string.created),
                                 Toast.LENGTH_SHORT).show();
                         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
                         viewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));

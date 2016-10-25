@@ -531,9 +531,9 @@ public class ExpensesActivity extends AppCompatActivity {
     public void showInterest(float interest, float principle){
         final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         float total = principle + interest;
-        alertDialogBuilder.setMessage("Total interest- "+interest+". \nTotal amount- "+total+".");
+        alertDialogBuilder.setMessage(getResources().getString(R.string.total_int)+" "+interest+"\n"+getResources().getString(R.string.total_amt)+" "+total);
 
-        alertDialogBuilder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface arg0, int arg1) {
 
