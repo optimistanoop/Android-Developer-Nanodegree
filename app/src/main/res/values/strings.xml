@@ -115,4 +115,8 @@
     <string name="delete_friend">delete_friend/</string>
     <string name="delete_group">delete_group/</string>
     <string name="delete_expense">delete_expense/</string>
+
+    <!--analytics evnts-->
+    <string name="click">CLICK/</string>
+    <string name="get">GET/</string>
 </resources>

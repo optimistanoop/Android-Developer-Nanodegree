@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -26,6 +25,7 @@ import com.example.dramebaz.shg.RestApplication;
 import com.example.dramebaz.shg.client.SplitwiseRestClient;
 import com.example.dramebaz.shg.fragment.FriendsFragment;
 import com.example.dramebaz.shg.fragment.GroupsFragment;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.crash.FirebaseCrash;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -34,20 +34,19 @@ import org.json.JSONObject;
 
 public class DashBoardActivity extends AppCompatActivity {
 
+    private FirebaseAnalytics mFirebaseAnalytics;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dash_board);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
-
-        //final ActionBar ab = getSupportActionBar();
-
-
 
         PagerSlidingTabStrip tabStrip = (PagerSlidingTabStrip) findViewById(R.id.sliding_tabs);
         tabStrip.setViewPager(viewPager);
@@ -139,6 +138,13 @@ public class DashBoardActivity extends AppCompatActivity {
     }
 
     public void createGroup(String name){
+
+        //Firebase analytics - Track User Flows
+        Bundle payload = new Bundle();
+        payload.putString(FirebaseAnalytics.Param.VALUE, getResources().getString(R.string.add_a_grp));
+        mFirebaseAnalytics.logEvent(getResources().getString(R.string.click), payload);
+        //Firebase analytics - Track User Flows
+
         SplitwiseRestClient client = RestApplication.getSplitwiseRestClient();
         client.createGroup(new JsonHttpResponseHandler() {
             @Override
@@ -170,6 +176,12 @@ public class DashBoardActivity extends AppCompatActivity {
     }
 
     public void createFriend(String user_email, String user_first_name){
+
+        //Firebase analytics - Track User Flows
+        Bundle payload = new Bundle();
+        payload.putString(FirebaseAnalytics.Param.VALUE, getResources().getString(R.string.add_a_frn));
+        mFirebaseAnalytics.logEvent(getResources().getString(R.string.click), payload);
+        //Firebase analytics - Track User Flows
         final SplitwiseRestClient client = RestApplication.getSplitwiseRestClient();
         client.createFriend(new JsonHttpResponseHandler() {
             @Override

@@ -25,6 +25,7 @@ import com.example.dramebaz.shg.RestApplication;
 import com.example.dramebaz.shg.adapter.ExpensesAdapter;
 import com.example.dramebaz.shg.client.SplitwiseRestClient;
 import com.example.dramebaz.shg.splitwise.Expense;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.crash.FirebaseCrash;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -40,6 +41,7 @@ import java.util.Map;
 
 public class ExpensesFragment extends Fragment {
 
+    private FirebaseAnalytics mFirebaseAnalytics;
     ExpensesAdapter expensesAdapter;
     List<Expense> expenses;
     private View view;
@@ -57,6 +59,8 @@ public class ExpensesFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_expenses, container, false);
         // Setup handles to view objects here
         // etFoo = (EditText) view.findViewById(R.id.etFoo);
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getContext());
 
         groupOrFrndId = getArguments().getInt(ARG_GROUP_FRN_ID);
         type = getArguments().getString(TYPE);
@@ -327,6 +331,12 @@ public class ExpensesFragment extends Fragment {
 
     public void deleteExpense(Integer expenseId){
 
+        //Firebase analytics - Track User Flows
+        Bundle payload = new Bundle();
+        payload.putString(FirebaseAnalytics.Param.VALUE, getResources().getString(R.string.delete_expense));
+        mFirebaseAnalytics.logEvent(getResources().getString(R.string.click), payload);
+        //Firebase analytics - Track User Flows
+
         SplitwiseRestClient client = RestApplication.getSplitwiseRestClient();
 
         client.deleteExpense(new JsonHttpResponseHandler() {
@@ -358,6 +368,12 @@ public class ExpensesFragment extends Fragment {
     }
 
     public void updateExpense(Integer expenseId,String description,Map params){
+
+        //Firebase analytics - Track User Flows
+        Bundle payload = new Bundle();
+        payload.putString(FirebaseAnalytics.Param.VALUE, getResources().getString(R.string.update_expense));
+        mFirebaseAnalytics.logEvent(getResources().getString(R.string.click), payload);
+        //Firebase analytics - Track User Flows
 
         SplitwiseRestClient client = RestApplication.getSplitwiseRestClient();
 
