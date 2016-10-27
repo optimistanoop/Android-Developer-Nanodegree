@@ -28,6 +28,7 @@ import com.example.dramebaz.shg.R;
 import com.example.dramebaz.shg.RestApplication;
 import com.example.dramebaz.shg.client.SplitwiseRestClient;
 import com.example.dramebaz.shg.fragment.ExpensesFragment;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.crash.FirebaseCrash;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -40,6 +41,7 @@ import java.util.Map;
 
 public class ExpensesActivity extends AppCompatActivity {
 
+    private FirebaseAnalytics mFirebaseAnalytics;
     private CharSequence mActivityTitle;
     private CharSequence mTitle;
     private String type;
@@ -51,6 +53,7 @@ public class ExpensesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expenses);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         mActivityTitle = getTitle().toString();
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar1);
         setSupportActionBar(myToolbar);
@@ -111,6 +114,11 @@ public class ExpensesActivity extends AppCompatActivity {
     }
 
     public void openAddGrpMemberDialog() {
+        //Firebase analytics - Track User Flows
+        Bundle payload = new Bundle();
+        payload.putString(FirebaseAnalytics.Param.VALUE, getResources().getString(R.string.add_frn_to_grp));
+        mFirebaseAnalytics.logEvent(getResources().getString(R.string.click), payload);
+        //Firebase analytics - Track User Flows
         final AlertDialog d = new AlertDialog.Builder(this)
                 .setView(R.layout.add_friend_dialog)
                 .setPositiveButton(android.R.string.ok, null) //Set to null. We override the onclick
@@ -149,6 +157,7 @@ public class ExpensesActivity extends AppCompatActivity {
     }
 
     public void openDeleteDialog(){
+
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setMessage(getResources().getString(R.string.r_u_sure_del)+" "+name+" ?");
 
@@ -174,6 +183,12 @@ public class ExpensesActivity extends AppCompatActivity {
     }
 
     public void openAddExpenseDialog(final String type) {
+
+        //Firebase analytics - Track User Flows
+        Bundle payload = new Bundle();
+        payload.putString(FirebaseAnalytics.Param.VALUE, getResources().getString(R.string.add_expense));
+        mFirebaseAnalytics.logEvent(getResources().getString(R.string.click), payload);
+        //Firebase analytics - Track User Flows
 
         final Integer groupId;
         if(type.equals(getResources().getString(R.string.group).toLowerCase())){
@@ -348,6 +363,13 @@ public class ExpensesActivity extends AppCompatActivity {
     }
 
     public void deleteFriend(int friendId){
+
+        //Firebase analytics - Track User Flows
+        Bundle payload = new Bundle();
+        payload.putString(FirebaseAnalytics.Param.VALUE, getResources().getString(R.string.delete_friend));
+        mFirebaseAnalytics.logEvent(getResources().getString(R.string.click), payload);
+        //Firebase analytics - Track User Flows
+
         SplitwiseRestClient client = RestApplication.getSplitwiseRestClient();
         client.deleteFriend(new JsonHttpResponseHandler() {
             @Override
@@ -381,6 +403,13 @@ public class ExpensesActivity extends AppCompatActivity {
     }
 
     public void deleteGroup(int groupId){
+
+        //Firebase analytics - Track User Flows
+        Bundle payload = new Bundle();
+        payload.putString(FirebaseAnalytics.Param.VALUE, getResources().getString(R.string.delete_group));
+        mFirebaseAnalytics.logEvent(getResources().getString(R.string.click), payload);
+        //Firebase analytics - Track User Flows
+
         SplitwiseRestClient client = RestApplication.getSplitwiseRestClient();
         client.deleteGroup(new JsonHttpResponseHandler() {
             @Override
@@ -445,6 +474,13 @@ public class ExpensesActivity extends AppCompatActivity {
     }
 
     public void calculateInterest(){
+
+        //Firebase analytics - Track User Flows
+        Bundle payload = new Bundle();
+        payload.putString(FirebaseAnalytics.Param.VALUE, getResources().getString(R.string.calc_int));
+        mFirebaseAnalytics.logEvent(getResources().getString(R.string.click), payload);
+        //Firebase analytics - Track User Flows
+
         final AlertDialog d = new AlertDialog.Builder(this)
                 .setView(R.layout.calc_int_dialog)
                 .setPositiveButton(android.R.string.ok, null) //Set to null. We override the onclick
@@ -495,9 +531,9 @@ public class ExpensesActivity extends AppCompatActivity {
     public void showInterest(float interest, float principle){
         final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         float total = principle + interest;
-        alertDialogBuilder.setMessage("Total interest- "+interest+". \nTotal amount- "+total+".");
+        alertDialogBuilder.setMessage(getResources().getString(R.string.total_int)+" "+interest+"\n"+getResources().getString(R.string.total_amt)+" "+total);
 
-        alertDialogBuilder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface arg0, int arg1) {
 

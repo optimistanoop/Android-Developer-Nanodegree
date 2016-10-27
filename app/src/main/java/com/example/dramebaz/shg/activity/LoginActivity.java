@@ -22,6 +22,7 @@ import com.example.dramebaz.shg.RestApplication;
 import com.example.dramebaz.shg.UserProvider;
 import com.example.dramebaz.shg.client.SplitwiseRestClient;
 import com.example.dramebaz.shg.splitwise.User;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.crash.FirebaseCrash;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -30,6 +31,8 @@ import org.json.JSONObject;
 
 public class LoginActivity extends OAuthLoginActionBarActivity<SplitwiseRestClient> implements
         LoaderManager.LoaderCallbacks<Cursor>{
+
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +43,7 @@ public class LoginActivity extends OAuthLoginActionBarActivity<SplitwiseRestClie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         getSupportLoaderManager().initLoader(1, null, this);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
     }
 
     // Inflate the menu; this adds items to the action bar if it is present.
@@ -107,10 +111,10 @@ public class LoginActivity extends OAuthLoginActionBarActivity<SplitwiseRestClie
 
     @Override
     public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
-        String URL = "content://com.example.provider.SHG/users";
+        String URL = getResources().getString(R.string.provider_url);
         Uri students = Uri.parse(URL);
 
-        return new CursorLoader(this, students, null, null, null, "_id");
+        return new CursorLoader(this, students, null, null, null, getResources().getString(R.string._id));
     }
 
     @Override
@@ -123,6 +127,13 @@ public class LoginActivity extends OAuthLoginActionBarActivity<SplitwiseRestClie
             SharedPreferences.Editor edit = pref.edit();
             edit.putInt(getResources().getString(R.string.current_user_id), Integer.parseInt(c.getString(c.getColumnIndex(UserProvider.USERID))));
             edit.commit();
+
+            //Firebase analytics - Track User Flows
+            Bundle payload = new Bundle();
+            payload.putString(getResources().getString(R.string.current_user_id), c.getString(c.getColumnIndex(UserProvider.USERID)));
+            mFirebaseAnalytics.logEvent(getResources().getString(R.string.get), payload);
+            //Firebase analytics - Track User Flows
+
         }
 
     }

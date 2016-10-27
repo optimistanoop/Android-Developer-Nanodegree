@@ -20,8 +20,11 @@
     <string name="calc_interest">Calculate Interest</string>
 
     <!--ui-->
+    <string name="total_int">Total interest-</string>
+    <string name="total_amt">Total amount-</string>
     <string name="invalid_no">Invalid Number</string>
     <string name="na">NA</string>
+    <string name="ok">ok</string>
     <string name="this_is_required">This is required</string>
     <string name="cost_share_grp">*Cost will be shared equally across group.</string>
     <string name="cost_share_frn">*Cost will be shared equally.</string>
@@ -43,7 +46,7 @@
     <string name="you_owe">You Owe</string>
     <string name="open_app">Open App</string>
     <string name="principal">principal</string>
-    <string name="rate">rate per annam</string>
+    <string name="rate">rate per annum</string>
     <string name="month">months</string>
     <string name="you_borrowed">You borrowed</string>
     <string name="edit_expense">EDIT EXPENSE</string>
@@ -57,6 +60,7 @@
 
     <!--toast-->
     <string name="json_parsing">json_parsing</string>
+    <string name="created">Created.</string>
     <string name="expense_added">Expense added.</string>
     <string name="friend_added">Friend added.</string>
     <string name="grp_mem_added">Group member added.</string>
@@ -69,6 +73,8 @@
 
     <!--java flag-->
     <string name="type">type</string>
+    <string name="provider_url">content://com.example.provider.SHG/users</string>
+    <string name="_id">_id</string>
     <string name="name">name</string>
     <string name="id">id</string>
     <string name="balance_key">balance</string>
@@ -115,4 +121,8 @@
     <string name="delete_friend">delete_friend/</string>
     <string name="delete_group">delete_group/</string>
     <string name="delete_expense">delete_expense/</string>
+
+    <!--analytics evnts-->
+    <string name="click">CLICK/</string>
+    <string name="get">GET/</string>
 </resources>
