@@ -1,11 +1,11 @@
 package com.example.dramebaz.shg.activity;
 
-import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+
 import android.preference.PreferenceManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -14,20 +14,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import com.codepath.oauth.OAuthLoginActionBarActivity;
+import com.example.dramebaz.shg.CurrentUserService;
 import com.example.dramebaz.shg.R;
-import com.example.dramebaz.shg.RestApplication;
 import com.example.dramebaz.shg.UserProvider;
 import com.example.dramebaz.shg.client.SplitwiseRestClient;
-import com.example.dramebaz.shg.splitwise.User;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.crash.FirebaseCrash;
-import com.loopj.android.http.JsonHttpResponseHandler;
 
-import org.apache.http.Header;
-import org.json.JSONObject;
 
 public class LoginActivity extends OAuthLoginActionBarActivity<SplitwiseRestClient> implements
         LoaderManager.LoaderCallbacks<Cursor>{
@@ -57,7 +51,8 @@ public class LoginActivity extends OAuthLoginActionBarActivity<SplitwiseRestClie
     // i.e Display application "homepage"
     @Override
     public void onLoginSuccess() {
-        getCurrentUser();
+        Intent msgIntent = new Intent(this, CurrentUserService.class);
+        startService(msgIntent);
         Intent i = new Intent(this, DashBoardActivity.class);
         startActivity(i);
     }
@@ -76,39 +71,6 @@ public class LoginActivity extends OAuthLoginActionBarActivity<SplitwiseRestClie
         getClient().connect();
     }
 
-    private void getCurrentUser(){
-        SplitwiseRestClient client = RestApplication.getSplitwiseRestClient();
-        client.getCurrentUser(new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
-                try {
-                    Log.i(getResources().getString(R.string.get_current_user), json.toString());
-                    User user = User.fromJSONObject(json.getJSONObject(getResources().getString(R.string.user)));
-
-                    ContentValues values = new ContentValues();
-
-                    values.put(UserProvider.NAME, user.firstName);
-
-                    values.put(UserProvider.USERID, user.id);
-
-                    Uri uri = getContentResolver().insert( UserProvider.CONTENT_URI, values);
-
-
-                } catch (Exception e) {
-                    FirebaseCrash.report(e);
-                    Log.e(getResources().getString(R.string.get_current_user), getResources().getString(R.string.json_parsing), e);
-                    Toast.makeText(getBaseContext(), getResources().getString(R.string.error_try_again),
-                            Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                super.onFailure(statusCode, headers, responseString, throwable);
-            }
-        });
-    }
-
     @Override
     public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
         String URL = getResources().getString(R.string.provider_url);
@@ -119,7 +81,7 @@ public class LoginActivity extends OAuthLoginActionBarActivity<SplitwiseRestClie
 
     @Override
     public void onLoadFinished(Loader<Cursor> arg0, Cursor c) {
-
+        
         if (c.moveToLast()) {
 
             SharedPreferences pref =
