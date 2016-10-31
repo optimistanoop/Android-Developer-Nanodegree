@@ -5,6 +5,7 @@ import android.content.Context;
 import com.codepath.oauth.OAuthBaseClient;
 import com.example.dramebaz.shg.BuildConfig;
 import com.example.dramebaz.shg.R;
+import com.google.firebase.crash.FirebaseCrash;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -160,7 +161,13 @@ public class SplitwiseRestClient extends OAuthBaseClient {
     public void getFriends(JsonHttpResponseHandler handler) {
         String apiUrl = getApiUrl(getApiEndPoint(R.string.get_friends));
         RequestParams params = new RequestParams();
-        getClient().get(apiUrl, params, handler);
+        try {
+
+            getClient().get(apiUrl, params, handler);
+        }catch (Exception e){
+            FirebaseCrash.report(e);
+            e.printStackTrace();
+        }
     }
 
     public void deleteFriend(JsonHttpResponseHandler handler, Integer friendId) {

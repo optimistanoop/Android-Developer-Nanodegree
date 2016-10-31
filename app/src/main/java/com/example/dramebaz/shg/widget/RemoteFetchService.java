@@ -58,8 +58,6 @@ public class RemoteFetchService extends Service {
                     Log.i(getResources().getString(R.string.get_friends), json.toString());
                     friends = GroupMember.fromJSONArray(json.getJSONArray(getResources().getString(R.string.friends)));
 
-                    Log.i(getResources().getString(R.string.get_friends), friends.toString());
-
                     processResult(friends);
 
                 } catch (JSONException e) {
