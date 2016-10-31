@@ -18,7 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
-import com.example.dramebaz.shg.GroupAdapter;
+import com.example.dramebaz.shg.adapter.GroupAdapter;
 import com.example.dramebaz.shg.R;
 import com.example.dramebaz.shg.RestApplication;
 import com.example.dramebaz.shg.activity.ExpensesActivity;

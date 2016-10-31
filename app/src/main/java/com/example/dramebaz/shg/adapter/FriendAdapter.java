@@ -1,12 +1,6 @@
-package com.example.dramebaz.shg;
-
-/**
- * Created by dramebaz on 20/8/16.
- */
+package com.example.dramebaz.shg.adapter;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,13 +8,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.dramebaz.shg.splitwise.Group;
+import com.example.dramebaz.shg.Presenter;
+import com.example.dramebaz.shg.R;
 import com.example.dramebaz.shg.splitwise.GroupMember;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class GroupAdapter extends ArrayAdapter<Group> {
+public class FriendAdapter extends ArrayAdapter<GroupMember>{
     private static class ViewHolder {
         ImageView profileImage;
         TextView username;
@@ -28,13 +23,13 @@ public class GroupAdapter extends ArrayAdapter<Group> {
         TextView totalBalance;
     }
 
-    public GroupAdapter(Context context, List<Group> objects) {
+    public FriendAdapter(Context context, List<GroupMember> objects) {
         super(context, android.R.layout.simple_list_item_1, objects);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Group group = getItem(position);
+        GroupMember member = getItem(position);
         ViewHolder viewHolder;
         if (convertView == null){
             viewHolder = new ViewHolder();
@@ -50,19 +45,14 @@ public class GroupAdapter extends ArrayAdapter<Group> {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-
-        Picasso.with(getContext()).load(R.drawable.ic_group_work_black_24dp).into(viewHolder.profileImage);
-        viewHolder.username.setText(String.format("%s %s", group.name, ""));
-        SharedPreferences pref =
-                PreferenceManager.getDefaultSharedPreferences(getContext());
-        int currentUserId =  pref.getInt(getContext().getResources().getString(R.string.current_user_id), 0);
-        for(GroupMember gm :group.members){
-            if(gm.user.id == currentUserId){
-                viewHolder.totalBalance.setText(Presenter.getBalanceString(gm.balance));
-                viewHolder.balanceText.setText(Presenter.getBalanceText(gm.balance.amount));
-
-            }
+        String lastName = member.user.lastName;
+        if(lastName.equals("null")){
+            lastName = "";
         }
+        Picasso.with(getContext()).load(member.user.pictureUrl).into(viewHolder.profileImage);
+        viewHolder.username.setText(String.format("%s %s", member.user.firstName, lastName));
+        viewHolder.balanceText.setText(Presenter.getBalanceText(member.balance.amount));
+        viewHolder.totalBalance.setText(Presenter.getBalanceString(member.balance));
 
         return convertView;
     }

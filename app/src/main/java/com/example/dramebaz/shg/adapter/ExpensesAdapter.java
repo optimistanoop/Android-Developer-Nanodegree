@@ -49,7 +49,7 @@ public class ExpensesAdapter extends ArrayAdapter<Expense> {
                 if(ue.user.id.equals(currentUserId))
                     tvPayer.setText(context.getResources().getString(R.string.you_paid));
                 else
-                    tvPayer.setText(ue.user.firstName + " paid");
+                    tvPayer.setText(ue.user.firstName + " "+context.getResources().getString(R.string.paid));
             }
             if(ue.user.id.equals(currentUserId)) {
                 if(ue.getNetBalance() != null && ue.getNetBalance() > 0) {
