@@ -160,7 +160,12 @@ public class SplitwiseRestClient extends OAuthBaseClient {
     public void getFriends(JsonHttpResponseHandler handler) {
         String apiUrl = getApiUrl(getApiEndPoint(R.string.get_friends));
         RequestParams params = new RequestParams();
-        getClient().get(apiUrl, params, handler);
+        try {
+
+            getClient().get(apiUrl, params, handler);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public void deleteFriend(JsonHttpResponseHandler handler, Integer friendId) {
