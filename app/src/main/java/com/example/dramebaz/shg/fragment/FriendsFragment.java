@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.dramebaz.shg.FriendAdapter;
+import com.example.dramebaz.shg.adapter.FriendAdapter;
 import com.example.dramebaz.shg.R;
 import com.example.dramebaz.shg.RestApplication;
 import com.example.dramebaz.shg.activity.ExpensesActivity;
@@ -42,8 +42,6 @@ public class FriendsFragment extends Fragment {
     public FriendsFragment() {
         // Required empty public constructor
     }
-
-    private String title;
 
     public static FriendsFragment newInstance(int page) {
         FriendsFragment fragment = new FriendsFragment();
