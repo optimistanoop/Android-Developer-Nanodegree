@@ -127,5 +127,5 @@
     <string name="get">GET/</string>
 
     <!--widget-->
-    <string name="nodata">No data available/</string>
+    <string name="nodata">No data available</string>
 </resources>
