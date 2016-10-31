@@ -46,20 +46,39 @@
                 android:value=".activity.DashBoardActivity" />
         </activity>
 
-        <receiver android:name=".widget.SHGWidgetProvider">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"></action>
-            </intent-filter>
-            <meta-data android:name="android.appwidget.provider"
-                android:resource="@xml/shg_wid"></meta-data>
-        </receiver>
-
         <provider
             android:name=".UserProvider"
             android:authorities="com.example.provider.SHG">
         </provider>
 
         <service android:name=".CurrentUserService"/>
+
+        <receiver android:name=".widget.SHGWidgetProvider" >
+            <intent-filter>
+
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+
+                <action android:name="com.example.dramebaz.shg.DATA_FETCHED" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/shg_wid" />
+        </receiver>
+
+        <service
+            android:name=".widget.WidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <activity android:name=".widget.ConfigActivity" >
+
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
+        <service android:name=".widget.RemoteFetchService" />
+
     </application>
 
 </manifest>
