@@ -125,6 +125,7 @@
     <!--analytics evnts-->
     <string name="click">CLICK/</string>
     <string name="get">GET/</string>
+    <string name="widgetopen">widgetopen/</string>
 
     <!--widget-->
     <string name="nodata">No data available</string>

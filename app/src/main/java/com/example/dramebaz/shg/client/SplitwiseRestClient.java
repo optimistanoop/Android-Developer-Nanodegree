@@ -5,6 +5,7 @@ import android.content.Context;
 import com.codepath.oauth.OAuthBaseClient;
 import com.example.dramebaz.shg.BuildConfig;
 import com.example.dramebaz.shg.R;
+import com.google.firebase.crash.FirebaseCrash;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -164,6 +165,7 @@ public class SplitwiseRestClient extends OAuthBaseClient {
 
             getClient().get(apiUrl, params, handler);
         }catch (Exception e){
+            FirebaseCrash.report(e);
             e.printStackTrace();
         }
     }
