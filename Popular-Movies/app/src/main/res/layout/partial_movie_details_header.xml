@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?colorPrimary"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/default_padding"
+    tools:showIn="@layout/activity_movie_detail">
+
+    <include layout="@layout/toolbar" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:layout_marginLeft="@dimen/large_margin"
+        android:layout_marginRight="@dimen/default_margin"
+        android:layout_marginStart="@dimen/large_margin"
+        android:ellipsize="end"
+        android:lineSpacingMultiplier="1.1"
+        android:maxLines="2"
+        android:textColor="@color/text_color"
+        android:textSize="@dimen/text_size_extra_large"
+        android:textStyle="normal"
+        tools:text="Tittle.." />
+
+    <TextView
+        android:id="@+id/release_year"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:layout_marginLeft="72dp"
+        android:layout_marginRight="@dimen/default_margin"
+        android:layout_marginStart="72dp"
+        android:textColor="@color/text_color"
+        android:textSize="@dimen/text_size_large"
+        tools:text="2015" />
+
+</LinearLayout>
