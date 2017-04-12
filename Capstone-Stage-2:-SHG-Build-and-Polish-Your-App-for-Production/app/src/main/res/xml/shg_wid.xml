@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:configure="com.example.dramebaz.shg.widget.ConfigActivity"
+    android:initialLayout="@layout/shg_widget"
+    android:minHeight="110dip"
+    android:minWidth="250dip"
+    android:previewImage="@mipmap/ic_launcher"
+    android:resizeMode="vertical|horizontal"
+    android:updatePeriodMillis="50000" />
