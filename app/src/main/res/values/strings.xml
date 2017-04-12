@@ -1,0 +1,14 @@
+<resources>
+  <string name="app_name" translatable="false">Stock Hawk</string>
+  <string name="action_example">Example action</string>
+  <string name="action_change_units">Change Units</string>
+  <string name="symbol_search">Symbol Search</string>
+  <string name="content_test">Search for a Stock Symbol</string>
+  <string name="input_hint" translatable="false">FB</string>
+  <string name="input_prefill"></string>
+  <string name="plz_select">Please add a stock by + button</string>
+  <string name="network_toast">Uh-oh! This app requires an internet connection</string>
+  <string name="error">Error</string>
+  <string name="widget_name">Stock Hawk</string>
+  <string name="saved_stock">This stock is already saved!</string>
+</resources>

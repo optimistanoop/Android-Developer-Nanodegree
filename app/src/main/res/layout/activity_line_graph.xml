@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <org.eazegraph.lib.charts.ValueLineChart
+        android:id="@+id/line_graph"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:egUseCubic="true"
+        app:egUseOverlapFill="true"
+        app:egIndicatorLineColor="#FE6DA8"
+        app:egIndicatorTextColor="@android:color/white"
+        app:egLegendHeight="40dp"
+        android:visibility="gone"/>
+
+    <TextView android:id="@+id/error_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="1dp"
+        android:text="@string/network_toast"
+        android:textSize="18sp"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:gravity="center"/>
+
+    <com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar
+        android:id="@+id/progress"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center"
+        app:mlpb_progress_stoke_width="4dp"
+        app:mlpb_show_arrow="false"
+        app:mlpb_enable_circle_background="false"
+        app:mlpb_progress_color="@color/material_blue_700"
+        app:mlpb_progress_text_visibility="invisible" />
+
+</FrameLayout>
