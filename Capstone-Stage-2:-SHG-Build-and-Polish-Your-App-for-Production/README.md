@@ -42,3 +42,6 @@ SHG stands for self help group, which is mainly operated in indian rural areas.
 
 - [Android Async HTTP](https://github.com/loopj/android-async-http) - Simple asynchronous HTTP requests with JSON parsing
 - [Picasso](http://square.github.io/picasso/) - Image loading and caching library for Android
+
+## Credits
+[Sharewise](https://github.com/sharewise/Sharewise)
